@@ -132,6 +132,7 @@
   <ItemGroup>
     <ClCompile Include="ArcShape.cpp" />
     <ClCompile Include="Card.cpp" />
+    <ClCompile Include="CardBackGroupObject.cpp" />
     <ClCompile Include="CardFrontObjectGroup.cpp" />
     <ClCompile Include="DrawableObjectGroup.cpp" />
     <ClCompile Include="DrawableShape.cpp" />
@@ -142,6 +143,7 @@
   <ItemGroup>
     <ClInclude Include="ArcShape.h" />
     <ClInclude Include="Card.h" />
+    <ClInclude Include="CardBackGroupObject.h" />
     <ClInclude Include="CardFrontObjectGroup.h" />
     <ClInclude Include="DrawableObject.h" />
     <ClInclude Include="DrawableObjectGroup.h" />

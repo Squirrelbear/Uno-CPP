@@ -5,6 +5,7 @@
 #include <filesystem>
 #include <iostream>
 #include "ArcShape.h"
+#include "CardBackGroupObject.h"
 
 int main()
 {
@@ -36,6 +37,8 @@ int main()
 		std::cout << point.x << " " << point.y << std::endl;
 	}
 
+	CardBackGroupObject cardBackTest(sf::Vector2f(700, 500), font);
+
 	while (window.isOpen())
 	{
 		sf::Event event;
@@ -46,7 +49,7 @@ int main()
 		}
 		//test.move(sf::Vector2f(0.1f, 0.1f));
 
-		window.clear();
+		window.clear(sf::Color(93, 141, 74));
 		//test.draw(window);
 		testGroup.draw(window);
 		testGroup2.draw(window);
@@ -54,6 +57,7 @@ int main()
 		testGroup4.draw(window);
 		testGroup5.draw(window);
 		testGroup6.draw(window);
+		cardBackTest.draw(window);
 		window.draw(*testArc);
 		//window.draw(shape);
 		window.display();

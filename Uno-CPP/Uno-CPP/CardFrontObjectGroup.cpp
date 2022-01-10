@@ -58,5 +58,6 @@ CardFrontObjectGroup::CardFrontObjectGroup(const Card & templateCard, const sf::
 	bottomRightCorner->setOffset(sf::Vector2f(CARD_WIDTH-bottomRightCorner->getTextWidth()-5, CARD_HEIGHT-fontHeight-5));
 	addChild(bottomRightCorner);
 
+	// ESSENTIAL! This line updates all elements to apply the offset based on a relative position. 
 	setPositionWithOffset(initialPosition);
 }
