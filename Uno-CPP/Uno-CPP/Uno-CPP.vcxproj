@@ -130,6 +130,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ArcShape.cpp" />
     <ClCompile Include="Card.cpp" />
     <ClCompile Include="CardFrontObjectGroup.cpp" />
     <ClCompile Include="DrawableObjectGroup.cpp" />
@@ -139,6 +140,7 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ArcShape.h" />
     <ClInclude Include="Card.h" />
     <ClInclude Include="CardFrontObjectGroup.h" />
     <ClInclude Include="DrawableObject.h" />

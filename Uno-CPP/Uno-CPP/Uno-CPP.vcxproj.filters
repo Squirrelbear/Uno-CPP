@@ -36,6 +36,9 @@
     <ClCompile Include="DrawableText.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ArcShape.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Card.h">
@@ -57,6 +60,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="DrawableText.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ArcShape.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

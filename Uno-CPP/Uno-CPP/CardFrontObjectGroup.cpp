@@ -3,6 +3,7 @@
 #include "DrawableShape.h"
 #include "DrawableText.h"
 #include "EllipseShape.h"
+#include "ArcShape.h"
 
 CardFrontObjectGroup::CardFrontObjectGroup(const Card & templateCard, const sf::Vector2f& initialPosition, const sf::Font& font)
 {
@@ -23,9 +24,10 @@ CardFrontObjectGroup::CardFrontObjectGroup(const Card & templateCard, const sf::
 		// Red, blue, green, yellow segments for any wild card in the middle.
 		for (int i = 0; i < 4; i++) {
 			// TODO change to use ArcShape instead of EllipseShape
-			EllipseShape* arcShape = new EllipseShape(sf::Vector2f((CARD_WIDTH - 8) / 2, (CARD_WIDTH - 8) / 4+10));
+			ArcShape* arcShape = new ArcShape(90 * i, 90 * (i+1), sf::Vector2f((CARD_WIDTH - 8) / 2, ((CARD_WIDTH - 8) / 4)/2+10));
 			// start end: 270 + 90 * i, 90
 			DrawableShape* arc = new DrawableShape(arcShape, Card::getColourByID(i), sf::Vector2f(4, CARD_HEIGHT / 2 - ((CARD_WIDTH - 8) / 4)));
+			addChild(arc);
 		}
 	}
 
