@@ -12,6 +12,10 @@ public:
 	virtual void setPositionWithOffset(const sf::Vector2f& position) = 0;
 	virtual void move(const sf::Vector2f& offset) = 0;
 
+	void setOffset(const sf::Vector2f& offset) {
+		_offset = offset;
+	}
+
 protected:
 	sf::Vector2f _offset;
 };

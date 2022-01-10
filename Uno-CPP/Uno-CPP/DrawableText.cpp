@@ -24,3 +24,8 @@ void DrawableText::move(const sf::Vector2f & offset)
 {
 	_textObject.move(offset);
 }
+
+float DrawableText::getTextWidth() const
+{
+	return _textObject.getGlobalBounds().width;
+}

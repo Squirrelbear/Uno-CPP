@@ -46,6 +46,11 @@ int Card::getScoreValue() const
 	}
 }
 
+sf::Color Card::getDrawColour() const
+{
+	return _drawColour;
+}
+
 std::string Card::getCardLabel() const
 {
 	return _cardLabel;

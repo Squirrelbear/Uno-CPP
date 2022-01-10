@@ -12,6 +12,8 @@ public:
 	virtual void setPositionWithOffset(const sf::Vector2f & position) override;
 	virtual void move(const sf::Vector2f & offset) override;
 
+	float getTextWidth() const;
+
 private:
 	sf::Text _textObject;
 };

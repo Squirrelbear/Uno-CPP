@@ -31,6 +31,7 @@ public:
 	int getFaceValueID() const;
 	int getUniqueCardID() const;
 	int getScoreValue() const;
+	sf::Color getDrawColour() const;
 	std::string getCardLabel() const;
 	std::string getCornerLabel() const;
 
