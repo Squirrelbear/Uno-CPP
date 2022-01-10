@@ -30,3 +30,9 @@ CardBackGroupObject::CardBackGroupObject(const sf::Vector2f& initialPosition, co
 	setPositionWithOffset(initialPosition);
 }
 
+void CardBackGroupObject::drawAt(const sf::Vector2f & position, sf::RenderWindow& renderWindow)
+{
+	setPositionWithOffset(position);
+	draw(renderWindow);
+}
+

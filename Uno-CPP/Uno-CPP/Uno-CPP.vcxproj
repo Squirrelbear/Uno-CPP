@@ -134,6 +134,7 @@
     <ClCompile Include="Card.cpp" />
     <ClCompile Include="CardBackGroupObject.cpp" />
     <ClCompile Include="CardFrontObjectGroup.cpp" />
+    <ClCompile Include="Deck.cpp" />
     <ClCompile Include="DrawableObjectGroup.cpp" />
     <ClCompile Include="DrawableShape.cpp" />
     <ClCompile Include="DrawableText.cpp" />
@@ -145,11 +146,13 @@
     <ClInclude Include="Card.h" />
     <ClInclude Include="CardBackGroupObject.h" />
     <ClInclude Include="CardFrontObjectGroup.h" />
+    <ClInclude Include="Deck.h" />
     <ClInclude Include="DrawableObject.h" />
     <ClInclude Include="DrawableObjectGroup.h" />
     <ClInclude Include="DrawableShape.h" />
     <ClInclude Include="DrawableText.h" />
     <ClInclude Include="EllipseShape.h" />
+    <ClInclude Include="WndInterface.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
