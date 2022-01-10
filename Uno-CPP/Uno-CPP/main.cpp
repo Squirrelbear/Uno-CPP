@@ -41,6 +41,11 @@ int main()
 	CardBackGroupObject cardBackTest(sf::Vector2f(700, 500), font);
 
 	Deck deck = Deck(sf::Vector2f(100, 500), font);
+	for (int i = 0; i < 10; i++) {
+		Card* card = deck.drawCard();
+		std::cout << "Drawn Card: " << card->getFaceValueID() << " " << card->getColourID() << " " << card->getUniqueCardID() << std::endl;
+		delete card;
+	}
 
 	while (window.isOpen())
 	{

@@ -2,6 +2,7 @@
 #include <algorithm>	// std::shuffle
 #include <random>       // std::default_random_engine
 #include <chrono>       // std::chrono::system_clock
+#include <iostream> // TODO remove
 
 Deck::Deck(const sf::Vector2f& position, sf::Font& font)
 	: _position(position), _bounds(static_cast<int>(position.x), static_cast<int>(position.y), CARD_WIDTH, CARD_HEIGHT),
@@ -44,20 +45,26 @@ void Deck::fillDeck()
 	// for each colour
 	for (int colourID = 0; colourID < 4; colourID++) {
 		// Only 1x"0"
-		_deck.emplace_back(new Card(0, colourID, _nextCardID++));
+		addCard(0, colourID);
 		// Two of 1 to 9, Draw Two, Skip, and Reverse
 		for (int faceValue = 1; faceValue <= 12; faceValue++) {
-			_deck.emplace_back(new Card(faceValue, colourID, _nextCardID++));
-			_deck.emplace_back(new Card(faceValue, colourID, _nextCardID++));
+			addCard(faceValue, colourID);
+			addCard(faceValue, colourID);
 		}
 	}
 	// Four of each Wild and Draw 4 Wild.
 	for (int i = 0; i < 4; i++) {
-		_deck.emplace_back(new Card(13, 4, _nextCardID++));
-		_deck.emplace_back(new Card(14, 4, _nextCardID++));
+		addCard(13, 4);
+		addCard(14, 4);
 	}
 
 	unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
 
 	std::shuffle(_deck.begin(), _deck.end(), std::default_random_engine(seed));
+}
+
+void Deck::addCard(const int faceValueID, const int colourID)
+{
+	_deck.emplace_back(new Card(faceValueID, colourID, _nextCardID));
+	++_nextCardID;
 }

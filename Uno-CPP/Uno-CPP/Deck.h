@@ -67,5 +67,8 @@ private:
 	 * and then shuffles the cards to create a random order.
 	 */
 	void fillDeck();
+
+	// Adds a card matching the faceValueID and colourID to the _deck.
+	void addCard(const int faceValueID, const int colourID);
 };
 
