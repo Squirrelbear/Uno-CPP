@@ -12,7 +12,7 @@ public:
 	virtual ~DrawableShape();
 
 	// Inherited via DrawableObject
-	void draw(sf::RenderWindow& renderWindow) override;
+	void draw(sf::RenderWindow& renderWindow) const override;
 
 	void setPositionWithOffset(const sf::Vector2f & position) override;
 

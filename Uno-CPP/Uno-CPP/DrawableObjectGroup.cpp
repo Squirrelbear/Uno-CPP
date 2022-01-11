@@ -6,7 +6,7 @@ DrawableObjectGroup::~DrawableObjectGroup()
 	//	delete childPointer;
 }
 
-void DrawableObjectGroup::draw(sf::RenderWindow & renderWindow)
+void DrawableObjectGroup::draw(sf::RenderWindow & renderWindow) const
 {
 	for (auto obj : _childObjects) {
 		obj->draw(renderWindow);

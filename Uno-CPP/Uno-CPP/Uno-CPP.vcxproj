@@ -132,6 +132,7 @@
   <ItemGroup>
     <ClCompile Include="AIPlayer.cpp" />
     <ClCompile Include="ArcShape.cpp" />
+    <ClCompile Include="Button.cpp" />
     <ClCompile Include="Card.cpp" />
     <ClCompile Include="CardBackGroupObject.cpp" />
     <ClCompile Include="CardFrontObjectGroup.cpp" />
@@ -148,6 +149,7 @@
   <ItemGroup>
     <ClInclude Include="AIPlayer.h" />
     <ClInclude Include="ArcShape.h" />
+    <ClInclude Include="Button.h" />
     <ClInclude Include="Card.h" />
     <ClInclude Include="CardBackGroupObject.h" />
     <ClInclude Include="CardFrontObjectGroup.h" />

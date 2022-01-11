@@ -8,7 +8,7 @@ public:
 	virtual ~DrawableText() = default;
 
 	// Inherited via DrawableObject
-	virtual void draw(sf::RenderWindow & renderWindow) override;
+	virtual void draw(sf::RenderWindow & renderWindow) const override;
 	virtual void setPositionWithOffset(const sf::Vector2f & position) override;
 	virtual void move(const sf::Vector2f & offset) override;
 

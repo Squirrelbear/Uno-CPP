@@ -10,7 +10,7 @@ DrawableText::DrawableText(const sf::Vector2f& position, const std::string & str
 	_textObject.setPosition(position);
 }
 
-void DrawableText::draw(sf::RenderWindow & renderWindow)
+void DrawableText::draw(sf::RenderWindow & renderWindow) const
 {
 	renderWindow.draw(_textObject);
 }

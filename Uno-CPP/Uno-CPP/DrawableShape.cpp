@@ -5,7 +5,7 @@ DrawableShape::~DrawableShape()
 	delete _shape;
 }
 
-void DrawableShape::draw(sf::RenderWindow& renderWindow)
+void DrawableShape::draw(sf::RenderWindow& renderWindow) const
 {
 	renderWindow.draw(*_shape);
 }

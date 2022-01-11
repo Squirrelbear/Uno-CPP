@@ -7,6 +7,7 @@
 #include "ArcShape.h"
 #include "CardBackGroupObject.h"
 #include "Deck.h"
+#include "Button.h"
 
 int main()
 {
@@ -47,6 +48,8 @@ int main()
 		delete card;
 	}
 
+	Button buttonTest(sf::IntRect(700,150,150,40), "Example Text", 0, font);
+
 	while (window.isOpen())
 	{
 		sf::Event event;
@@ -54,6 +57,12 @@ int main()
 		{
 			if (event.type == sf::Event::Closed)
 				window.close();
+			if (event.type == sf::Event::MouseButtonPressed) {
+				buttonTest.setHovering(true);
+			}
+			if (event.type == sf::Event::MouseButtonReleased) {
+				buttonTest.setHovering(false);
+			}
 		}
 		//test.move(sf::Vector2f(0.1f, 0.1f));
 
@@ -74,6 +83,7 @@ int main()
 		window.draw(*testArc);
 		deck.draw(window);
 		//window.draw(shape);
+		buttonTest.draw(window);
 		window.display();
 	}
 	
