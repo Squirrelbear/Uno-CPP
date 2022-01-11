@@ -1,16 +1,5 @@
 #include "AIPlayer.h"
 
-
-
-AIPlayer::AIPlayer()
-{
-}
-
-
-AIPlayer::~AIPlayer()
-{
-}
-
 AIPlayer::AIPlayer(const int playerID, const std::string & playerName, const sf::IntRect bounds, const AIStrategy strategy, const bool showPlayerNameLeft)
 	: Player(playerID, playerName, PlayerType::AIPlayer, bounds, showPlayerNameLeft)
 {
@@ -35,8 +24,8 @@ void AIPlayer::update(const int deltaTime)
 	}*/
 
 	// Delay until
-	delayTimer -= deltaTime;
-	if (delayTimer <= 0) {
+	_delayTimer -= deltaTime;
+	if (_delayTimer <= 0) {
 		resetDelayTimer();
 	}
 	else {
@@ -58,6 +47,15 @@ void AIPlayer::update(const int deltaTime)
 				handleTurnDecision(decisionAction);
 			}
 		}
+	}*/
+}
+
+void AIPlayer::selectRandomStrategy()
+{
+	/*switch ((int)(Math.random() * 3)) {
+		case 0->strategy = AIStrategy.Offensive;
+			case 1->strategy = AIStrategy.Defensive;
+				case 2->strategy = AIStrategy.Chaotic;
 	}*/
 }
 
