@@ -46,6 +46,8 @@ public:
 	 */
 	void update(const int deltaTime) override;
 
+	static std::string aiStrategyToString(const AIStrategy strategy);
+
 private:
 	// The Strategy to be used for selecting how cards are played.
 	AIStrategy _strategy;

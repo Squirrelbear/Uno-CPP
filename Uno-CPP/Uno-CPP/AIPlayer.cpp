@@ -50,6 +50,17 @@ void AIPlayer::update(const int deltaTime)
 	}*/
 }
 
+std::string AIPlayer::aiStrategyToString(const AIStrategy strategy)
+{
+	switch (strategy) {
+		case AIStrategy::Chaotic: return "Chaotic";
+		case AIStrategy::Defensive: return "Defensive";
+		case AIStrategy::Offensive: return "Offensive";
+		case AIStrategy::Random: return "Random";
+	}
+	return "ERROR";
+}
+
 void AIPlayer::selectRandomStrategy()
 {
 	/*switch ((int)(Math.random() * 3)) {
