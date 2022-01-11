@@ -142,6 +142,7 @@
     <ClCompile Include="EllipseShape.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="RuleSet.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AIPlayer.h" />
@@ -156,6 +157,7 @@
     <ClInclude Include="DrawableText.h" />
     <ClInclude Include="EllipseShape.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="RuleSet.h" />
     <ClInclude Include="WndInterface.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
