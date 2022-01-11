@@ -1,7 +1,7 @@
 #include "Card.h"
 
 Card::Card(const int faceValueID, const int colourID, const int cardID)
-	: _bounds(0,0,CARD_WIDTH,CARD_HEIGHT), _faceValueID(faceValueID), _colourID(colourID), _uniqueCardID(cardID)
+	: InteractableRect(sf::IntRect(0,0,CARD_WIDTH,CARD_HEIGHT)), _faceValueID(faceValueID), _colourID(colourID), _uniqueCardID(cardID)
 {
 	_drawColour = getColourByID(_colourID);
 	_cardLabel = getLabelByFaceValue(_faceValueID);
@@ -96,11 +96,6 @@ std::string Card::getCornerLabelByFaceValue(const int faceValue)
 		case 14: return "";
 		default: return getLabelByFaceValue(faceValue);
 	}
-}
-
-bool Card::isPositionInside(const sf::Vector2i & mousePosition)
-{
-	return _bounds.contains(mousePosition);
 }
 
 void Card::setPosition(const sf::Vector2i& newPosition)

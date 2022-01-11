@@ -2,6 +2,7 @@
 
 #include <SFML/Graphics.hpp>
 #include <string>
+#include "InteractableRect.h"
 
 // Constant definition of the width of a card to be used for calculations.
 #define CARD_WIDTH 60
@@ -17,7 +18,7 @@
  * @author Peter Mitchell
  * @version 2022.1
  */
-class Card
+class Card : public InteractableRect
 {
 public:
 	Card(const int faceValueID, const int colourID, const int cardID);
@@ -39,7 +40,6 @@ public:
 	static std::string getLabelByFaceValue(const int faceValue);
 	static std::string getCornerLabelByFaceValue(const int faceValue);
 
-	bool isPositionInside(const sf::Vector2i& mousePosition);
 	void setPosition(const sf::Vector2i& newPosition);
 
 private:

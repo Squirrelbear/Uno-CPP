@@ -156,6 +156,7 @@
     <ClInclude Include="DrawableShape.h" />
     <ClInclude Include="DrawableText.h" />
     <ClInclude Include="EllipseShape.h" />
+    <ClInclude Include="InteractableRect.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="RuleSet.h" />
     <ClInclude Include="WndInterface.h" />
