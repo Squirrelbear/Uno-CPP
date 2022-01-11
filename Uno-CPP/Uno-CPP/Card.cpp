@@ -97,3 +97,14 @@ std::string Card::getCornerLabelByFaceValue(const int faceValue)
 		default: return getLabelByFaceValue(faceValue);
 	}
 }
+
+bool Card::isPositionInside(const sf::Vector2i & mousePosition)
+{
+	return _bounds.contains(mousePosition);
+}
+
+void Card::setPosition(const sf::Vector2i& newPosition)
+{
+	_bounds = sf::IntRect(newPosition.x, newPosition.y, _bounds.width, _bounds.height);
+	// TODO
+}

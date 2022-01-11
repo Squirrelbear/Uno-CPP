@@ -39,6 +39,9 @@ public:
 	static std::string getLabelByFaceValue(const int faceValue);
 	static std::string getCornerLabelByFaceValue(const int faceValue);
 
+	bool isPositionInside(const sf::Vector2i& mousePosition);
+	void setPosition(const sf::Vector2i& newPosition);
+
 private:
 	// Location of the card in the game. Width and Height are set to CARD_WIDTH and CARD_HEIGHT.
 	sf::IntRect _bounds;
