@@ -145,6 +145,9 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="RuleSet.cpp" />
+    <ClCompile Include="TurnAction.cpp" />
+    <ClCompile Include="TurnActionSequence.cpp" />
+    <ClCompile Include="TurnDecisionAction.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AIPlayer.h" />
@@ -163,6 +166,10 @@
     <ClInclude Include="LobbyPlayer.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="RuleSet.h" />
+    <ClInclude Include="TurnAction.h" />
+    <ClInclude Include="TurnActionSequence.h" />
+    <ClInclude Include="TurnDecisionAction.h" />
+    <ClInclude Include="TurnDecisionOverlayInterface.h" />
     <ClInclude Include="WndInterface.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
