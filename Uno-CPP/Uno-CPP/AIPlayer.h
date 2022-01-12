@@ -1,5 +1,6 @@
 #pragma once
 #include "Player.h"
+#include <random>
 
 /**
  * Uno
@@ -35,7 +36,7 @@ public:
 	 * @param strategy The strategy the AI will use to play.
 	 * @param showPlayerNameLeft When true, the player's name is centred to the left side of the bounds, otherwise it is centred on the top.
 	 */
-	AIPlayer(const int playerID, const std::string& playerName, const sf::IntRect bounds, const AIStrategy strategy, const bool showPlayerNameLeft);
+	AIPlayer(const int playerID, const std::string& playerName, const sf::IntRect bounds, const AIStrategy strategy, const bool showPlayerNameLeft, std::default_random_engine& randomEngine);
 	virtual ~AIPlayer() = default;
 
 	/**
@@ -49,6 +50,9 @@ public:
 	static std::string aiStrategyToString(const AIStrategy strategy);
 
 private:
+	// Random engine used for making choices.
+	std::default_random_engine& _randomEngine;
+
 	// The Strategy to be used for selecting how cards are played.
 	AIStrategy _strategy;
 	// Timer used for delaying between actions.

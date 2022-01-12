@@ -142,9 +142,11 @@
     <ClCompile Include="DrawableShape.cpp" />
     <ClCompile Include="DrawableText.cpp" />
     <ClCompile Include="EllipseShape.cpp" />
+    <ClCompile Include="Game.cpp" />
     <ClCompile Include="LobbyPlayer.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="OverlayManager.cpp" />
+    <ClCompile Include="PauseInterface.cpp" />
     <ClCompile Include="PlayDirectionAnimation.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="RecentCardPile.cpp" />
@@ -167,10 +169,12 @@
     <ClInclude Include="DrawableShape.h" />
     <ClInclude Include="DrawableText.h" />
     <ClInclude Include="EllipseShape.h" />
+    <ClInclude Include="Game.h" />
     <ClInclude Include="GeneralOverlayInterface.h" />
     <ClInclude Include="InteractableRect.h" />
     <ClInclude Include="LobbyPlayer.h" />
     <ClInclude Include="OverlayManager.h" />
+    <ClInclude Include="PauseInterface.h" />
     <ClInclude Include="PlayDirectionAnimation.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="RecentCardPile.h" />

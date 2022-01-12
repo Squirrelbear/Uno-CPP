@@ -1,12 +1,10 @@
 #include "Deck.h"
 #include <algorithm>	// std::shuffle
-#include <random>       // std::default_random_engine
-#include <chrono>       // std::chrono::system_clock
-#include <iostream> // TODO remove
 
-Deck::Deck(const sf::Vector2f position, const sf::Font& font)
+Deck::Deck(const sf::Vector2f position, const sf::Font& font, std::default_random_engine& randomEngine)
 	: _position(position), _bounds(static_cast<int>(position.x), static_cast<int>(position.y), CARD_WIDTH, CARD_HEIGHT),
-	 _deckTitle(sf::Vector2f(0, 0), "DECK", font, 20, sf::Color::Black, sf::Text::Bold)
+	_deckTitle(sf::Vector2f(0, 0), "DECK", font, 20, sf::Color::Black, sf::Text::Bold),
+	_randomEngine(randomEngine)
 {
 	_nextCardID = 0;
 	_cardBack = std::make_shared<CardBackGroupObject>(sf::Vector2f(0, 0), font);
@@ -58,9 +56,9 @@ void Deck::fillDeck()
 		addCard(14, 4);
 	}
 
-	unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
+	
 
-	std::shuffle(_deck.begin(), _deck.end(), std::default_random_engine(seed));
+	std::shuffle(_deck.begin(), _deck.end(), _randomEngine);
 }
 
 void Deck::addCard(const int faceValueID, const int colourID)

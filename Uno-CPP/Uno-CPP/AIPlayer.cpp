@@ -1,7 +1,7 @@
 #include "AIPlayer.h"
 
-AIPlayer::AIPlayer(const int playerID, const std::string & playerName, const sf::IntRect bounds, const AIStrategy strategy, const bool showPlayerNameLeft)
-	: Player(playerID, playerName, PlayerType::AIPlayer, bounds, showPlayerNameLeft)
+AIPlayer::AIPlayer(const int playerID, const std::string & playerName, const sf::IntRect bounds, const AIStrategy strategy, const bool showPlayerNameLeft, std::default_random_engine& randomEngine)
+	: Player(playerID, playerName, PlayerType::AIPlayer, bounds, showPlayerNameLeft), _randomEngine(randomEngine)
 {
 	if (strategy == AIStrategy::Random) {
 		selectRandomStrategy();
@@ -63,11 +63,11 @@ std::string AIPlayer::aiStrategyToString(const AIStrategy strategy)
 
 void AIPlayer::selectRandomStrategy()
 {
-	/*switch ((int)(Math.random() * 3)) {
-		case 0->strategy = AIStrategy.Offensive;
-			case 1->strategy = AIStrategy.Defensive;
-				case 2->strategy = AIStrategy.Chaotic;
-	}*/
+	switch (_randomEngine() % 3 == 0) {
+		case 0: _strategy = AIPlayer::AIStrategy::Offensive; break;
+		case 1: _strategy = AIPlayer::AIStrategy::Defensive; break;
+		case 2: _strategy = AIPlayer::AIStrategy::Chaotic; break;
+	}
 }
 
 void AIPlayer::updateAntiUnoCheck(const int deltaTime)

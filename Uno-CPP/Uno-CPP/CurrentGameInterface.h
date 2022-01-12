@@ -21,7 +21,7 @@ class CurrentGameInterface :
 	public WndInterface
 {
 public:
-	CurrentGameInterface(const sf::IntRect& bounds, const sf::Font& font, const std::vector<Player*>& playerList, RuleSet* ruleSet);
+	CurrentGameInterface(const sf::IntRect& bounds, const sf::Font& font, const std::vector<Player*>& playerList, RuleSet* ruleSet, std::default_random_engine& randomEngine);
 	virtual ~CurrentGameInterface();
 
 	// Inherited via WndInterface

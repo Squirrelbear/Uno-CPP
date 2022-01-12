@@ -9,6 +9,11 @@
 #include "Deck.h"
 #include "Button.h"
 #include "PlayDirectionAnimation.h"
+#include "PauseInterface.h"
+
+
+#include <chrono>       // std::chrono::system_clock
+#include <iostream> // TODO remove
 
 int main()
 {
@@ -44,7 +49,11 @@ int main()
 
 	CardBackGroupObject cardBackTest(sf::Vector2f(700, 500), font);
 
-	Deck deck = Deck(sf::Vector2f(100, 500), font);
+	unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
+
+	std::default_random_engine randomEngine(seed);
+
+	Deck deck = Deck(sf::Vector2f(100, 500), font, randomEngine);
 	for (int i = 0; i < 10; i++) {
 		Card* card = deck.drawCard();
 		std::cout << "Drawn Card: " << card->getFaceValueID() << " " << card->getColourID() << " " << card->getUniqueCardID() << std::endl;
@@ -52,6 +61,8 @@ int main()
 	}
 
 	Button buttonTest(sf::IntRect(700,150,150,40), "Example Text", 0, font);
+
+	PauseInterface pauseInterface(sf::IntRect(1280/2-100, 720/2-100, 200, 200), sf::IntRect(0,0,1280,720), font);
 
 	sf::Clock clock;
 	while (window.isOpen())
@@ -94,6 +105,7 @@ int main()
 		//window.draw(shape);
 		buttonTest.draw(window);
 		playDirectionAnimation.draw(window);
+		pauseInterface.draw(window);
 		window.display();
 	}
 	

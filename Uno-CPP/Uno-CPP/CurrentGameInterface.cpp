@@ -2,8 +2,8 @@
 
 
 
-CurrentGameInterface::CurrentGameInterface(const sf::IntRect& bounds, const sf::Font& font, const std::vector<Player*>& playerList, RuleSet* ruleSet)
-	: WndInterface(bounds), _deck(sf::Vector2f(bounds.width/2-30-160, bounds.height / 2 - 45), font), 
+CurrentGameInterface::CurrentGameInterface(const sf::IntRect& bounds, const sf::Font& font, const std::vector<Player*>& playerList, RuleSet* ruleSet, std::default_random_engine& randomEngine)
+	: WndInterface(bounds), _deck(sf::Vector2f(bounds.width/2-30-160, bounds.height / 2 - 45), font, randomEngine), 
 	_overlayManager(bounds,playerList), _recentCardPile(sf::Vector2f(bounds.width / 2 - 30, bounds.height / 2 - 45))
 {
 }

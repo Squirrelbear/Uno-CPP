@@ -2,6 +2,7 @@
 
 #include <SFML/Graphics.hpp>
 #include <vector>
+#include <random>       // std::default_random_engine
 #include "Card.h"
 #include "CardBackGroupObject.h"
 #include "DrawableText.h"
@@ -24,7 +25,7 @@ public:
 	 * @param position Position for the deck to appear in the game.
 	 * @param font reference to the font for creating card renders.
 	 */
-	Deck(const sf::Vector2f position, const sf::Font& font);
+	Deck(const sf::Vector2f position, const sf::Font& font, std::default_random_engine& randomEngine);
 	virtual ~Deck();
 
 	/**
@@ -44,6 +45,9 @@ public:
 	Card* drawCard();
 
 private:
+	// Random engine used for shuffling.
+	std::default_random_engine& _randomEngine;
+
 	// Position where the deck is located. Used for drawing the card back.
 	sf::Vector2f _position;
 
