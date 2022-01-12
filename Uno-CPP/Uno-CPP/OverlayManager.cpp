@@ -4,16 +4,58 @@
 #include "GeneralOverlayInterface.h"
 #include <sstream>
 
-OverlayManager::OverlayManager(const sf::IntRect& bounds)
+OverlayManager::OverlayManager(const sf::IntRect & bounds, std::vector<Player*> playerList)
 	: WndInterface(bounds)
 {
-	for (auto &[key, overlay] : _overlays) {
-		delete overlay;
-	}
+	/*
+	setEnabled(true);
+        overlays = new HashMap<>();
+        WildColourSelectorOverlay wildColourSelectorOverlay = new WildColourSelectorOverlay(new Position(bounds.width/2-100,bounds.height/2-100),200,200);
+        KeepOrPlayOverlay keepOrPlayOverlay = new KeepOrPlayOverlay(new Rectangle(new Position(0,0), bounds.width, bounds.height));
+        PlayerSelectionOverlay playerSelectionOverlay = new PlayerSelectionOverlay(new Rectangle(new Position(0,0), bounds.width, bounds.height), playerList);
+        StatusOverlay statusOverlay = new StatusOverlay(new Rectangle(new Position(0,0), bounds.width, bounds.height));
+        ChallengeOverlay challengeOverlay = new ChallengeOverlay(bounds);
+        StackChoiceOverlay stackChoiceOverlay = new StackChoiceOverlay(bounds);
+        overlays.put("wildColour", wildColourSelectorOverlay);
+        overlays.put("keepOrPlay", keepOrPlayOverlay);
+        overlays.put("otherPlayer", playerSelectionOverlay);
+        overlays.put("statusOverlay", statusOverlay);
+        overlays.put("isChallenging", challengeOverlay);
+        overlays.put("isStacking", stackChoiceOverlay);
+
+        UnoButton unoButton = new UnoButton(new Position(bounds.position.x + bounds.width - UnoButton.WIDTH-40,
+                bounds.position.y + bounds.height - UnoButton.HEIGHT-40));
+        AntiUnoButton antiUnoButton = new AntiUnoButton(new Position(bounds.position.x + bounds.width - UnoButton.WIDTH-40-100,
+                bounds.position.y + bounds.height - UnoButton.HEIGHT-40));
+        for(int i = 0; i < playerList.size(); i++) {
+            Position playerCentre = playerList.get(i).getCentreOfBounds();
+            PlayerFlashOverlay skipVisualOverlay = new PlayerFlashOverlay(playerCentre, "SKIPPED", Color.RED, 40);
+            overlays.put("SkipVisual"+i,skipVisualOverlay);
+            PlayerFlashOverlay drawNMessageOverlay = new PlayerFlashOverlay(playerCentre, "", Color.RED, 40);
+            overlays.put("DrawN"+i,drawNMessageOverlay);
+            ChallengeSuccessOverlay challengeSuccessOverlay = new ChallengeSuccessOverlay(new Rectangle(playerCentre, 100,100));
+            overlays.put("ChallengeSuccess"+i,challengeSuccessOverlay);
+            ChallengeFailedOverlay challengeFailedOverlay = new ChallengeFailedOverlay(new Rectangle(playerCentre, 100,100));
+            overlays.put("ChallengeFailed"+i,challengeFailedOverlay);
+            UNOCalledOverlay unoCalledOverlay = new UNOCalledOverlay(new Position(playerCentre.x,playerCentre.y+20));
+            overlays.put("UNOCalled"+i,unoCalledOverlay);
+            PlayerFlashOverlay antiUnoOverlay = new PlayerFlashOverlay(new Position(playerCentre.x,playerCentre.y+20),
+                    "!", new Color(226, 173, 67), 50);
+            overlays.put("AntiUnoCalled"+i,antiUnoOverlay);
+            PlayerFlashOverlay jumpInOverlay = new PlayerFlashOverlay(new Position(playerCentre.x,playerCentre.y+20),
+                    "JUMPED IN", Color.ORANGE, 40);
+            overlays.put("JumpIn"+i, jumpInOverlay);
+        }
+        overlays.put("UnoButton", unoButton);
+        overlays.put("antiUnoButton", antiUnoButton);
+	*/
 }
 
 OverlayManager::~OverlayManager()
 {
+	for (auto &[key, overlay] : _overlays) {
+		delete overlay;
+	}
 }
 
 void OverlayManager::update(const int deltaTime)

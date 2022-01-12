@@ -136,6 +136,7 @@
     <ClCompile Include="Card.cpp" />
     <ClCompile Include="CardBackGroupObject.cpp" />
     <ClCompile Include="CardFrontObjectGroup.cpp" />
+    <ClCompile Include="CurrentGameInterface.cpp" />
     <ClCompile Include="Deck.cpp" />
     <ClCompile Include="DrawableObjectGroup.cpp" />
     <ClCompile Include="DrawableShape.cpp" />
@@ -145,6 +146,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="OverlayManager.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="RecentCardPile.cpp" />
     <ClCompile Include="RuleSet.cpp" />
     <ClCompile Include="TurnAction.cpp" />
     <ClCompile Include="TurnActionSequence.cpp" />
@@ -157,6 +159,7 @@
     <ClInclude Include="Card.h" />
     <ClInclude Include="CardBackGroupObject.h" />
     <ClInclude Include="CardFrontObjectGroup.h" />
+    <ClInclude Include="CurrentGameInterface.h" />
     <ClInclude Include="Deck.h" />
     <ClInclude Include="DrawableObject.h" />
     <ClInclude Include="DrawableObjectGroup.h" />
@@ -168,6 +171,7 @@
     <ClInclude Include="LobbyPlayer.h" />
     <ClInclude Include="OverlayManager.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="RecentCardPile.h" />
     <ClInclude Include="RuleSet.h" />
     <ClInclude Include="TurnAction.h" />
     <ClInclude Include="TurnActionSequence.h" />

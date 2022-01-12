@@ -4,7 +4,7 @@
 #include <chrono>       // std::chrono::system_clock
 #include <iostream> // TODO remove
 
-Deck::Deck(const sf::Vector2f& position, sf::Font& font)
+Deck::Deck(const sf::Vector2f position, const sf::Font& font)
 	: _position(position), _bounds(static_cast<int>(position.x), static_cast<int>(position.y), CARD_WIDTH, CARD_HEIGHT),
 	 _deckTitle(sf::Vector2f(0, 0), "DECK", font, 20, sf::Color::Black, sf::Text::Bold)
 {

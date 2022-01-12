@@ -24,7 +24,7 @@ public:
 	 * @param position Position for the deck to appear in the game.
 	 * @param font reference to the font for creating card renders.
 	 */
-	Deck(const sf::Vector2f& position, sf::Font& font);
+	Deck(const sf::Vector2f position, const sf::Font& font);
 	virtual ~Deck();
 
 	/**

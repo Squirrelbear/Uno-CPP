@@ -3,6 +3,7 @@
 #include <map>
 #include "TurnDecisionAction.h"
 #include "WndInterface.h"
+#include "Player.h"
 
 /**
  * Uno
@@ -22,8 +23,9 @@ public:
 	 * Initialise the interfaces all ready for any that needs to be made visible.
 	 *
 	 * @param bounds The bounds of the entire game area.
+	 * @param playerList Has the list of playerrs as required for the playerSelection overlay.
 	 */
-	OverlayManager(const sf::IntRect& bounds);
+	OverlayManager(const sf::IntRect& bounds, std::vector<Player*> playerList);
 	virtual ~OverlayManager();
 
 	// Inherited via WndInterface
