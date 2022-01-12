@@ -30,3 +30,13 @@ void TurnDecisionAction::injectFlagProperty(const int value)
 {
 	injectProperty(_flagName, value);
 }
+
+bool TurnDecisionAction::requiresTimeout() const
+{
+	return _timeOut;
+}
+
+std::string TurnDecisionAction::getFlagName() const
+{
+	return _flagName;
+}

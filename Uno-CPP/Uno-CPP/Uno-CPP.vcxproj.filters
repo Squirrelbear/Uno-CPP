@@ -69,6 +69,9 @@
     <ClCompile Include="TurnDecisionAction.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="OverlayManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Card.h">
@@ -132,6 +135,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="TurnDecisionAction.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneralOverlayInterface.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OverlayManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

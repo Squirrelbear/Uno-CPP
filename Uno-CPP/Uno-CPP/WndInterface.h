@@ -35,7 +35,7 @@ public:
 	 *
 	 * @param renderWindow Reference to the target window for rendering.
 	 */
-	virtual void draw(sf::RenderWindow& renderWindow) = 0;
+	virtual void draw(sf::RenderWindow& renderWindow) const = 0;
 
 	/**
 	 * Handle updates related to the mouse pressing at the specified position.
@@ -43,14 +43,14 @@ public:
 	 * @param mousePosition Position of the mouse cursor during the press.
 	 * @param isLeft If true, the mouse button is left, otherwise is right.
 	 */
-	virtual void handleMousePress(const sf::Vector2f& mousePosition, bool isLeft) {}
+	virtual void handleMousePress(const sf::Vector2i& mousePosition, bool isLeft) {}
 
 	/**
 	 * Handle updates related to the mouse being moved.
 	 *
 	 * @param mousePosition Position of the mouse during this movement.
 	 */
-	virtual void handleMouseMove(const sf::Vector2f& mousePosition) {}
+	virtual void handleMouseMove(const sf::Vector2i& mousePosition) {}
 
 	/**
 	 * Change the enabled state of this object.
@@ -64,7 +64,7 @@ public:
 	 *
 	 * @return True if the object is enabled.
 	 */
-	bool isEnabled() { return _isEnabled; }
+	bool isEnabled() const { return _isEnabled; }
 
 private:
 	// Bounds of this interface.

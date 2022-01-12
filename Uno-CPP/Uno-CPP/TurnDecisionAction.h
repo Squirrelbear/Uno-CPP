@@ -57,6 +57,11 @@ public:
 	 */
 	void injectFlagProperty(const int value);
 
+	// Returns true when the decision action requires a timeout for limiting interaction.
+	bool requiresTimeout() const;
+
+	std::string getFlagName() const;
+
 private:
 	// When true, the TurnDecisionAction has a time limit to complete it.
 	bool _timeOut;
