@@ -24,7 +24,7 @@ public:
 	* @param actionID The action to be performed via performAction().
 	* @param actionDebugText Text to be used to describe the current state in debug output.
 	*/
-	TurnAction(TurnAction* next, const TurnActionSequence<TurnAction>& parentSequence, const int actionID, const std::string& actionDebugText);
+	TurnAction(TurnAction* next, TurnActionSequence<TurnAction>& parentSequence, const int actionID, const std::string& actionDebugText);
 	virtual ~TurnAction() = default;
 
 	// Calls the action associated with this TurnAction.
@@ -40,9 +40,12 @@ public:
 	 */
 	void injectProperty(const std::string& key, const int value);
 
+	// Gets the value at the specified position, returns -1 if the key could not be found.
+	int getPropertyValue(const std::string& key) const;
+
 protected:
 	// Reference to the parent for accessing shared data for the sequence and executing the actions.
-	const TurnActionSequence<TurnAction>& _parent;
+	TurnActionSequence<TurnAction>& _parent;
 	// Reference to the action to be executed by this TurnAction during performAction().
 	const int _actionID;
 	// Reference to the next TurnAction in the linked list sequence. This can be null to indicate the end.

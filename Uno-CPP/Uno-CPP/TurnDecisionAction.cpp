@@ -1,6 +1,6 @@
 #include "TurnDecisionAction.h"
 
-TurnDecisionAction::TurnDecisionAction(TurnAction * next, TurnAction * otherNext, const bool timeOut, const std::string & flagName, const TurnActionSequence<TurnAction> & parentSequence, const int actionID, const std::string & actionDebugText)
+TurnDecisionAction::TurnDecisionAction(TurnAction * next, TurnAction * otherNext, const bool timeOut, const std::string & flagName, TurnActionSequence<TurnAction> & parentSequence, const int actionID, const std::string & actionDebugText)
 	: TurnAction(next, parentSequence, actionID, actionDebugText), _otherNext(otherNext), _timeOut(timeOut), _flagName(flagName)
 {
 	_hasRunOnce = false;

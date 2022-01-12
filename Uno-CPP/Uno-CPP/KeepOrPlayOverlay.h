@@ -3,7 +3,7 @@
 #include "WndInterface.h"
 #include "TurnDecisionOverlayInterface.h"
 #include "Button.h"
-#include "Card.h"
+#include "CardFrontObjectGroup.h"
 
 class KeepOrPlayOverlay
 	: public WndInterface, public TurnDecisionOverlayInterface
@@ -14,7 +14,7 @@ public:
 	 *
 	 * @param bounds The bounds of the entire game area. The buttons are offset from the centre.
 	 */
-	KeepOrPlayOverlay(const sf::IntRect& bounds);
+	KeepOrPlayOverlay(const sf::IntRect& bounds, const sf::Font& font);
 	virtual ~KeepOrPlayOverlay();
 
 	// Not used.
@@ -48,13 +48,15 @@ public:
 	virtual void handleMouseMove(const sf::Vector2i& mousePosition) override;
 
 private:
+	// Reference to the font.
+	const sf::Font& _font;
 	// List of buttons consisting of the Keep and Play buttons.
 	std::vector<Button> _buttonList;
 	// Reference to the TurnAction that triggered the display of this overlay.
 	TurnDecisionAction* _currentAction;
 	// Reference to the dummy card that the overlay is making a decision about.
-	Card* _cardForChoice;
+	CardFrontObjectGroup* _cardForChoice;
 	// Position where the card in question is to be placed.
-	const sf::Vector2i _cardPosition;
+	sf::Vector2f _cardPosition;
 };
 

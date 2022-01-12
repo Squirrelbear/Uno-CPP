@@ -30,12 +30,12 @@ int main()
 	shape->setFillColor(sf::Color::Green);
 
 	//DrawableShape test(shape, sf::Vector2f(0.0f,0.0f));
-	CardFrontObjectGroup testGroup(Card(8,2,0),  sf::Vector2f(0,0), font);
-	CardFrontObjectGroup testGroup2(Card(8, 3, 0), sf::Vector2f(100, 100), font);
-	CardFrontObjectGroup testGroup3(Card(13, 3, 0), sf::Vector2f(165, 100), font);
-	CardFrontObjectGroup testGroup4(Card(13, 4, 0), sf::Vector2f(230, 100), font);
-	CardFrontObjectGroup testGroup5(Card(14, 4, 0), sf::Vector2f(295, 100), font);
-	CardFrontObjectGroup testGroup6(Card(14, 2, 0), sf::Vector2f(360, 100), font);
+	CardFrontObjectGroup testGroup(8,2,  sf::Vector2f(0,0), font);
+	CardFrontObjectGroup testGroup2(8,3, sf::Vector2f(100, 100), font);
+	CardFrontObjectGroup testGroup3(13,3, sf::Vector2f(165, 100), font);
+	CardFrontObjectGroup testGroup4(13,4, sf::Vector2f(230, 100), font);
+	CardFrontObjectGroup testGroup5(14,4, sf::Vector2f(295, 100), font);
+	CardFrontObjectGroup testGroup6(14,2, sf::Vector2f(360, 100), font);
 
 	PlayDirectionAnimation playDirectionAnimation = PlayDirectionAnimation(sf::Vector2f(1280 / 2.0f, 720 / 2.0f), 120, 5);
 

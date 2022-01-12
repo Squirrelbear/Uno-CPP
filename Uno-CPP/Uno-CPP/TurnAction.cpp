@@ -1,6 +1,6 @@
 #include "TurnAction.h"
 
-TurnAction::TurnAction(TurnAction * next, const TurnActionSequence<TurnAction> & parentSequence, const int actionID, const std::string & actionDebugText)
+TurnAction::TurnAction(TurnAction * next, TurnActionSequence<TurnAction>& parentSequence, const int actionID, const std::string & actionDebugText)
 	: _parent(parentSequence), _next(next), _actionID(actionID), _actionDebugText(actionDebugText)
 {
 }
@@ -19,5 +19,10 @@ TurnAction * TurnAction::getNext()
 
 void TurnAction::injectProperty(const std::string & key, const int value)
 {
-	// TODO
+	_parent.injectProperty(key, value);
+}
+
+int TurnAction::getPropertyValue(const std::string & key) const
+{
+	return _parent.getPropertyValue(key);
 }
