@@ -143,6 +143,7 @@
     <ClCompile Include="DrawableText.cpp" />
     <ClCompile Include="EllipseShape.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="KeepOrPlayOverlay.cpp" />
     <ClCompile Include="LobbyPlayer.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="OverlayManager.cpp" />
@@ -172,6 +173,7 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="GeneralOverlayInterface.h" />
     <ClInclude Include="InteractableRect.h" />
+    <ClInclude Include="KeepOrPlayOverlay.h" />
     <ClInclude Include="LobbyPlayer.h" />
     <ClInclude Include="OverlayManager.h" />
     <ClInclude Include="PauseInterface.h" />

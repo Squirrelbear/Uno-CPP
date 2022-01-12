@@ -21,11 +21,11 @@ void PauseInterface::initialiseInterface(const sf::IntRect & bounds, const sf::I
 	_interfaceBackground = new DrawableObjectGroup();
 	DrawableShape* transparentBackground = new DrawableShape(new sf::RectangleShape(sf::Vector2f(gameBounds.width, gameBounds.height)), sf::Color(144, 143, 143, 204));
 	_interfaceBackground->addChild(transparentBackground);
-	DrawableShape* mainBackgroundBorder = new DrawableShape(new sf::RectangleShape(sf::Vector2f(bounds.width, bounds.height)), sf::Color(0, 0, 0, 205), sf::Vector2f(bounds.left, bounds.top));
+	DrawableShape* mainBackgroundBorder = new DrawableShape(new sf::RectangleShape(sf::Vector2f(bounds.width, bounds.height)), sf::Color(0, 0, 0, 50), sf::Vector2f(bounds.left, bounds.top));
 	_interfaceBackground->addChild(mainBackgroundBorder);
-	DrawableShape* leftBackgroundBorder = new DrawableShape(new sf::RectangleShape(sf::Vector2f(160, 90)), sf::Color(0, 0, 0, 205), sf::Vector2f(170,300));
+	DrawableShape* leftBackgroundBorder = new DrawableShape(new sf::RectangleShape(sf::Vector2f(160, 90)), sf::Color(0, 0, 0, 50), sf::Vector2f(170,300));
 	_interfaceBackground->addChild(leftBackgroundBorder);
-	DrawableShape* rightBackgroundBorder = new DrawableShape(new sf::RectangleShape(sf::Vector2f(410, 300)), sf::Color(0, 0, 0, 205), sf::Vector2f(790,220));
+	DrawableShape* rightBackgroundBorder = new DrawableShape(new sf::RectangleShape(sf::Vector2f(410, 300)), sf::Color(0, 0, 0, 50), sf::Vector2f(790,220));
 	_interfaceBackground->addChild(rightBackgroundBorder);
 	DrawableShape* mainBackground = new DrawableShape(new sf::RectangleShape(sf::Vector2f(bounds.width - 2, bounds.height - 2)), sf::Color(165, 177, 94, 205), sf::Vector2f(bounds.left + 1, bounds.top + 1));
 	_interfaceBackground->addChild(mainBackground);
