@@ -145,6 +145,7 @@
     <ClCompile Include="LobbyPlayer.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="OverlayManager.cpp" />
+    <ClCompile Include="PlayDirectionAnimation.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="RecentCardPile.cpp" />
     <ClCompile Include="RuleSet.cpp" />
@@ -170,6 +171,7 @@
     <ClInclude Include="InteractableRect.h" />
     <ClInclude Include="LobbyPlayer.h" />
     <ClInclude Include="OverlayManager.h" />
+    <ClInclude Include="PlayDirectionAnimation.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="RecentCardPile.h" />
     <ClInclude Include="RuleSet.h" />
