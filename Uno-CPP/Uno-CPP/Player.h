@@ -49,7 +49,7 @@ public:
 	 *
 	 * @param deltaTime Time since last update.
 	 */
-	virtual void update(const int deltaTime) {}
+	virtual void update(const float deltaTime) {}
 
 	// Draws the player's cards with either card backs or fronts. Then draws the player's name nearby.
 	void draw(sf::RenderWindow& renderWindow) const;

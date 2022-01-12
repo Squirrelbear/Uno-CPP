@@ -44,7 +44,7 @@ public:
 	 *
 	 * @param deltaTime Time since last update.
 	 */
-	void update(const int deltaTime) override;
+	void update(const float deltaTime) override;
 
 	static std::string aiStrategyToString(const AIStrategy strategy);
 

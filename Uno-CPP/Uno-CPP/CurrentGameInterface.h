@@ -25,7 +25,7 @@ public:
 	virtual ~CurrentGameInterface();
 
 	// Inherited via WndInterface
-	virtual void update(const int deltaTime) override;
+	virtual void update(const float deltaTime) override;
 	virtual void draw(sf::RenderWindow & renderWindow) const override;
 	virtual void handleMousePress(const sf::Vector2i& mousePosition, bool isLeft) override;
 	virtual void handleMouseMove(const sf::Vector2i& mousePosition) override;

@@ -28,7 +28,7 @@ public:
 	 *
 	 * @param deltaTime Time since last update.
 	 */
-	virtual void update(const int deltaTime) = 0;
+	virtual void update(const float deltaTime) = 0;
 
 	/**
 	 * Draw all elements to the interface.

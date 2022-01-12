@@ -13,7 +13,7 @@ AIPlayer::AIPlayer(const int playerID, const std::string & playerName, const sf:
 	_consideringDelayTimer = -1;
 }
 
-void AIPlayer::update(const int deltaTime)
+void AIPlayer::update(const float deltaTime)
 {
 	updateAntiUnoCheck(deltaTime);
 	updateJumpInCheck(deltaTime);

@@ -13,7 +13,7 @@ CurrentGameInterface::~CurrentGameInterface()
 {
 }
 
-void CurrentGameInterface::update(const int deltaTime)
+void CurrentGameInterface::update(const float deltaTime)
 {
 }
 

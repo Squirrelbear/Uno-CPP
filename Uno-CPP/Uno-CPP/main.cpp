@@ -8,6 +8,7 @@
 #include "CardBackGroupObject.h"
 #include "Deck.h"
 #include "Button.h"
+#include "PlayDirectionAnimation.h"
 
 int main()
 {
@@ -31,6 +32,8 @@ int main()
 	CardFrontObjectGroup testGroup5(Card(14, 4, 0), sf::Vector2f(295, 100), font);
 	CardFrontObjectGroup testGroup6(Card(14, 2, 0), sf::Vector2f(360, 100), font);
 
+	PlayDirectionAnimation playDirectionAnimation = PlayDirectionAnimation(sf::Vector2f(1280 / 2.0f, 720 / 2.0f), 120, 5);
+
 	ArcShape* testArc = new ArcShape(0, 270, sf::Vector2f(30, 30));
 	testArc->setPosition(sf::Vector2f(500, 500));
 	testArc->setFillColor(sf::Color::Red);
@@ -50,8 +53,11 @@ int main()
 
 	Button buttonTest(sf::IntRect(700,150,150,40), "Example Text", 0, font);
 
+	sf::Clock clock;
 	while (window.isOpen())
 	{
+		sf::Time elapsed = clock.restart();
+		float deltaTime = elapsed.asSeconds();
 		sf::Event event;
 		while (window.pollEvent(event))
 		{
@@ -65,6 +71,9 @@ int main()
 			}
 		}
 		//test.move(sf::Vector2f(0.1f, 0.1f));
+
+		playDirectionAnimation.update(deltaTime);
+		std::cout << deltaTime << std::endl;
 
 		window.clear(sf::Color(93, 141, 74));
 		//test.draw(window);
@@ -84,6 +93,7 @@ int main()
 		deck.draw(window);
 		//window.draw(shape);
 		buttonTest.draw(window);
+		playDirectionAnimation.draw(window);
 		window.display();
 	}
 	

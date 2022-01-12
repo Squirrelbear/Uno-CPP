@@ -20,7 +20,7 @@ public:
 	 *
 	 * @param deltaTime Time since last update.
 	 */
-	void update(const int deltaTime);
+	void update(const float deltaTime);
 
 	// Draws the two ovals representing play direction.
 	void draw(sf::RenderWindow& renderWindow) const;

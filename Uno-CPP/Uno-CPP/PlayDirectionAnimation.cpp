@@ -10,13 +10,13 @@ PlayDirectionAnimation::PlayDirectionAnimation(const sf::Vector2f centre, const 
 	_movingObject2.setFillColor(sf::Color::Black);
 }
 
-void PlayDirectionAnimation::update(const int deltaTime)
+void PlayDirectionAnimation::update(const float deltaTime)
 {
 	if (_isIncreasing) { 
-		_currentAngle += deltaTime / 1000.0f; 
+		_currentAngle += deltaTime; 
 	}
 	else { 
-		_currentAngle -= deltaTime / 1000.0f; 
+		_currentAngle -= deltaTime; 
 	}
 	if (_currentAngle > 3.141592654f * 2 || _currentAngle < -3.141592654f * 2) {
 		_currentAngle = 0; 

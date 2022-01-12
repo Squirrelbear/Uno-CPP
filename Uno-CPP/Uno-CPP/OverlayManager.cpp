@@ -58,7 +58,7 @@ OverlayManager::~OverlayManager()
 	}
 }
 
-void OverlayManager::update(const int deltaTime)
+void OverlayManager::update(const float deltaTime)
 {
 	if (_overlayAction != _overlayAction) { // TODO: CurrentGameInterface.getCurrentGame().getCurrentTurnAction()
 		_overlayAction = nullptr;
