@@ -10,7 +10,7 @@
 #include "Button.h"
 #include "PlayDirectionAnimation.h"
 #include "PauseInterface.h"
-
+#include "LobbyInterface.h"
 
 #include <chrono>       // std::chrono::system_clock
 #include <iostream> // TODO remove
@@ -62,7 +62,8 @@ int main()
 
 	Button buttonTest(sf::IntRect(700,150,150,40), "Example Text", 0, font);
 
-	PauseInterface pauseInterface(sf::IntRect(1280/2-100, 720/2-100, 200, 200), sf::IntRect(0,0,1280,720), font);
+	//PauseInterface pauseInterface(sf::IntRect(1280/2-100, 720/2-100, 200, 200), sf::IntRect(0,0,1280,720), font);
+	LobbyInterface lobbyInterface(sf::IntRect(0, 0, 1280, 720), font);
 
 	sf::Clock clock;
 	while (window.isOpen())
@@ -105,7 +106,8 @@ int main()
 		//window.draw(shape);
 		buttonTest.draw(window);
 		playDirectionAnimation.draw(window);
-		pauseInterface.draw(window);
+		//pauseInterface.draw(window);
+		lobbyInterface.draw(window);
 		window.display();
 	}
 	
