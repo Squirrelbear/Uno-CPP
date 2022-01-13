@@ -13,6 +13,8 @@ public:
 	virtual void move(const sf::Vector2f & offset) override;
 
 	float getTextWidth() const;
+	void setText(const std::string& text);
+	void setColour(const sf::Color& colour);
 
 private:
 	sf::Text _textObject;

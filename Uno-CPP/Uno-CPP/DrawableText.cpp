@@ -29,3 +29,13 @@ float DrawableText::getTextWidth() const
 {
 	return _textObject.getGlobalBounds().width;
 }
+
+void DrawableText::setText(const std::string & text)
+{
+	_textObject.setString(text);
+}
+
+void DrawableText::setColour(const sf::Color & colour)
+{
+	_textObject.setFillColor(colour);
+}

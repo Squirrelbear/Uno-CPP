@@ -30,3 +30,11 @@ void DrawableShape::setBorder(const float thickness, const sf::Color colour)
 	_shape->setOutlineThickness(thickness);
 	_shape->setOutlineColor(colour);
 }
+
+void DrawableShape::setSize(const sf::Vector2f size)
+{
+	auto rect = _shape->getTextureRect();
+	rect.height += size.y;
+	rect.width += size.x;
+	_shape->setTextureRect(rect);
+}

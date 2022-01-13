@@ -22,6 +22,8 @@ public:
 
 	void setBorder(const float thickness, const sf::Color colour);
 
+	void setSize(const sf::Vector2f size);
+
 private:
 	sf::Shape* _shape;
 };
