@@ -33,7 +33,7 @@ public:
 	void update(const float deltaTime) override;
 	
 	// Draws the message.
-	void draw(sf::RenderWindow & renderWindow) const override;
+	virtual void draw(sf::RenderWindow & renderWindow) const override;
 
 	// Shows the overlay and sets a timer for how long it will appear.
 	void showOverlay() override;
@@ -45,7 +45,7 @@ public:
 	 */
 	void setMessage(const std::string& message);
 
-private:
+protected:
 	// The text that is drawn by this overlay.
 	sf::Text _flashingText;
 	// Same text, but black for a shadow.

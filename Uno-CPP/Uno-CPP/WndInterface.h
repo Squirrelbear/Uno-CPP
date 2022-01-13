@@ -66,7 +66,7 @@ public:
 	 */
 	bool isEnabled() const { return _isEnabled; }
 
-private:
+protected:
 	// Bounds of this interface.
 	sf::IntRect _bounds;
 	// State of whether the object is enabled so it can be used for managing updates.

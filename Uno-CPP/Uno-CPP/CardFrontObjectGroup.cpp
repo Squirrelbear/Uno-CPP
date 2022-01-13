@@ -22,9 +22,7 @@ CardFrontObjectGroup::CardFrontObjectGroup(const int faceValue, const int colour
 	else {
 		// Red, blue, green, yellow segments for any wild card in the middle.
 		for (int i = 0; i < 4; i++) {
-			// TODO change to use ArcShape instead of EllipseShape
 			ArcShape* arcShape = new ArcShape(90 * i, 90 * (i+1), sf::Vector2f((CARD_WIDTH - 8) / 2, ((CARD_WIDTH - 8) / 4)/2+10));
-			// start end: 270 + 90 * i, 90
 			DrawableShape* arc = new DrawableShape(arcShape, Card::getColourByID(i), sf::Vector2f(4, CARD_HEIGHT / 2 - ((CARD_WIDTH - 8) / 4)));
 			addChild(arc);
 		}
