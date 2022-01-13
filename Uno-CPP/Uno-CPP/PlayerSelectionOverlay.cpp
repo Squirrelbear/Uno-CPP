@@ -7,7 +7,7 @@ PlayerSelectionOverlay::PlayerSelectionOverlay(const sf::IntRect & bounds, const
 	for (int i = 0; i < playerList.size(); i++) {
 		if (playerList.at(i)->getPlayerType() != Player::PlayerType::ThisPlayer) {
 			sf::Vector2f centre = playerList.at(i)->getCentreOfBounds();
-			_buttonList.emplace_back(new Button(sf::IntRect(centre.x - 100, centre.y - 20, 200, 40), "Choose Player", i, font));
+			_buttonList.emplace_back(Button(sf::IntRect(centre.x - 100, centre.y - 20, 200, 40), "Choose Player", i, font));
 		}
 	}
 }
