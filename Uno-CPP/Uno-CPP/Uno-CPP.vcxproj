@@ -136,6 +136,9 @@
     <ClCompile Include="Card.cpp" />
     <ClCompile Include="CardBackGroupObject.cpp" />
     <ClCompile Include="CardFrontObjectGroup.cpp" />
+    <ClCompile Include="ChallengeFailedOverlay.cpp" />
+    <ClCompile Include="ChallengeOverlay.cpp" />
+    <ClCompile Include="ChallengeSuccessOverlay.cpp" />
     <ClCompile Include="CurrentGameInterface.cpp" />
     <ClCompile Include="Deck.cpp" />
     <ClCompile Include="DrawableObjectGroup.cpp" />
@@ -150,6 +153,7 @@
     <ClCompile Include="PauseInterface.cpp" />
     <ClCompile Include="PlayDirectionAnimation.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="PolygonShape.cpp" />
     <ClCompile Include="RecentCardPile.cpp" />
     <ClCompile Include="RuleSet.cpp" />
     <ClCompile Include="TurnAction.cpp" />
@@ -163,6 +167,9 @@
     <ClInclude Include="Card.h" />
     <ClInclude Include="CardBackGroupObject.h" />
     <ClInclude Include="CardFrontObjectGroup.h" />
+    <ClInclude Include="ChallengeFailedOverlay.h" />
+    <ClInclude Include="ChallengeOverlay.h" />
+    <ClInclude Include="ChallengeSuccessOverlay.h" />
     <ClInclude Include="CurrentGameInterface.h" />
     <ClInclude Include="Deck.h" />
     <ClInclude Include="DrawableObject.h" />
@@ -179,6 +186,7 @@
     <ClInclude Include="PauseInterface.h" />
     <ClInclude Include="PlayDirectionAnimation.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="PolygonShape.h" />
     <ClInclude Include="RecentCardPile.h" />
     <ClInclude Include="RuleSet.h" />
     <ClInclude Include="TurnAction.h" />
