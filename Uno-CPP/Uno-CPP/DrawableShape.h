@@ -20,6 +20,8 @@ public:
 
 	void setColour(const sf::Color& colour);
 
+	void setBorder(const float thickness, const sf::Color colour);
+
 private:
 	sf::Shape* _shape;
 };

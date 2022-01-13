@@ -8,10 +8,9 @@
 CardBackGroupObject::CardBackGroupObject(const sf::Vector2f& initialPosition, const sf::Font& font)
 {
 	// Black background with white border
-	DrawableShape* border = new DrawableShape(new sf::RectangleShape(sf::Vector2f(CARD_WIDTH, CARD_HEIGHT)), sf::Color::White);
-	addChild(border);
 	DrawableShape* background = new DrawableShape(new sf::RectangleShape(sf::Vector2f(CARD_WIDTH - 4, CARD_HEIGHT - 4)),
 														sf::Color::Black, sf::Vector2f(2, 2));
+	background->setBorder(2, sf::Color::White);
 	addChild(background);
 
 	DrawableShape* centreOval = new DrawableShape(new EllipseShape(sf::Vector2f((CARD_WIDTH-8)/2,(CARD_WIDTH-8)/4+1)), 

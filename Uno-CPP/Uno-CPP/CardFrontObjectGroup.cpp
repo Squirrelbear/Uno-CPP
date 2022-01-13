@@ -8,10 +8,9 @@
 CardFrontObjectGroup::CardFrontObjectGroup(const int faceValue, const int colourID, const sf::Vector2f& initialPosition, const sf::Font& font)
 {
 	// Black background with white border
-	DrawableShape* border = new DrawableShape(new sf::RectangleShape(sf::Vector2f(CARD_WIDTH, CARD_HEIGHT)), sf::Color::White);
-	addChild(border);
 	DrawableShape* background = new DrawableShape(new sf::RectangleShape(sf::Vector2f(CARD_WIDTH - 4, CARD_HEIGHT - 4)), 
 													Card::getColourByID(colourID), sf::Vector2f(2, 2));
+	background->setBorder(2, sf::Color::White);
 	addChild(background);
 
 	if (colourID != 4) {

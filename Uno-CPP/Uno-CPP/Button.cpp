@@ -31,9 +31,8 @@ void Button::setHovering(const bool isHovering)
 
 void Button::initialiseDefaultView(const sf::Font& font)
 {
-	DrawableShape* border = new DrawableShape(new sf::RectangleShape(sf::Vector2f(_bounds.width, _bounds.height)), sf::Color::Black);
-	_defaultView.addChild(border);
 	DrawableShape* background = new DrawableShape(new sf::RectangleShape(sf::Vector2f(_bounds.width-2, _bounds.height-2)), sf::Color(123, 133, 163), sf::Vector2f(1,1));
+	background->setBorder(1, sf::Color::Black);
 	_defaultView.addChild(background);
 	DrawableText* text = new DrawableText(sf::Vector2f(0, 0), _text, font, 20, sf::Color::Black, sf::Text::Bold);
 	text->setOffset(sf::Vector2f(_bounds.width / 2 - text->getTextWidth() / 2, _bounds.height / 2 - 20 + 8));
@@ -43,9 +42,8 @@ void Button::initialiseDefaultView(const sf::Font& font)
 
 void Button::initialiseHoveredView(const sf::Font & font)
 {
-	DrawableShape* border = new DrawableShape(new sf::RectangleShape(sf::Vector2f(_bounds.width+6, _bounds.height+6)), sf::Color::Black, sf::Vector2f(-3,-3));
-	_hoveredView.addChild(border);
 	DrawableShape* background = new DrawableShape(new sf::RectangleShape(sf::Vector2f(_bounds.width - 4, _bounds.height - 4)), sf::Color(123, 133, 163), sf::Vector2f(2, 2));
+	background->setBorder(3, sf::Color::Black);
 	_hoveredView.addChild(background);
 	DrawableText* text = new DrawableText(sf::Vector2f(0, 0), _text, font, 20, sf::Color::Black, sf::Text::Bold);
 	text->setOffset(sf::Vector2f(_bounds.width / 2 - text->getTextWidth() / 2, _bounds.height / 2 - 20 + 8));

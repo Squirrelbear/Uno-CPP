@@ -24,3 +24,9 @@ void DrawableShape::setColour(const sf::Color & colour)
 {
 	_shape->setFillColor(colour);
 }
+
+void DrawableShape::setBorder(const float thickness, const sf::Color colour)
+{
+	_shape->setOutlineThickness(thickness);
+	_shape->setOutlineColor(colour);
+}
