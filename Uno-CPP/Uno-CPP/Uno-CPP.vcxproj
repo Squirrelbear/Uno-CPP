@@ -154,6 +154,7 @@
     <ClCompile Include="PauseInterface.cpp" />
     <ClCompile Include="PlayDirectionAnimation.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="PlayerFlashOverlay.cpp" />
     <ClCompile Include="PlayerSelectionOverlay.cpp" />
     <ClCompile Include="PolygonShape.cpp" />
     <ClCompile Include="RecentCardPile.cpp" />
@@ -191,6 +192,7 @@
     <ClInclude Include="PauseInterface.h" />
     <ClInclude Include="PlayDirectionAnimation.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="PlayerFlashOverlay.h" />
     <ClInclude Include="PlayerSelectionOverlay.h" />
     <ClInclude Include="PolygonShape.h" />
     <ClInclude Include="RecentCardPile.h" />
