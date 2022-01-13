@@ -158,6 +158,7 @@
     <ClCompile Include="PolygonShape.cpp" />
     <ClCompile Include="RecentCardPile.cpp" />
     <ClCompile Include="RuleSet.cpp" />
+    <ClCompile Include="StackChoiceOverlay.cpp" />
     <ClCompile Include="TurnAction.cpp" />
     <ClCompile Include="TurnActionSequence.cpp" />
     <ClCompile Include="TurnDecisionAction.cpp" />
@@ -193,6 +194,7 @@
     <ClInclude Include="PolygonShape.h" />
     <ClInclude Include="RecentCardPile.h" />
     <ClInclude Include="RuleSet.h" />
+    <ClInclude Include="StackChoiceOverlay.h" />
     <ClInclude Include="TurnAction.h" />
     <ClInclude Include="TurnActionSequence.h" />
     <ClInclude Include="TurnDecisionAction.h" />
