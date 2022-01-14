@@ -10,6 +10,8 @@
 #include "ChallengeSuccessOverlay.h"
 #include "ChallengeFailedOverlay.h"
 #include "UNOCalledOverlay.h"
+#include "UnoButton.h"
+#include "AntiUnoButton.h"
 #include "TurnDecisionOverlayInterface.h"
 #include "GeneralOverlayInterface.h"
 #include <sstream>
@@ -32,11 +34,8 @@ OverlayManager::OverlayManager(const sf::IntRect & bounds, std::vector<Player*> 
 	_overlays["isChallenging"] = challengeOverlay;
 	_overlays["isStacking"] = stackChoiceOverlay;
 
-	// TODO after adding UnoButton and AntiUnoButton
-    /*UnoButton unoButton = new UnoButton(new Position(bounds.position.x + bounds.width - UnoButton.WIDTH-40,
-            bounds.position.y + bounds.height - UnoButton.HEIGHT-40));
-    AntiUnoButton antiUnoButton = new AntiUnoButton(new Position(bounds.position.x + bounds.width - UnoButton.WIDTH-40-100,
-            bounds.position.y + bounds.height - UnoButton.HEIGHT-40));*/
+    UnoButton* unoButton = new UnoButton(sf::Vector2f(bounds.left + bounds.width - 80 - 40, bounds.top + bounds.height - 60-40), font);
+    AntiUnoButton* antiUnoButton = new AntiUnoButton(sf::Vector2f(bounds.left + bounds.width - 80-40-100, bounds.top + bounds.height - 60-40), font);
     for(int i = 0; i < playerList.size(); i++) {
         sf::Vector2f playerCentre = playerList.at(i)->getCentreOfBounds();
         PlayerFlashOverlay* skipVisualOverlay = new PlayerFlashOverlay(playerCentre, "SKIPPED", sf::Color::Red, 40, font);
@@ -54,8 +53,8 @@ OverlayManager::OverlayManager(const sf::IntRect & bounds, std::vector<Player*> 
         PlayerFlashOverlay* jumpInOverlay = new PlayerFlashOverlay(sf::Vector2f(playerCentre.x,playerCentre.y+20), "JUMPED IN", sf::Color(255,215,0), 40, font);
 		_overlays["JumpIn"+i] = jumpInOverlay;
     }
-	//_overlays["UnoButton"] = unoButton;
-	//_overlays["antiUnoButton"] = antiUnoButton;
+	_overlays["UnoButton"] = unoButton;
+	_overlays["antiUnoButton"] = antiUnoButton;
 }
 
 OverlayManager::~OverlayManager()
