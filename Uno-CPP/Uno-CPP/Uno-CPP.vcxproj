@@ -206,6 +206,7 @@
     <ClInclude Include="RuleSet.h" />
     <ClInclude Include="StackChoiceOverlay.h" />
     <ClInclude Include="StatusOverlay.h" />
+    <ClInclude Include="StringUtility.h" />
     <ClInclude Include="TurnAction.h" />
     <ClInclude Include="TurnActionSequence.h" />
     <ClInclude Include="TurnDecisionAction.h" />

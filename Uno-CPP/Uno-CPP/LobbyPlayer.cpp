@@ -1,4 +1,6 @@
 #include "LobbyPlayer.h"
+#include <iostream>
+#include "StringUtility.h"
 
 LobbyPlayer::LobbyPlayer(const std::string & playerName, const Player::PlayerType playerType, const sf::IntRect & bounds, const sf::Font& font)
 	: InteractableRect(bounds), _playerName(playerName), _playerType(playerType), 
@@ -106,8 +108,17 @@ void LobbyPlayer::updateHoverState(const sf::Vector2i & mousePosition)
 
 void LobbyPlayer::chooseNewName()
 {
-	// TODO
-	_playerNameText->setText(_playerName);
+	std::cout << "Enter name name: ";
+	std::string input;
+	std::getline(std::cin, input);
+	trim(input);
+	if (input.length() > 12) {
+		input = input.substr(0, 12);
+	}
+	if (input.length() > 0) {
+		_playerName = input;
+		_playerNameText->setText(_playerName);
+	}
 }
 
 void LobbyPlayer::iterateStrategy()
