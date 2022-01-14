@@ -126,6 +126,12 @@
     <ClCompile Include="UnoButton.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="AntiUnoButton.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="OvalHoverButton.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Card.h">
@@ -249,6 +255,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="UnoButton.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AntiUnoButton.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OvalHoverButton.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

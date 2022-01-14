@@ -12,6 +12,7 @@
 #include "PauseInterface.h"
 #include "LobbyInterface.h"
 #include "UnoButton.h"
+#include "AntiUnoButton.h"
 
 #include <chrono>       // std::chrono::system_clock
 #include <iostream> // TODO remove
@@ -66,6 +67,8 @@ int main()
 	//PauseInterface pauseInterface(sf::IntRect(1280/2-100, 720/2-100, 200, 200), sf::IntRect(0,0,1280,720), font);
 	LobbyInterface lobbyInterface(sf::IntRect(0, 0, 1280, 720), font);
 	UnoButton testButton(sf::Vector2f(100, 100), font);
+	AntiUnoButton testButton2(sf::Vector2f(300, 100), font);
+
 
 	sf::Clock clock;
 	while (window.isOpen())
@@ -82,6 +85,7 @@ int main()
 			}
 			if (event.type == sf::Event::MouseMoved) {
 				testButton.handleMouseMove(sf::Vector2i(event.mouseMove.x, event.mouseMove.y));
+				testButton2.handleMouseMove(sf::Vector2i(event.mouseMove.x, event.mouseMove.y));
 			}
 		}
 		//test.move(sf::Vector2f(0.1f, 0.1f));
@@ -111,6 +115,7 @@ int main()
 		//pauseInterface.draw(window);
 		lobbyInterface.draw(window);*/
 		testButton.draw(window);
+		testButton2.draw(window);
 
 		window.display();
 	}

@@ -131,6 +131,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AIPlayer.cpp" />
+    <ClCompile Include="AntiUnoButton.cpp" />
     <ClCompile Include="ArcShape.cpp" />
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="Card.cpp" />
@@ -150,6 +151,7 @@
     <ClCompile Include="LobbyInterface.cpp" />
     <ClCompile Include="LobbyPlayer.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="OvalHoverButton.cpp" />
     <ClCompile Include="OverlayManager.cpp" />
     <ClCompile Include="PauseInterface.cpp" />
     <ClCompile Include="PlayDirectionAnimation.cpp" />
@@ -170,6 +172,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AIPlayer.h" />
+    <ClInclude Include="AntiUnoButton.h" />
     <ClInclude Include="ArcShape.h" />
     <ClInclude Include="Button.h" />
     <ClInclude Include="Card.h" />
@@ -191,6 +194,7 @@
     <ClInclude Include="KeepOrPlayOverlay.h" />
     <ClInclude Include="LobbyInterface.h" />
     <ClInclude Include="LobbyPlayer.h" />
+    <ClInclude Include="OvalHoverButton.h" />
     <ClInclude Include="OverlayManager.h" />
     <ClInclude Include="PauseInterface.h" />
     <ClInclude Include="PlayDirectionAnimation.h" />

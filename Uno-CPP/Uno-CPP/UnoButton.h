@@ -1,10 +1,9 @@
 #pragma once
 
-#include "WndInterface.h"
+
 #include "GeneralOverlayInterface.h"
 #include "Player.h"
-#include "DrawableShape.h"
-#include "DrawableObjectGroup.h"
+#include "OvalHoverButton.h"
 
 /**
  * Uno
@@ -16,7 +15,7 @@
  * @author Peter Mitchell
  * @version 2022.1
  */
-class UnoButton : public WndInterface, public GeneralOverlayInterface
+class UnoButton : public OvalHoverButton, public GeneralOverlayInterface
 {
 public:
 	/**
@@ -25,7 +24,7 @@ public:
 	 * @param position Position to place the Uno button.
 	 */
 	UnoButton(const sf::Vector2f position, const sf::Font& font);
-	virtual ~UnoButton();
+	virtual ~UnoButton() = default;
 
 	/**
 	 * Enables the button when it should be available.
@@ -33,10 +32,8 @@ public:
 	 * @param deltaTime Time since last update.
 	 */
 	virtual void update(const float deltaTime) override;
-	// Draws the Uno button with an expanding oval on hover with the UNO text in the middle.
-	virtual void draw(sf::RenderWindow & renderWindow) const override;
 
-	// Inherited via GeneralOverlayInterface
+	// Shows the overlay.
 	virtual void showOverlay() override;
 	/**
 	 * When the button is available and is clicked the player is flagged as having called and the called signal is flashed.
@@ -46,26 +43,8 @@ public:
 	 */
 	virtual void handleMousePress(const sf::Vector2i& mousePosition, bool isLeft) override;
 
-	/**
-	 * Updates the hover state of the Uno button.
-	 *
-	 * @param mousePosition Position of the mouse during this movement.
-	 */
-	virtual void handleMouseMove(const sf::Vector2i& mousePosition) override;
-
-protected:
-	// Current hover status of the button.
-	bool _isHovered;
+private:
 	// Reference to the BottomPlayer.
 	Player* _bottomPlayer;
-	// When isActive is active the button can be interacted with and is visible.
-	bool _isActive;
-	// Background colour
-	sf::Color _bgColour;
-	// Shape that increases in size when hovered.
-	DrawableShape* _hoverShape;
-	// Text shown on top of the oval.
-	DrawableObjectGroup* _text;
-
 };
 
