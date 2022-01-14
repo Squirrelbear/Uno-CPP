@@ -11,6 +11,7 @@
 #include "PlayDirectionAnimation.h"
 #include "PauseInterface.h"
 #include "LobbyInterface.h"
+#include "UnoButton.h"
 
 #include <chrono>       // std::chrono::system_clock
 #include <iostream> // TODO remove
@@ -64,6 +65,7 @@ int main()
 
 	//PauseInterface pauseInterface(sf::IntRect(1280/2-100, 720/2-100, 200, 200), sf::IntRect(0,0,1280,720), font);
 	LobbyInterface lobbyInterface(sf::IntRect(0, 0, 1280, 720), font);
+	UnoButton testButton(sf::Vector2f(100, 100), font);
 
 	sf::Clock clock;
 	while (window.isOpen())
@@ -76,19 +78,19 @@ int main()
 			if (event.type == sf::Event::Closed)
 				window.close();
 			if (event.type == sf::Event::MouseButtonPressed) {
-				buttonTest.setHovering(true);
+				testButton.handleMousePress(sf::Mouse::getPosition(), true);
 			}
-			if (event.type == sf::Event::MouseButtonReleased) {
-				buttonTest.setHovering(false);
+			if (event.type == sf::Event::MouseMoved) {
+				testButton.handleMouseMove(sf::Vector2i(event.mouseMove.x, event.mouseMove.y));
 			}
 		}
 		//test.move(sf::Vector2f(0.1f, 0.1f));
 
-		playDirectionAnimation.update(deltaTime);
-		std::cout << deltaTime << std::endl;
+		//playDirectionAnimation.update(deltaTime);
+		//std::cout << deltaTime << std::endl;
 
 		window.clear(sf::Color(93, 141, 74));
-		//test.draw(window);
+		/*//test.draw(window);
 		testGroup.draw(window);
 		testGroup2.draw(window);
 		testGroup3.draw(window);
@@ -107,7 +109,9 @@ int main()
 		buttonTest.draw(window);
 		playDirectionAnimation.draw(window);
 		//pauseInterface.draw(window);
-		lobbyInterface.draw(window);
+		lobbyInterface.draw(window);*/
+		testButton.draw(window);
+
 		window.display();
 	}
 	

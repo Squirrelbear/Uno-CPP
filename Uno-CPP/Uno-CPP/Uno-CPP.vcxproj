@@ -164,6 +164,7 @@
     <ClCompile Include="TurnAction.cpp" />
     <ClCompile Include="TurnActionSequence.cpp" />
     <ClCompile Include="TurnDecisionAction.cpp" />
+    <ClCompile Include="UnoButton.cpp" />
     <ClCompile Include="UNOCalledOverlay.cpp" />
     <ClCompile Include="WildColourSelectionOverlay.cpp" />
   </ItemGroup>
@@ -205,6 +206,7 @@
     <ClInclude Include="TurnActionSequence.h" />
     <ClInclude Include="TurnDecisionAction.h" />
     <ClInclude Include="TurnDecisionOverlayInterface.h" />
+    <ClInclude Include="UnoButton.h" />
     <ClInclude Include="UNOCalledOverlay.h" />
     <ClInclude Include="WildColourSelectionOverlay.h" />
     <ClInclude Include="WndInterface.h" />

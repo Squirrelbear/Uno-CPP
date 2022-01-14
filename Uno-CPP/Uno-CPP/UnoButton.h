@@ -1,0 +1,71 @@
+#pragma once
+
+#include "WndInterface.h"
+#include "GeneralOverlayInterface.h"
+#include "Player.h"
+#include "DrawableShape.h"
+#include "DrawableObjectGroup.h"
+
+/**
+ * Uno
+ *
+ * UnoButton class:
+ * A special variation of button that appears differently for the Uno calling.
+ * Pressing the button is intended when a player reaches 2 or less cards.
+ *
+ * @author Peter Mitchell
+ * @version 2022.1
+ */
+class UnoButton : public WndInterface, public GeneralOverlayInterface
+{
+public:
+	/**
+	 * Initialises the UnoButton.
+	 *
+	 * @param position Position to place the Uno button.
+	 */
+	UnoButton(const sf::Vector2f position, const sf::Font& font);
+	virtual ~UnoButton();
+
+	/**
+	 * Enables the button when it should be available.
+	 *
+	 * @param deltaTime Time since last update.
+	 */
+	virtual void update(const float deltaTime) override;
+	// Draws the Uno button with an expanding oval on hover with the UNO text in the middle.
+	virtual void draw(sf::RenderWindow & renderWindow) const override;
+
+	// Inherited via GeneralOverlayInterface
+	virtual void showOverlay() override;
+	/**
+	 * When the button is available and is clicked the player is flagged as having called and the called signal is flashed.
+	 *
+	 * @param mousePosition Position of the mouse cursor during the press.
+	 * @param isLeft        If true, the mouse button is left, otherwise is right.
+	 */
+	virtual void handleMousePress(const sf::Vector2i& mousePosition, bool isLeft) override;
+
+	/**
+	 * Updates the hover state of the Uno button.
+	 *
+	 * @param mousePosition Position of the mouse during this movement.
+	 */
+	virtual void handleMouseMove(const sf::Vector2i& mousePosition) override;
+
+protected:
+	// Current hover status of the button.
+	bool _isHovered;
+	// Reference to the BottomPlayer.
+	Player* _bottomPlayer;
+	// When isActive is active the button can be interacted with and is visible.
+	bool _isActive;
+	// Background colour
+	sf::Color _bgColour;
+	// Shape that increases in size when hovered.
+	DrawableShape* _hoverShape;
+	// Text shown on top of the oval.
+	DrawableObjectGroup* _text;
+
+};
+
