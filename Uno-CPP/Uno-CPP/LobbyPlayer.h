@@ -1,6 +1,9 @@
 #pragma once
 #include "InteractableRect.h"
 #include "AIPlayer.h"
+#include "DrawableObjectGroup.h"
+#include "DrawableShape.h"
+#include "DrawableText.h"
 
 /**
  * Uno
@@ -22,8 +25,8 @@ public:
 	 * @param playerType The type of player (ThisPlayer, AIPlayer, or NetworkPlayer).
 	 * @param bounds Region for interacting with this player object in the menu.
 	 */
-	LobbyPlayer(const std::string& playerName, const Player::PlayerType playerType, const sf::IntRect& bounds);
-	virtual ~LobbyPlayer() = default;
+	LobbyPlayer(const std::string& playerName, const Player::PlayerType playerType, const sf::IntRect& bounds, const sf::Font& font);
+	virtual ~LobbyPlayer();
 
 	/**
 	 * Changes the player's name.
@@ -83,8 +86,26 @@ private:
 	bool _isHovered;
 	// String representing the type of player.
 	std::string _playerTypeStr;
+	// All drawable elements
+	DrawableObjectGroup* _drawableObject;
+	// Background Rect referenced for changing colour on hover.
+	DrawableShape* _background;
+	// Background colour when hovered
+	sf::Color _bgHoverColour;
+	// Background colour when not hovered
+	sf::Color _bgNotHoveredColour;
+	// Player Name Element
+	DrawableText* _playerNameText;
+	// AI Strategy Element
+	DrawableText* _aiStrategyText;
 
+	/**
+	 * Provides ability to input a string up to 12 characters long.
+	 * The String trims whitespace before evaluating and caps the maximum length
+	 * at 12 characters long. It will do nothing if there is not at least 1 valid character.
+	 */
 	void chooseNewName();
+	// Iterates through the list of AI Strategies to the next one.
 	void iterateStrategy();
 };
 

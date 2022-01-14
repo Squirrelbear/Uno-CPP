@@ -51,7 +51,7 @@ public:
 
 private:
 	// List of the players. Always contains 4. Those that are enabled are considered active.
-	std::vector<LobbyPlayer> _playerList;
+	std::vector<LobbyPlayer*> _playerList;
 	// List of buttons visible on the lobby interface.
 	std::vector<Button> _buttonList;
 	// The RuleSet being configured.

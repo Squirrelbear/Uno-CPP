@@ -82,13 +82,16 @@ int main()
 				window.close();
 			if (event.type == sf::Event::MouseButtonPressed) {
 				testButton.handleMousePress(sf::Mouse::getPosition(), true);
+				lobbyInterface.handleMousePress(sf::Vector2i(event.mouseButton.x, event.mouseButton.y), true);
 			}
 			if (event.type == sf::Event::MouseMoved) {
 				testButton.handleMouseMove(sf::Vector2i(event.mouseMove.x, event.mouseMove.y));
 				testButton2.handleMouseMove(sf::Vector2i(event.mouseMove.x, event.mouseMove.y));
+				lobbyInterface.handleMouseMove(sf::Vector2i(event.mouseMove.x, event.mouseMove.y));
 			}
 		}
 		//test.move(sf::Vector2f(0.1f, 0.1f));
+		lobbyInterface.update(deltaTime);
 
 		//playDirectionAnimation.update(deltaTime);
 		//std::cout << deltaTime << std::endl;
@@ -114,9 +117,9 @@ int main()
 		playDirectionAnimation.draw(window);
 		//pauseInterface.draw(window);
 		lobbyInterface.draw(window);*/
-		testButton.draw(window);
-		testButton2.draw(window);
-
+		//testButton.draw(window);
+		//testButton2.draw(window);
+		lobbyInterface.draw(window);
 		window.display();
 	}
 	

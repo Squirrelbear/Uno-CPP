@@ -6,10 +6,10 @@ LobbyInterface::LobbyInterface(const sf::IntRect & bounds, const sf::Font & font
 	_ruleSet = new RuleSet();
 
 	std::vector<std::string> aiNames = getRandomAINameList();
-	_playerList.emplace_back(LobbyPlayer("Player", Player::PlayerType::ThisPlayer, sf::IntRect(20, 100, bounds.width / 2, 100)));
-	_playerList.emplace_back(LobbyPlayer(aiNames.at(0), Player::PlayerType::AIPlayer, sf::IntRect(20, 100+120, bounds.width / 2, 100)));
-	_playerList.emplace_back(LobbyPlayer(aiNames.at(0), Player::PlayerType::AIPlayer, sf::IntRect(20, 100 + 120*2, bounds.width / 2, 100)));
-	_playerList.emplace_back(LobbyPlayer(aiNames.at(0), Player::PlayerType::AIPlayer, sf::IntRect(20, 100 + 120*3, bounds.width / 2, 100)));
+	_playerList.emplace_back(new LobbyPlayer("Player", Player::PlayerType::ThisPlayer, sf::IntRect(20, 100, bounds.width / 2, 100), font));
+	_playerList.emplace_back(new LobbyPlayer(aiNames.at(0), Player::PlayerType::AIPlayer, sf::IntRect(20, 100+120, bounds.width / 2, 100), font));
+	_playerList.emplace_back(new LobbyPlayer(aiNames.at(0), Player::PlayerType::AIPlayer, sf::IntRect(20, 100 + 120*2, bounds.width / 2, 100), font));
+	_playerList.emplace_back(new LobbyPlayer(aiNames.at(0), Player::PlayerType::AIPlayer, sf::IntRect(20, 100 + 120*3, bounds.width / 2, 100), font));
 
 	initialiseBackground(bounds, font);
 	initialiseRuleOptions(bounds, font);
@@ -18,6 +18,9 @@ LobbyInterface::LobbyInterface(const sf::IntRect & bounds, const sf::Font & font
 LobbyInterface::~LobbyInterface()
 {
 	delete _background;
+	for (auto& p : _playerList) {
+		delete p;
+	}
 }
 
 void LobbyInterface::draw(sf::RenderWindow & renderWindow) const
@@ -28,7 +31,7 @@ void LobbyInterface::draw(sf::RenderWindow & renderWindow) const
 		button.draw(renderWindow);
 	}
 	for (const auto& lobbyPlayer : _playerList) {
-		lobbyPlayer.draw(renderWindow);
+		lobbyPlayer->draw(renderWindow);
 	}
 
 	// Draw all dynamic strings for the rules.
@@ -47,8 +50,8 @@ void LobbyInterface::handleMousePress(const sf::Vector2i & mousePosition, bool i
 		}
 	}
 	for (auto& lobbyPlayer : _playerList) {
-		if (lobbyPlayer.isPositionInside(mousePosition)) {
-			lobbyPlayer.handleClick();
+		if (lobbyPlayer->isPositionInside(mousePosition)) {
+			lobbyPlayer->handleClick();
 		}
 	}
 }
@@ -61,7 +64,7 @@ void LobbyInterface::handleMouseMove(const sf::Vector2i & mousePosition)
 		button.setHovering(button.isPositionInside(mousePosition));
 	}
 	for (auto& lobbyPlayer : _playerList) {
-		lobbyPlayer.updateHoverState(mousePosition);
+		lobbyPlayer->updateHoverState(mousePosition);
 	}
 }
 
@@ -90,8 +93,8 @@ void LobbyInterface::toggleNumberOfPlayers()
 
 void LobbyInterface::updatePlayerNumberStatus()
 {
-	_playerList.at(2).setEnabled(!_ruleSet->getOnlyTwoPlayers());
-	_playerList.at(3).setEnabled(!_ruleSet->getOnlyTwoPlayers());
+	_playerList.at(2)->setEnabled(!_ruleSet->getOnlyTwoPlayers());
+	_playerList.at(3)->setEnabled(!_ruleSet->getOnlyTwoPlayers());
 
 	_ruleStrings["twoPlayerPrefix"].setString(_ruleSet->getOnlyTwoPlayers() ? "Two Players:" : "Four Players:");
 	_ruleStrings["twoPlayerRule"].setString(_ruleSet->getOnlyTwoPlayers() ? "Reverse is Skip" : "Normal Rules for Reverse");
