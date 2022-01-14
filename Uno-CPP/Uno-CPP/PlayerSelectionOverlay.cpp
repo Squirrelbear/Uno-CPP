@@ -1,6 +1,6 @@
 #include "PlayerSelectionOverlay.h"
 
-PlayerSelectionOverlay::PlayerSelectionOverlay(const sf::IntRect & bounds, const sf::Font & font, std::vector<Player*> playerList)
+PlayerSelectionOverlay::PlayerSelectionOverlay(const sf::IntRect & bounds, std::vector<Player*> playerList, const sf::Font & font)
 	: WndInterface(bounds)
 {
 	setEnabled(false);

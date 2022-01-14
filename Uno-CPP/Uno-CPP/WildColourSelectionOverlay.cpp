@@ -9,6 +9,8 @@ WildColourSelectionOverlay::WildColourSelectionOverlay(const sf::IntRect & bound
 {
 	setEnabled(false);
 
+	// TODO Need to handle visual change based on selection.
+
 	_background = new DrawableObjectGroup();
 	DrawableShape* backgroundRect = new DrawableShape(new sf::RectangleShape(sf::Vector2f(bounds.width + 40-2, bounds.height + 60-2)),
 		sf::Color::Black, sf::Vector2f(bounds.left - 20+1, bounds.top - 40+1));
@@ -17,13 +19,14 @@ WildColourSelectionOverlay::WildColourSelectionOverlay(const sf::IntRect & bound
 	DrawableText* title = new DrawableText(sf::Vector2f(0, 0), "Choose Colour", font, 20, sf::Color::White, sf::Text::Bold);
 	title->setOffset(sf::Vector2f(bounds.left + bounds.width / 2 - title->getTextWidth() / 2, bounds.top - 5));
 	_background->addChild(title);
-	_background->setPositionWithOffset(sf::Vector2f(bounds.left, bounds.top));
-
+	
 	for (int i = 0; i < 4; i++) {
 		ArcShape* arcShape = new ArcShape(90 * i, 90 * (i + 1), sf::Vector2f( bounds.width / 2, bounds.height/2));
 		DrawableShape* arc = new DrawableShape(arcShape, Card::getColourByID(i), sf::Vector2f(bounds.left, bounds.top));
 		_background->addChild(arc);
 	}
+
+	_background->setPositionWithOffset(sf::Vector2f(bounds.left, bounds.top));
 }
 
 WildColourSelectionOverlay::~WildColourSelectionOverlay()

@@ -25,13 +25,32 @@ public:
 	 * @param bounds The bounds of the entire game area.
 	 * @param playerList Has the list of playerrs as required for the playerSelection overlay.
 	 */
-	OverlayManager(const sf::IntRect& bounds, std::vector<Player*> playerList);
+	OverlayManager(const sf::IntRect& bounds, std::vector<Player*> playerList, const sf::Font& font);
 	virtual ~OverlayManager();
 
-	// Inherited via WndInterface
+	/**
+	 * Updates all the active overlays and hides all the decision overlays if the TurnAction changed.
+	 *
+	 * @param deltaTime Time since last update.
+	 */
 	virtual void update(const float deltaTime) override;
+
+	// Draws all enabled overlays.
 	virtual void draw(sf::RenderWindow & renderWindow) const override;
+
+	/**
+	 * Passes the mousePress event on to all enabled overlays.
+	 *
+	 * @param mousePosition Position of the mouse cursor during the press.
+	 * @param isLeft        If true, the mouse button is left, otherwise is right.
+	 */
 	virtual void handleMousePress(const sf::Vector2i& mousePosition, bool isLeft) override;
+
+	/**
+	 * Passes the mouseMove event on to all enabled overlays.
+	 *
+	 * @param mousePosition Position of the mouse during this movement.
+	 */
 	virtual void handleMouseMove(const sf::Vector2i& mousePosition) override;
 
 	/**

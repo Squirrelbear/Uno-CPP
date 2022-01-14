@@ -1,54 +1,61 @@
 #include "OverlayManager.h"
 
+#include "WildColourSelectionOverlay.h"
+#include "KeepOrPlayOverlay.h"
+#include "PlayerFlashOverlay.h"
+#include "ChallengeOverlay.h"
+#include "StatusOverlay.h"
+#include "PlayerSelectionOverlay.h"
+#include "StackChoiceOverlay.h"
+#include "ChallengeSuccessOverlay.h"
+#include "ChallengeFailedOverlay.h"
+#include "UNOCalledOverlay.h"
 #include "TurnDecisionOverlayInterface.h"
 #include "GeneralOverlayInterface.h"
 #include <sstream>
+#include "Game.h"
 
-OverlayManager::OverlayManager(const sf::IntRect & bounds, std::vector<Player*> playerList)
+OverlayManager::OverlayManager(const sf::IntRect & bounds, std::vector<Player*> playerList, const sf::Font& font)
 	: WndInterface(bounds)
 {
-	/*
 	setEnabled(true);
-        overlays = new HashMap<>();
-        WildColourSelectorOverlay wildColourSelectorOverlay = new WildColourSelectorOverlay(new Position(bounds.width/2-100,bounds.height/2-100),200,200);
-        KeepOrPlayOverlay keepOrPlayOverlay = new KeepOrPlayOverlay(new Rectangle(new Position(0,0), bounds.width, bounds.height));
-        PlayerSelectionOverlay playerSelectionOverlay = new PlayerSelectionOverlay(new Rectangle(new Position(0,0), bounds.width, bounds.height), playerList);
-        StatusOverlay statusOverlay = new StatusOverlay(new Rectangle(new Position(0,0), bounds.width, bounds.height));
-        ChallengeOverlay challengeOverlay = new ChallengeOverlay(bounds);
-        StackChoiceOverlay stackChoiceOverlay = new StackChoiceOverlay(bounds);
-        overlays.put("wildColour", wildColourSelectorOverlay);
-        overlays.put("keepOrPlay", keepOrPlayOverlay);
-        overlays.put("otherPlayer", playerSelectionOverlay);
-        overlays.put("statusOverlay", statusOverlay);
-        overlays.put("isChallenging", challengeOverlay);
-        overlays.put("isStacking", stackChoiceOverlay);
+    WildColourSelectionOverlay* wildColourSelectionOverlay = new WildColourSelectionOverlay(sf::IntRect(bounds.width/2-100,bounds.height/2-100,200,200), font);
+    KeepOrPlayOverlay* keepOrPlayOverlay = new KeepOrPlayOverlay(bounds, font);
+    PlayerSelectionOverlay* playerSelectionOverlay = new PlayerSelectionOverlay(bounds, playerList, font);
+    StatusOverlay* statusOverlay = new StatusOverlay(bounds, font);
+    ChallengeOverlay* challengeOverlay = new ChallengeOverlay(bounds, font);
+    StackChoiceOverlay* stackChoiceOverlay = new StackChoiceOverlay(bounds, font);
+    _overlays["wildColour"] = wildColourSelectionOverlay;
+	_overlays["keepOrPlay"] = keepOrPlayOverlay;
+	_overlays["otherPlayer"] = playerSelectionOverlay;
+	_overlays["statusOverlay"] = statusOverlay;
+	_overlays["isChallenging"] = challengeOverlay;
+	_overlays["isStacking"] = stackChoiceOverlay;
 
-        UnoButton unoButton = new UnoButton(new Position(bounds.position.x + bounds.width - UnoButton.WIDTH-40,
-                bounds.position.y + bounds.height - UnoButton.HEIGHT-40));
-        AntiUnoButton antiUnoButton = new AntiUnoButton(new Position(bounds.position.x + bounds.width - UnoButton.WIDTH-40-100,
-                bounds.position.y + bounds.height - UnoButton.HEIGHT-40));
-        for(int i = 0; i < playerList.size(); i++) {
-            Position playerCentre = playerList.get(i).getCentreOfBounds();
-            PlayerFlashOverlay skipVisualOverlay = new PlayerFlashOverlay(playerCentre, "SKIPPED", Color.RED, 40);
-            overlays.put("SkipVisual"+i,skipVisualOverlay);
-            PlayerFlashOverlay drawNMessageOverlay = new PlayerFlashOverlay(playerCentre, "", Color.RED, 40);
-            overlays.put("DrawN"+i,drawNMessageOverlay);
-            ChallengeSuccessOverlay challengeSuccessOverlay = new ChallengeSuccessOverlay(new Rectangle(playerCentre, 100,100));
-            overlays.put("ChallengeSuccess"+i,challengeSuccessOverlay);
-            ChallengeFailedOverlay challengeFailedOverlay = new ChallengeFailedOverlay(new Rectangle(playerCentre, 100,100));
-            overlays.put("ChallengeFailed"+i,challengeFailedOverlay);
-            UNOCalledOverlay unoCalledOverlay = new UNOCalledOverlay(new Position(playerCentre.x,playerCentre.y+20));
-            overlays.put("UNOCalled"+i,unoCalledOverlay);
-            PlayerFlashOverlay antiUnoOverlay = new PlayerFlashOverlay(new Position(playerCentre.x,playerCentre.y+20),
-                    "!", new Color(226, 173, 67), 50);
-            overlays.put("AntiUnoCalled"+i,antiUnoOverlay);
-            PlayerFlashOverlay jumpInOverlay = new PlayerFlashOverlay(new Position(playerCentre.x,playerCentre.y+20),
-                    "JUMPED IN", Color.ORANGE, 40);
-            overlays.put("JumpIn"+i, jumpInOverlay);
-        }
-        overlays.put("UnoButton", unoButton);
-        overlays.put("antiUnoButton", antiUnoButton);
-	*/
+	// TODO after adding UnoButton and AntiUnoButton
+    /*UnoButton unoButton = new UnoButton(new Position(bounds.position.x + bounds.width - UnoButton.WIDTH-40,
+            bounds.position.y + bounds.height - UnoButton.HEIGHT-40));
+    AntiUnoButton antiUnoButton = new AntiUnoButton(new Position(bounds.position.x + bounds.width - UnoButton.WIDTH-40-100,
+            bounds.position.y + bounds.height - UnoButton.HEIGHT-40));*/
+    for(int i = 0; i < playerList.size(); i++) {
+        sf::Vector2f playerCentre = playerList.at(i)->getCentreOfBounds();
+        PlayerFlashOverlay* skipVisualOverlay = new PlayerFlashOverlay(playerCentre, "SKIPPED", sf::Color::Red, 40, font);
+		_overlays["SkipVisual"+i] = skipVisualOverlay;
+        PlayerFlashOverlay* drawNMessageOverlay = new PlayerFlashOverlay(playerCentre, "", sf::Color::Red, 40, font);
+		_overlays["DrawN"+i] = drawNMessageOverlay;
+        ChallengeSuccessOverlay* challengeSuccessOverlay = new ChallengeSuccessOverlay(sf::IntRect(playerCentre.x, playerCentre.y, 100,100));
+		_overlays["ChallengeSuccess"+i] = challengeSuccessOverlay;
+        ChallengeFailedOverlay* challengeFailedOverlay = new ChallengeFailedOverlay(sf::IntRect(playerCentre.x, playerCentre.y, 100, 100));
+		_overlays["ChallengeFailed"+i] = challengeFailedOverlay;
+        UNOCalledOverlay* unoCalledOverlay = new UNOCalledOverlay(sf::Vector2f(playerCentre.x,playerCentre.y+20), font);
+		_overlays["UNOCalled"+i] = unoCalledOverlay;
+        PlayerFlashOverlay* antiUnoOverlay = new PlayerFlashOverlay(sf::Vector2f(playerCentre.x,playerCentre.y+20), "!", sf::Color(226, 173, 67), 50, font);
+		_overlays["AntiUnoCalled"+i] = antiUnoOverlay;
+        PlayerFlashOverlay* jumpInOverlay = new PlayerFlashOverlay(sf::Vector2f(playerCentre.x,playerCentre.y+20), "JUMPED IN", sf::Color(255,215,0), 40, font);
+		_overlays["JumpIn"+i] = jumpInOverlay;
+    }
+	//_overlays["UnoButton"] = unoButton;
+	//_overlays["antiUnoButton"] = antiUnoButton;
 }
 
 OverlayManager::~OverlayManager()
@@ -60,7 +67,7 @@ OverlayManager::~OverlayManager()
 
 void OverlayManager::update(const float deltaTime)
 {
-	if (_overlayAction != _overlayAction) { // TODO: CurrentGameInterface.getCurrentGame().getCurrentTurnAction()
+	if (_overlayAction != Game::getCurrentGame()->getCurrentTurnAction()) {
 		_overlayAction = nullptr;
 		hideAllDecisionOverlays();
 	}
@@ -103,7 +110,7 @@ void OverlayManager::showDecisionOverlay(TurnDecisionAction * currentAction)
 {
 	if (currentAction->requiresTimeout()) {
 		setEnabled(true);
-		if (true) { // TODO: CurrentGameInterface.getCurrentGame().getCurrentPlayer().getPlayerType() == Player.PlayerType.ThisPlayer
+		if (Game::getCurrentGame()->getCurrentPlayer()->getPlayerType() == Player::PlayerType::ThisPlayer) {
 			WndInterface* overlayToShow = _overlays[currentAction->getFlagName()];
 			if (typeid(overlayToShow) == typeid(TurnDecisionOverlayInterface)) {
 				(dynamic_cast<TurnDecisionOverlayInterface*>(overlayToShow))->showOverlay(currentAction);
@@ -127,8 +134,7 @@ void OverlayManager::showGeneralOverlay(const std::string & overlayName)
 	if (typeid(overlayToShow) == typeid(GeneralOverlayInterface)) {
 		(dynamic_cast<GeneralOverlayInterface*>(overlayToShow))->showOverlay();
 		if (splitOverlayName.at(0).rfind("DrawN", 0) == 0) {
-			// TODO
-			//(dynamic_cast<PlayerFlashOverlay*>(overlayToShow))->setMessage("+"+splitOverlayName.at(1));
+			(dynamic_cast<PlayerFlashOverlay*>(overlayToShow))->setMessage("+"+splitOverlayName.at(1));
 		}
 	}
 }

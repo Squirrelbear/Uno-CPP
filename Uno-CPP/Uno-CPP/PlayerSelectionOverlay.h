@@ -23,7 +23,7 @@ public:
 	 *
 	 * @param bounds The bounds of the entire game area. The buttons are offset from the centre.
 	 */
-	PlayerSelectionOverlay(const sf::IntRect & bounds, const sf::Font & font, std::vector<Player*> playerList);
+	PlayerSelectionOverlay(const sf::IntRect & bounds, std::vector<Player*> playerList, const sf::Font & font);
 	virtual ~PlayerSelectionOverlay();
 
 	// Does nothing
