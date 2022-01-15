@@ -28,6 +28,7 @@ CurrentGameInterface::CurrentGameInterface(const sf::IntRect& bounds, const sf::
 	_overlayManager = new OverlayManager(bounds, playerList, font);
 	_recentCardPile.forcePlayCard(_deck->drawCard());
 	_debugModeEnabled = false;
+	_resultState = WndResultState::NothingState;
 }
 
 
@@ -259,6 +260,11 @@ Deck * CurrentGameInterface::getDeck() const
 	return _deck;
 }
 
+WndResultState CurrentGameInterface::getResultState() const
+{
+	return _resultState;
+}
+
 void CurrentGameInterface::checkForEndOfRound()
 {
 	for (auto player : _players) {
@@ -272,8 +278,7 @@ void CurrentGameInterface::checkForEndOfRound()
 			}
 			player->setCurrentRoundScore(totalScore);
 			player->setWon();
-			// TODO
-			//gamePanel.showPostGame(players, ruleSet);
+			_resultState = WndResultState::Finished;
 			return;
 		}
 	}

@@ -13,6 +13,8 @@ LobbyInterface::LobbyInterface(const sf::IntRect & bounds, const sf::Font & font
 
 	initialiseBackground(bounds, font);
 	initialiseRuleOptions(bounds, font);
+	// Default to Nothing and Finished when StartGame is pressed.
+	_resultState = WndResultState::NothingState;
 }
 
 LobbyInterface::~LobbyInterface()
@@ -78,12 +80,16 @@ std::vector<LobbyPlayer*> LobbyInterface::getLobbyPlayerList() const
 	return _playerList;
 }
 
+WndResultState LobbyInterface::getResultState() const
+{
+	return _resultState;
+}
+
 void LobbyInterface::handleButtonPress(const int actionID)
 {
 	switch (actionID) {
 		case 1: toggleNumberOfPlayers(); break;
-		// TODO need to add start game.
-		//case 2: gamePanel.startGame(playerList, ruleSet); break;
+		case 2: _resultState = WndResultState::Finished; break;
 		case 3: toggleStackRule(); break;
 		case 4: toggleDrawTillCanPlayRule(); break;
 		case 5: toggleSevenZeroRule(); break;

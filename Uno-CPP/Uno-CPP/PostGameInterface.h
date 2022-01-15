@@ -47,6 +47,9 @@ public:
 	 */
 	virtual void handleMouseMove(const sf::Vector2i& mousePosition) override;
 
+	// Returns Nothing when interface is still in use, Finished for Continue, Menu for Lobby
+	WndResultState getResultState() const override;
+
 private:
 	// List of buttons visible on the interface.
 	std::vector<Button> _buttonList;
@@ -54,6 +57,8 @@ private:
 	std::vector<Player*> _playerList;
 	// Static interface elements
 	DrawableObjectGroup* _staticElements;
+	// Result state that changes to Finished for Continue, Menu for Lobby
+	WndResultState _resultState;
 
 	/**
 	 * Looks up the action to apply based on an actionID for a button.

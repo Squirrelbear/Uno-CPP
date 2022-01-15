@@ -3,7 +3,8 @@
 
 CurrentGameInterface* Game::_currentGame = nullptr;
 
-Game::Game()
+Game::Game(const sf::IntRect& gameBounds, const sf::Font& font)
+	:	_bounds(gameBounds), _font(font)
 {
 	unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
 	randomEngine = std::default_random_engine(seed);
@@ -11,7 +12,10 @@ Game::Game()
 	_currentGame = nullptr;
 	_lobbyInterface = nullptr;
 	_postGameInterface = nullptr;
-	_pauseInterface = nullptr;
+	_pauseInterface = new PauseInterface(sf::IntRect(gameBounds.width / 2 - 100, gameBounds.height / 2 - 100, 200, 200), gameBounds, font);
+	_pauseInterface->setEnabled(false);
+
+	showLobby();
 }
 
 Game::~Game()
@@ -34,6 +38,24 @@ void Game::update(const float deltaTime)
 {
 	if (_activeInterface != nullptr) {
 		_activeInterface->update(deltaTime);
+
+		// Move to next state if necessary
+		if (_activeInterface->getResultState() != WndResultState::NothingState) {
+			if (_activeInterface == _lobbyInterface) {
+				startGame();
+			}
+			else if (_activeInterface == _currentGame) {
+				showPostGame();
+			}
+			else if (_activeInterface == _postGameInterface) {
+				if (_activeInterface->getResultState() == WndResultState::Menu) {
+					showLobby();
+				}
+				else {
+					startNextRound();
+				}
+			}
+		}
 	}
 }
 

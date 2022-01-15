@@ -2,6 +2,8 @@
 
 #include <SFML/Graphics.hpp>
 
+enum WndResultState { NothingState, Finished, Restart, Menu, Quit };
+
 /**
  * Uno
  *
@@ -72,6 +74,9 @@ public:
 	 * @return True if the object is enabled.
 	 */
 	bool isEnabled() const { return _isEnabled; }
+
+	// By default this method returns WndResultState::Nothing unless overriden.
+	virtual WndResultState getResultState() const { return WndResultState::NothingState; };
 
 protected:
 	// Bounds of this interface.

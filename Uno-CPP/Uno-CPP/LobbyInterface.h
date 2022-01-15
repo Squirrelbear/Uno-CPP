@@ -55,6 +55,9 @@ public:
 	// Gets the list of players defined in the lobby.
 	std::vector<LobbyPlayer*> getLobbyPlayerList() const;
 
+	// Returns either Nothing when interface is still in use, or Finished when StartGame is pressed.
+	WndResultState getResultState() const override;
+
 private:
 	// List of the players. Always contains 4. Those that are enabled are considered active.
 	std::vector<LobbyPlayer*> _playerList;
@@ -66,6 +69,8 @@ private:
 	std::map<std::string, sf::Text> _ruleStrings;
 	// Static background elements
 	DrawableObjectGroup* _background;
+	// Result state that changes to Finished when StartGame is pressed.
+	WndResultState _resultState;
 
 	/**
 	 * Handles the button actions by mapping the IDs to actions.

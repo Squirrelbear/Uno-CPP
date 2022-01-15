@@ -8,7 +8,7 @@
 class Game
 {
 public:
-	Game();
+	Game(const sf::IntRect& gameBounds, const sf::Font& font);
 	virtual ~Game();
 
 	void update(const float deltaTime);

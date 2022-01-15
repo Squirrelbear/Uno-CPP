@@ -160,6 +160,10 @@ public:
 	 * @return A reference to the Deck.
 	 */
 	Deck* getDeck() const;
+
+	// Returns Nothing when interface is still in use, Finished to move to PostGame.
+	WndResultState getResultState() const override;
+
 private:
 	// The rules for what card actions are set and other specific changes to how the game is played.
 	RuleSet* _ruleSet;
@@ -183,6 +187,8 @@ private:
 	PlayDirectionAnimation* _playDirectionAnimation;
 	// DEBUG MODE
 	bool _debugModeEnabled;
+	// Result state that changes to Finished when round ends.
+	WndResultState _resultState;
 
 	// Checks if there is currently a player who has won the game and initiates end game conditions once found.
 	void checkForEndOfRound();

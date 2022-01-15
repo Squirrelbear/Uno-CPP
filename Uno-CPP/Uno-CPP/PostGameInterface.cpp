@@ -5,6 +5,7 @@ PostGameInterface::PostGameInterface(const sf::IntRect & bounds, const sf::Font 
 	: WndInterface(bounds), _playerList(playerList)
 {
 	initialiseInterface(font, ruleSet);
+	_resultState = WndResultState::NothingState;
 }
 
 PostGameInterface::~PostGameInterface()
@@ -37,17 +38,19 @@ void PostGameInterface::handleMouseMove(const sf::Vector2i & mousePosition)
 	}
 }
 
+WndResultState PostGameInterface::getResultState() const
+{
+	return _resultState;
+}
+
 void PostGameInterface::handleButtonPress(const int actionID)
 {
-	// TODO
-	/*
-	        switch(actionID) {
-            case 1 -> gamePanel.showLobby();
-            case 2 -> gamePanel.startNextRound(players, ruleSet);
-            case 3 -> { players.forEach(Player::resetScore);
-        gamePanel.startNextRound(players, ruleSet); }
-        }
-	*/
+	switch(actionID) {
+		case 1: _resultState = WndResultState::Menu; break;
+		case 3: 
+			for (auto player : _playerList) { player->resetScore(); } // flow through to next case
+		case 2: _resultState = WndResultState::Finished; break; 
+	}
 }
 
 void PostGameInterface::initialiseInterface(const sf::Font & font, RuleSet * ruleSet)
