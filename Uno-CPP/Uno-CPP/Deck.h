@@ -34,7 +34,7 @@ public:
 	 *
 	 * @param g Reference to the Graphics object for rendering.
 	 */
-	void draw(sf::RenderWindow& renderWindow);
+	void draw(sf::RenderWindow& renderWindow) const;
 
 	/**
 	 * If the deck is empty it is populated with a new deck.

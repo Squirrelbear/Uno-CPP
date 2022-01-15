@@ -24,10 +24,26 @@ public:
 	CurrentGameInterface(const sf::IntRect& bounds, const sf::Font& font, const std::vector<Player*>& playerList, RuleSet* ruleSet, std::default_random_engine& randomEngine);
 	virtual ~CurrentGameInterface();
 
-	// Inherited via WndInterface
+	// Updates all the game components that need to be updated on a timer.
 	virtual void update(const float deltaTime) override;
+
+	// Draws all the game elements that are available.
 	virtual void draw(sf::RenderWindow & renderWindow) const override;
+
+	/**
+	 * Does nothing if not enabled. Passes the interaction to the overlay manager,
+	 * and allows the player to interact with the deck/their cards when it is their turn.
+	 *
+	 * @param mousePosition Position of the mouse cursor during the press.
+	 * @param isLeft        If true, the mouse button is left, otherwise is right.
+	 */
 	virtual void handleMousePress(const sf::Vector2i& mousePosition, bool isLeft) override;
+
+	/**
+	 * Does nothing if not enabled. Passes the mouse movement to the overlay manager and bottom player.
+	 *
+	 * @param mousePosition Position of the mouse during this movement.
+	 */
 	virtual void handleMouseMove(const sf::Vector2i& mousePosition) override;
 
 	/**
@@ -139,11 +155,11 @@ private:
 	RuleSet* _ruleSet;
 
 	// The deck of cards ready to have cards drawn from it.
-	Deck _deck;
+	Deck* _deck;
 	// A history of cards that have been played.
 	RecentCardPile _recentCardPile;
 	// A manager controlling the various overlays that are shown based on events during the game.
-	OverlayManager _overlayManager;
+	OverlayManager* _overlayManager;
 
 	// All the players that are currently playing including their hands and other details.
 	std::vector<Player*> _players;
@@ -151,6 +167,8 @@ private:
 	Player* _bottomPlayer;
 	// The current player who is in control of actions.
 	int _currentPlayerID;
+	// TODO
+	bool _isIncreasing;
 
 	// Checks if there is currently a player who has won the game and initiates end game conditions once found.
 	void checkForEndOfRound();

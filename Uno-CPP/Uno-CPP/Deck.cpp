@@ -17,7 +17,7 @@ Deck::~Deck()
 		delete p;
 }
 
-void Deck::draw(sf::RenderWindow & renderWindow)
+void Deck::draw(sf::RenderWindow & renderWindow) const
 {
 	_cardBack->drawAt(_position, renderWindow);
 	_deckTitle.draw(renderWindow);
