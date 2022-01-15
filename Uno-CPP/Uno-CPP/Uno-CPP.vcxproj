@@ -142,6 +142,7 @@
     <ClCompile Include="ChallengeSuccessOverlay.cpp" />
     <ClCompile Include="CurrentGameInterface.cpp" />
     <ClCompile Include="Deck.cpp" />
+    <ClCompile Include="DrawableLine.cpp" />
     <ClCompile Include="DrawableObjectGroup.cpp" />
     <ClCompile Include="DrawableShape.cpp" />
     <ClCompile Include="DrawableText.cpp" />
@@ -159,6 +160,7 @@
     <ClCompile Include="PlayerFlashOverlay.cpp" />
     <ClCompile Include="PlayerSelectionOverlay.cpp" />
     <ClCompile Include="PolygonShape.cpp" />
+    <ClCompile Include="PostGameInterface.cpp" />
     <ClCompile Include="RecentCardPile.cpp" />
     <ClCompile Include="RuleSet.cpp" />
     <ClCompile Include="StackChoiceOverlay.cpp" />
@@ -183,6 +185,7 @@
     <ClInclude Include="ChallengeSuccessOverlay.h" />
     <ClInclude Include="CurrentGameInterface.h" />
     <ClInclude Include="Deck.h" />
+    <ClInclude Include="DrawableLine.h" />
     <ClInclude Include="DrawableObject.h" />
     <ClInclude Include="DrawableObjectGroup.h" />
     <ClInclude Include="DrawableShape.h" />
@@ -202,6 +205,7 @@
     <ClInclude Include="PlayerFlashOverlay.h" />
     <ClInclude Include="PlayerSelectionOverlay.h" />
     <ClInclude Include="PolygonShape.h" />
+    <ClInclude Include="PostGameInterface.h" />
     <ClInclude Include="RecentCardPile.h" />
     <ClInclude Include="RuleSet.h" />
     <ClInclude Include="StackChoiceOverlay.h" />
