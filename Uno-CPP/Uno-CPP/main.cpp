@@ -66,8 +66,8 @@ int main()
 
 	//PauseInterface pauseInterface(sf::IntRect(1280/2-100, 720/2-100, 200, 200), sf::IntRect(0,0,1280,720), font);
 	LobbyInterface lobbyInterface(sf::IntRect(0, 0, 1280, 720), font);
-	UnoButton testButton(sf::Vector2f(100, 100), font);
-	AntiUnoButton testButton2(sf::Vector2f(300, 100), font);
+	//UnoButton testButton(sf::Vector2f(100, 100), font);
+	//AntiUnoButton testButton2(sf::Vector2f(300, 100), font);
 
 
 	sf::Clock clock;
@@ -81,13 +81,16 @@ int main()
 			if (event.type == sf::Event::Closed)
 				window.close();
 			if (event.type == sf::Event::MouseButtonPressed) {
-				testButton.handleMousePress(sf::Mouse::getPosition(), true);
+				//testButton.handleMousePress(sf::Mouse::getPosition(), true);
 				lobbyInterface.handleMousePress(sf::Vector2i(event.mouseButton.x, event.mouseButton.y), true);
 			}
 			if (event.type == sf::Event::MouseMoved) {
-				testButton.handleMouseMove(sf::Vector2i(event.mouseMove.x, event.mouseMove.y));
-				testButton2.handleMouseMove(sf::Vector2i(event.mouseMove.x, event.mouseMove.y));
+				//testButton.handleMouseMove(sf::Vector2i(event.mouseMove.x, event.mouseMove.y));
+				//testButton2.handleMouseMove(sf::Vector2i(event.mouseMove.x, event.mouseMove.y));
 				lobbyInterface.handleMouseMove(sf::Vector2i(event.mouseMove.x, event.mouseMove.y));
+			}
+			if (event.type == sf::Event::KeyPressed) {
+				
 			}
 		}
 		//test.move(sf::Vector2f(0.1f, 0.1f));

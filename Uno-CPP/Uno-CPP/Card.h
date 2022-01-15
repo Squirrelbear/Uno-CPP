@@ -24,8 +24,8 @@ public:
 	Card(const int faceValueID, const int colourID, const int cardID);
 	~Card();
 
-	//void drawCardFront() const;
-	//void drawCardBack() const;
+	void drawCardFront(sf::RenderWindow & renderWindow) const;
+	void drawCardBack(sf::RenderWindow & renderWindow) const;
 
 	void setColour(const int colourID);
 	int getColourID() const;

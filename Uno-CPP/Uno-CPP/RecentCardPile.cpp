@@ -12,6 +12,13 @@ RecentCardPile::~RecentCardPile()
 	}
 }
 
+void RecentCardPile::draw(sf::RenderWindow & renderWindow) const
+{
+	for (const auto& card : _recentCards) {
+		card->drawCardFront(renderWindow);
+	}
+}
+
 void RecentCardPile::setTopCardColour(const int colourID)
 {
 	_recentCards.at(_recentCards.size() - 1)->setColour(colourID);

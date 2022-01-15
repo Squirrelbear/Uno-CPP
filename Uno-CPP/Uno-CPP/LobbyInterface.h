@@ -49,6 +49,12 @@ public:
 	 */
 	void handleMouseMove(const sf::Vector2i& mousePosition) override;
 
+	// Gets the ruleset defined from this interface.
+	RuleSet* getRuleSet() const;
+
+	// Gets the list of players defined in the lobby.
+	std::vector<LobbyPlayer*> getLobbyPlayerList() const;
+
 private:
 	// List of the players. Always contains 4. Those that are enabled are considered active.
 	std::vector<LobbyPlayer*> _playerList;

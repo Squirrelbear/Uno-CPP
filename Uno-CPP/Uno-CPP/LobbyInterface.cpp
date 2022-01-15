@@ -68,6 +68,16 @@ void LobbyInterface::handleMouseMove(const sf::Vector2i & mousePosition)
 	}
 }
 
+RuleSet * LobbyInterface::getRuleSet() const
+{
+	return _ruleSet;
+}
+
+std::vector<LobbyPlayer*> LobbyInterface::getLobbyPlayerList() const
+{
+	return _playerList;
+}
+
 void LobbyInterface::handleButtonPress(const int actionID)
 {
 	switch (actionID) {

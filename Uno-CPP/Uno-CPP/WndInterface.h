@@ -43,14 +43,21 @@ public:
 	 * @param mousePosition Position of the mouse cursor during the press.
 	 * @param isLeft If true, the mouse button is left, otherwise is right.
 	 */
-	virtual void handleMousePress(const sf::Vector2i& mousePosition, bool isLeft) {}
+	virtual void handleMousePress(const sf::Vector2i& mousePosition, bool isLeft) {};
 
 	/**
 	 * Handle updates related to the mouse being moved.
 	 *
 	 * @param mousePosition Position of the mouse during this movement.
 	 */
-	virtual void handleMouseMove(const sf::Vector2i& mousePosition) {}
+	virtual void handleMouseMove(const sf::Vector2i& mousePosition) {};
+
+	/**
+	 * Handles the key input from a keyboard action.
+	 *
+	 * @param keyCode The key that was pressed.
+	 */
+	virtual void handleKeyInput(const sf::Keyboard::Key key) {};
 
 	/**
 	 * Change the enabled state of this object.

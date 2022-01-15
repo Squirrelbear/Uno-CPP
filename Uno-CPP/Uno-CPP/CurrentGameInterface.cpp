@@ -1,8 +1,11 @@
 #include "CurrentGameInterface.h"
 
+CurrentGameInterface::CurrentGameInterface(const sf::IntRect& bounds, const sf::Font& font, const std::vector<LobbyPlayer*> playerList, RuleSet* ruleSet, std::default_random_engine& randomEngine) 
+	: CurrentGameInterface(bounds, font, createPlayersFromLobby(playerList, bounds), ruleSet, randomEngine)
+{
+}
 
-
-CurrentGameInterface::CurrentGameInterface(const sf::IntRect& bounds, const sf::Font& font, const std::vector<Player*>& playerList, RuleSet* ruleSet, std::default_random_engine& randomEngine)
+CurrentGameInterface::CurrentGameInterface(const sf::IntRect& bounds, const sf::Font& font, const std::vector<Player*> playerList, RuleSet* ruleSet, std::default_random_engine& randomEngine)
 	: WndInterface(bounds), _recentCardPile(sf::Vector2f(bounds.width / 2 - 30, bounds.height / 2 - 45))
 {
 	_ruleSet = ruleSet;
@@ -18,25 +21,27 @@ CurrentGameInterface::CurrentGameInterface(const sf::IntRect& bounds, const sf::
 		}
 	}
 	_currentPlayerID = randomEngine() % playerList.size();
-	//  isIncreasing = (Math.random() * 100 < 50); // TODO
-	// TODO PlayDirection Animation: 
-	// set isIncreasing PlayDir
+	_isIncreasing = randomEngine() % 100 < 50;
+	_playDirectionAnimation = new PlayDirectionAnimation(sf::Vector2f(bounds.width / 2, bounds.height / 2), 120, 5);
+	_playDirectionAnimation->setIsIncreasing(_isIncreasing);
 
 	_overlayManager = new OverlayManager(bounds, playerList, font);
 	_recentCardPile.forcePlayCard(_deck->drawCard());
+	_debugModeEnabled = false;
 }
 
 
 CurrentGameInterface::~CurrentGameInterface()
 {
 	delete _overlayManager;
+	delete _playDirectionAnimation;
 }
 
 void CurrentGameInterface::update(const float deltaTime)
 {
 	if (!isEnabled()) return;
 
-	//_playDirectionAnimation.update(deltaTime); // TODO
+	_playDirectionAnimation->update(deltaTime);
 	_overlayManager->update(deltaTime);
 	updateTurnAction();
 	for (auto player : _players) {
@@ -48,12 +53,12 @@ void CurrentGameInterface::update(const float deltaTime)
 void CurrentGameInterface::draw(sf::RenderWindow & renderWindow) const
 {
 	_deck->draw(renderWindow);
-	// _recentCardPile.draw(renderWindow); // TODO
+	_recentCardPile.draw(renderWindow);
 	for (const auto player : _players) {
 		player->draw(renderWindow);
 	}
 	_overlayManager->draw(renderWindow);
-	//_playDirectionAnimation.draw(renderWindow);
+	_playDirectionAnimation->draw(renderWindow);
 }
 
 void CurrentGameInterface::handleMousePress(const sf::Vector2i & mousePosition, bool isLeft)
@@ -89,6 +94,40 @@ void CurrentGameInterface::handleMouseMove(const sf::Vector2i & mousePosition)
 
 	_overlayManager->handleMouseMove(mousePosition);
 	_bottomPlayer->updateHover(mousePosition);
+}
+
+void CurrentGameInterface::handleKeyInput(const sf::Keyboard::Key key)
+{
+	if (key == sf::Keyboard::Key::Q) {
+		sortHand();
+	}
+	else if (key == sf::Keyboard::Key::Num0) {
+		_debugModeEnabled = !_debugModeEnabled;
+	}
+	else if (_debugModeEnabled && key == sf::Keyboard::Key::Num9) {
+		revealHands();
+	}
+	else if (_debugModeEnabled && key == sf::Keyboard::Key::Num8) {
+		toggleTurnDirection();
+	}
+	else if (_debugModeEnabled && key == sf::Keyboard::Key::Num7) {
+		_bottomPlayer->emptyHand();
+	}
+	else if (_debugModeEnabled && key == sf::Keyboard::Key::Num6) {
+		_bottomPlayer->removeCard(_bottomPlayer->getHand().at(0));
+	}
+	else if (_debugModeEnabled && key == sf::Keyboard::Key::Num5) {
+		// TODO
+		//debugShowTreeOnNewAction = !debugShowTreeOnNewAction;
+	}
+	else if (_debugModeEnabled && key == sf::Keyboard::Key::Num4) {
+		// TODO
+		//debugShowTaskActionNotes = !debugShowTaskActionNotes;
+	}
+	else {
+		// Note: The OverlayManager does not actually use the keys at all, but could be used in future.
+		_overlayManager->handleKeyInput(key);
+	}
 }
 
 void CurrentGameInterface::jumpIn(const int playerID, Card * cardToPlay)
@@ -136,8 +175,8 @@ Player * CurrentGameInterface::getBottomPlayer() const
 
 void CurrentGameInterface::toggleTurnDirection()
 {
-	/*isIncreasing = !isIncreasing;
-	playDirectionAnimation.setIsIncreasing(isIncreasing);*/
+	_isIncreasing = !_isIncreasing;
+	_playDirectionAnimation->setIsIncreasing(_isIncreasing);
 }
 
 void CurrentGameInterface::moveToNextPlayer()
@@ -168,8 +207,7 @@ void CurrentGameInterface::applyAntiUno(const int playerID)
 
 bool CurrentGameInterface::isIncreasing() const
 {
-	// TODO
-	return false;
+	return _isIncreasing;
 }
 
 void CurrentGameInterface::setCurrentTurnAction(TurnAction * turnAction)
@@ -275,7 +313,7 @@ void CurrentGameInterface::updateUNOState()
 	}
 }
 
-std::vector<Player*> CurrentGameInterface::createPlayersFromLobby(const std::vector<LobbyPlayer*>& playerList, sf::IntRect & bounds)
+std::vector<Player*> CurrentGameInterface::createPlayersFromLobby(const std::vector<LobbyPlayer*> playerList, sf::IntRect bounds)
 {
 	/*
 	        List<Player> result = new ArrayList<>();

@@ -8,6 +8,9 @@ public:
 	RecentCardPile(const sf::Vector2f centredCardPos);
 	virtual ~RecentCardPile();
 
+	// Draw the cards on the pile.
+	void draw(sf::RenderWindow & renderWindow) const;
+
 	/**
 	 * Changes the top card colour. Used for changing the colour of the wild and +4 cards.
 	 *

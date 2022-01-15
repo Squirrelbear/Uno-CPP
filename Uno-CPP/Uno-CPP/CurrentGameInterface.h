@@ -4,6 +4,7 @@
 #include "RecentCardPile.h"
 #include "LobbyPlayer.h"
 #include "OverlayManager.h"
+#include "PlayDirectionAnimation.h"
 #include "RuleSet.h"
 #include <vector>
 
@@ -21,7 +22,9 @@ class CurrentGameInterface :
 	public WndInterface
 {
 public:
-	CurrentGameInterface(const sf::IntRect& bounds, const sf::Font& font, const std::vector<Player*>& playerList, RuleSet* ruleSet, std::default_random_engine& randomEngine);
+	CurrentGameInterface(const sf::IntRect& bounds, const sf::Font& font, const std::vector<LobbyPlayer*> playerList, RuleSet* ruleSet, std::default_random_engine& randomEngine);
+
+	CurrentGameInterface(const sf::IntRect& bounds, const sf::Font& font, const std::vector<Player*> playerList, RuleSet* ruleSet, std::default_random_engine& randomEngine);
 	virtual ~CurrentGameInterface();
 
 	// Updates all the game components that need to be updated on a timer.
@@ -45,6 +48,13 @@ public:
 	 * @param mousePosition Position of the mouse during this movement.
 	 */
 	virtual void handleMouseMove(const sf::Vector2i& mousePosition) override;
+
+	/**
+	 * Handles the key events for this interface.
+	 *
+	 * @param keyCode The key that was pressed.
+	 */
+	virtual void handleKeyInput(const sf::Keyboard::Key key) override;
 
 	/**
 	 * Verifies the card can be played as a jump in and then swaps the current player,
@@ -167,8 +177,12 @@ private:
 	Player* _bottomPlayer;
 	// The current player who is in control of actions.
 	int _currentPlayerID;
-	// TODO
+	// Turn order increasing (true) means clockwise, or false would be anti-clockwise.
 	bool _isIncreasing;
+	// Animation to show the direction of turn order.
+	PlayDirectionAnimation* _playDirectionAnimation;
+	// DEBUG MODE
+	bool _debugModeEnabled;
 
 	// Checks if there is currently a player who has won the game and initiates end game conditions once found.
 	void checkForEndOfRound();
@@ -185,7 +199,7 @@ private:
 	 * @param playerList A list of player data to generate a collection.
 	 * @param bounds The bounds to use for calculating offsets and regions.
 	 */
-	static std::vector<Player*> createPlayersFromLobby(const std::vector<LobbyPlayer*>& playerList, sf::IntRect& bounds);
+	static std::vector<Player*> createPlayersFromLobby(const std::vector<LobbyPlayer*> playerList, sf::IntRect bounds);
 	/**
 	 * Generates bounds for where a player's cards should be placed.
 	 *

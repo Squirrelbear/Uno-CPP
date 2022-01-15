@@ -12,6 +12,16 @@ Card::~Card()
 {
 }
 
+void Card::drawCardFront(sf::RenderWindow & renderWindow) const
+{
+	// TODO
+}
+
+void Card::drawCardBack(sf::RenderWindow & renderWindow) const
+{
+	// TODO
+}
+
 void Card::setColour(const int colourID)
 {
 	_colourID = colourID;
