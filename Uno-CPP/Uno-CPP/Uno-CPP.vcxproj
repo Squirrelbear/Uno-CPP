@@ -166,6 +166,7 @@
     <ClCompile Include="StackChoiceOverlay.cpp" />
     <ClCompile Include="StatusOverlay.cpp" />
     <ClCompile Include="TurnAction.cpp" />
+    <ClCompile Include="TurnActionFactory.cpp" />
     <ClCompile Include="TurnActionSequence.cpp" />
     <ClCompile Include="TurnDecisionAction.cpp" />
     <ClCompile Include="UnoButton.cpp" />
@@ -212,6 +213,8 @@
     <ClInclude Include="StatusOverlay.h" />
     <ClInclude Include="StringUtility.h" />
     <ClInclude Include="TurnAction.h" />
+    <ClInclude Include="TurnActionEffect.h" />
+    <ClInclude Include="TurnActionFactory.h" />
     <ClInclude Include="TurnActionSequence.h" />
     <ClInclude Include="TurnDecisionAction.h" />
     <ClInclude Include="TurnDecisionOverlayInterface.h" />

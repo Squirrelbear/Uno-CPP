@@ -30,7 +30,7 @@ public:
 	* @param actionID The action to be performed via performAction().
 	* @param actionDebugText Text to be used to describe the current state in debug output.
 	*/
-	TurnDecisionAction(TurnAction* next, TurnAction* otherNext, const bool timeOut, const std::string& flagName, TurnActionSequence<TurnAction>& parentSequence, const int actionID, const std::string& actionDebugText);
+	TurnDecisionAction(TurnAction* next, TurnAction* otherNext, const bool timeOut, const std::string& flagName, TurnActionSequence<TurnAction>* parentSequence, const TurnActionEffect actionID, const std::string& actionDebugText);
 	virtual ~TurnDecisionAction() = default;
 
 	/**

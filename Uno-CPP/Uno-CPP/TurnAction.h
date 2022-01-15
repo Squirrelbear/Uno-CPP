@@ -2,6 +2,7 @@
 
 #include "TurnActionSequence.h"
 #include <string>
+#include "TurnActionEffect.h"
 
 /**
  * Uno
@@ -24,7 +25,7 @@ public:
 	* @param actionID The action to be performed via performAction().
 	* @param actionDebugText Text to be used to describe the current state in debug output.
 	*/
-	TurnAction(TurnAction* next, TurnActionSequence<TurnAction>& parentSequence, const int actionID, const std::string& actionDebugText);
+	TurnAction(TurnAction* next, TurnActionSequence<TurnAction>* parentSequence, const TurnActionEffect actionID, const std::string& actionDebugText);
 	virtual ~TurnAction() = default;
 
 	// Calls the action associated with this TurnAction.
@@ -45,9 +46,9 @@ public:
 
 protected:
 	// Reference to the parent for accessing shared data for the sequence and executing the actions.
-	TurnActionSequence<TurnAction>& _parent;
+	TurnActionSequence<TurnAction>* _parent;
 	// Reference to the action to be executed by this TurnAction during performAction().
-	const int _actionID;
+	const TurnActionEffect _actionID;
 	// Reference to the next TurnAction in the linked list sequence. This can be null to indicate the end.
 	TurnAction* _next;
 	// Text to be used to describe the current state in debug output.

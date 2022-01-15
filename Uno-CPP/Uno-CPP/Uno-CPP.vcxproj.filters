@@ -138,6 +138,9 @@
     <ClCompile Include="DrawableLine.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="TurnActionFactory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Card.h">
@@ -276,6 +279,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="DrawableLine.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TurnActionFactory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TurnActionEffect.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -1,8 +1,9 @@
 #include "TurnAction.h"
 
-TurnAction::TurnAction(TurnAction * next, TurnActionSequence<TurnAction>& parentSequence, const int actionID, const std::string & actionDebugText)
-	: _parent(parentSequence), _next(next), _actionID(actionID), _actionDebugText(actionDebugText)
+TurnAction::TurnAction(TurnAction * next, TurnActionSequence<TurnAction>* parentSequence, const TurnActionEffect actionID, const std::string & actionDebugText)
+	: _next(next), _actionID(actionID), _actionDebugText(actionDebugText)
 {
+	_parent = parentSequence;
 }
 
 void TurnAction::performAction()
@@ -19,10 +20,10 @@ TurnAction * TurnAction::getNext()
 
 void TurnAction::injectProperty(const std::string & key, const int value)
 {
-	_parent.injectProperty(key, value);
+	_parent->injectProperty(key, value);
 }
 
 int TurnAction::getPropertyValue(const std::string & key) const
 {
-	return _parent.getPropertyValue(key);
+	return _parent->getPropertyValue(key);
 }
