@@ -48,6 +48,9 @@ public:
 	// Gets the debug text describing this TurnAction
 	std::string getActionDebugText() const;
 
+	// Method to expose the next action with no variable state.
+	TurnAction* getNextPointer() const;
+
 protected:
 	// Reference to the parent for accessing shared data for the sequence and executing the actions.
 	TurnActionSequence<TurnAction>* _parent;

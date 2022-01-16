@@ -32,3 +32,8 @@ std::string TurnAction::getActionDebugText() const
 {
 	return _actionDebugText;
 }
+
+TurnAction * TurnAction::getNextPointer() const
+{
+	return _next;
+}

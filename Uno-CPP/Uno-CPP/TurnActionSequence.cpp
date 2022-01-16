@@ -7,7 +7,32 @@
 template<class T>
 TurnActionSequence<T>::TurnActionSequence()
 {
+	_currentAction = nullptr;
 	_ruleSet = Game::getCurrentGame()->getRuleSet();
+}
+
+template<class T>
+TurnActionSequence<T>::~TurnActionSequence()
+{
+	flushTurnActions();
+}
+
+template<class T>
+void TurnActionSequence<T>::setStartOfSequence(T * startAction)
+{
+	// Do nothing for generic case
+}
+
+void TurnActionSequence<TurnAction>::setStartOfSequence(TurnAction * startAction)
+{
+	// This should not happen, but if the method has been previously called force the sequence to dump everything.
+	if (!_unorderedSequence.empty()) {
+		flushTurnActions();
+	}
+
+	// Set the currentAction to the start and parse the tree to find all pointers for ownership
+	_currentAction = startAction;
+	loadAllPointers(_currentAction);
 }
 
 template<class T>
@@ -52,16 +77,14 @@ void TurnActionSequence<T>::playCardAsActionFromData()
 	TurnActionSequence<TurnAction>* playCard = playCardAsAction(getPropertyValue("playerID"), getPropertyValue("cardID"),
 		getPropertyValue("faceValueID"), getPropertyValue("colourID"));
 	playCard->injectProperty("drawCount", getPropertyValue("drawCount"));
-	// TODO
-	//Game::getCurrentGame()->setCurrentTurnAction(playCard);
+	Game::getCurrentGame()->setCurrentTurnAction(playCard);
 }
 
 template<class T>
 void TurnActionSequence<T>::drawCardAsActionFromData()
 {
 	TurnActionSequence<TurnAction>* drawCardSequence = TurnActionFactory::drawCardAsAction(getPropertyValue("playerID"));
-	// TODO
-	// Game::getCurrentGame()->setCurrentTurnAction(drawCardSequence);
+	Game::getCurrentGame()->setCurrentTurnAction(drawCardSequence);
 }
 
 template<class T>
@@ -299,3 +322,30 @@ void TurnActionSequence<T>::checkForcedPlayRule()
 {
 	injectProperty("isForcedPlay", _ruleSet->getForcedPlayRule() ? 1 : 0);
 }
+
+template<class T>
+void TurnActionSequence<T>::flushTurnActions()
+{
+	for (auto p : _unorderedSequence) {
+		delete p;
+	}
+	_unorderedSequence.clear();
+}
+
+template<class T>
+void TurnActionSequence<T>::loadAllPointers(T * actionToAdd)
+{
+	if (actionToAdd == nullptr) return;
+
+	// If the pointer is not already in the list
+	if (std::find(_unorderedSequence.begin(), _unorderedSequence.end(), actionToAdd) != _unorderedSequence.end()) {
+		_unorderedSequence.emplace_back(actionToAdd);
+	}
+
+	if (typeid(actionToAdd) == typeid(TurnDecisionAction*)) {
+		loadAllPointers(dynamic_cast<TurnDecisionAction*>(actionToAdd)->getOtherNextPointer());
+	}
+	loadAllPointers(actionToAdd->getNextPointer());
+}
+
+

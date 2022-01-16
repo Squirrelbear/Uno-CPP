@@ -19,10 +19,10 @@ class TurnActionSequence
 public:
 	// Initialises an empty sequence of TurnAction objects.
 	TurnActionSequence();
-	virtual ~TurnActionSequence() = default;
+	virtual ~TurnActionSequence();
 
 	// Links in a TurnAction as the start of a sequence and parses the tree to find all unique pointers
-	// TODO
+	void setStartOfSequence(T* startAction);
 
 	/**
 	 * Stores the specified data into the storedData map to be used for future iterations.
@@ -41,10 +41,13 @@ public:
 private:
 	// Unique list referencing all objects in the sequence so they can be properly deleted 
 	std::vector<T*> _unorderedSequence;
+
 	// Reference to the current action.
 	T* _currentAction;
+
 	// The data used as a shared reference for the sequence. TurnAction objects have access to this.
 	std::map<std::string, int> _storedData;
+
 	// Reference to the RuleSet for determining rules to follow during sequences.
 	RuleSet* _ruleSet;
 
@@ -181,4 +184,10 @@ private:
 
 	// Checks the forced play rule.
 	void checkForcedPlayRule();
+
+	// Wipes out all TurnAction objects and clears their pointers.
+	void flushTurnActions();
+
+	// Recursively add all TurnActions to _unorderedSequence
+	void loadAllPointers(T* actionToAdd);
 };

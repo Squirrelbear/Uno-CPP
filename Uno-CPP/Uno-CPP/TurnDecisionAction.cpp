@@ -8,15 +8,10 @@ TurnDecisionAction::TurnDecisionAction(TurnAction * next, TurnAction * otherNext
 
 TurnAction * TurnDecisionAction::getNext()
 {
-	// TODO
-	/*
-	if(storedData.containsKey(flagName)) {
-                return (storedData.get(flagName) == 0) ? next : otherNext;
-            }
-            return this;
-	*/
-	
-	return nullptr;
+	if(getPropertyValue(_flagName) != -1) {
+        return (getPropertyValue(_flagName) == 0) ? _next : _otherNext;
+    }
+    return this;
 }
 
 void TurnDecisionAction::performAction()
@@ -50,4 +45,9 @@ bool TurnDecisionAction::getHasRunOnce() const
 bool TurnDecisionAction::getTimeOut() const
 {
 	return _timeOut;
+}
+
+TurnAction * TurnDecisionAction::getOtherNextPointer() const
+{
+	return _otherNext;
 }

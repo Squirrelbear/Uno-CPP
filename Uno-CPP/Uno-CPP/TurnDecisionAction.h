@@ -69,6 +69,9 @@ public:
 	// When true, the TurnDecisionAction has a time limit to complete it.
 	bool getTimeOut() const;
 
+	// Method to expose the next action with no variable state.
+	TurnAction* getOtherNextPointer() const;
+
 private:
 	// When true, the TurnDecisionAction has a time limit to complete it.
 	bool _timeOut;
