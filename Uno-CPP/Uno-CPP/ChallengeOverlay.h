@@ -62,10 +62,13 @@ public:
 private:
 	// List of buttons that can be used in the overlay. Includes a Challenge and Decline button.
 	std::vector<Button> _buttonList;
+
 	// Reference to the TurnAction that triggered the display of this overlay.
 	TurnDecisionAction* _currentAction;
+
 	// When true via the RuleSet the player's cards can be stacked if possible.
 	bool _allowStacking;
+
 	// Reference to the player to be used for card selection when stacking is allowed.
 	Player* _playerReference;
 };

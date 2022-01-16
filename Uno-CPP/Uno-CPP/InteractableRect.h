@@ -24,6 +24,7 @@ public:
 	}
 
 protected:
+	// The bounds of the rectangle used for isPositionInside().
 	sf::IntRect _bounds;
 };
 

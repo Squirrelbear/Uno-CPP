@@ -74,28 +74,40 @@ public:
 private:
 	// The name shown for the player.
 	std::string _playerName;
+
 	// The type of player(ThisPlayer, AIPlayer).
 	Player::PlayerType _playerType;
+
 	// The strategy to use for the AIPlayer type.
 	AIPlayer::AIStrategy _aiStrategy;
+
 	// A String showing the text version of the strategy.
 	std::string _strategyStr;
+
 	// Visible and included in the collection of players when true.
 	bool _isEnabled;
+
 	// True when the mouse is over the player.
 	bool _isHovered;
+
 	// String representing the type of player.
 	std::string _playerTypeStr;
+
 	// All drawable elements
 	DrawableObjectGroup* _drawableObject;
+
 	// Background Rect referenced for changing colour on hover.
 	DrawableShape* _background;
+
 	// Background colour when hovered
 	sf::Color _bgHoverColour;
+
 	// Background colour when not hovered
 	sf::Color _bgNotHoveredColour;
+
 	// Player Name Element
 	DrawableText* _playerNameText;
+
 	// AI Strategy Element
 	DrawableText* _aiStrategyText;
 
@@ -105,6 +117,7 @@ private:
 	 * at 12 characters long. It will do nothing if there is not at least 1 valid character.
 	 */
 	void chooseNewName();
+
 	// Iterates through the list of AI Strategies to the next one.
 	void iterateStrategy();
 };

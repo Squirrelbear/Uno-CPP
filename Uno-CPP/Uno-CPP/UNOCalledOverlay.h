@@ -26,6 +26,7 @@ public:
 	void draw(sf::RenderWindow & renderWindow) const override;
 
 private:
+	// The letters to be draw when this overlay is active.
 	std::vector<sf::Text> _UNOLetters;
 };
 

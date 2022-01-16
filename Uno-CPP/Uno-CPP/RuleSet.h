@@ -24,6 +24,7 @@ public:
 	RuleSet();
 	virtual ~RuleSet() = default;
 
+	// Sets all the rules to their default states.
 	void setToDefaults();
 
 	/**

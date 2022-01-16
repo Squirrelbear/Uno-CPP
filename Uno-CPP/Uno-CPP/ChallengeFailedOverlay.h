@@ -40,6 +40,7 @@ public:
 private:
 	// Timer till the overlay is hidden again.
 	float _displayTimer;
+
 	// A cross that will be flashed using the display timer when overlay is enabled.
 	PolygonShape* _crossShape;
 };

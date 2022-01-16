@@ -5,6 +5,15 @@
 #include "Button.h"
 #include "CardFrontObjectGroup.h"
 
+/**
+ * Uno
+ *
+ * KeepOrPlayOverlay class:
+ * Used when the player has to choose to keep or play a card that has been drawn.
+ *
+ * @author Peter Mitchell
+ * @version 2022.1
+ */
 class KeepOrPlayOverlay
 	: public WndInterface, public TurnDecisionOverlayInterface
 {
@@ -50,12 +59,16 @@ public:
 private:
 	// Reference to the font.
 	const sf::Font& _font;
+
 	// List of buttons consisting of the Keep and Play buttons.
 	std::vector<Button> _buttonList;
+
 	// Reference to the TurnAction that triggered the display of this overlay.
 	TurnDecisionAction* _currentAction;
+
 	// Reference to the dummy card that the overlay is making a decision about.
 	CardFrontObjectGroup* _cardForChoice;
+
 	// Position where the card in question is to be placed.
 	sf::Vector2f _cardPosition;
 };

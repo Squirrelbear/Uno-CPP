@@ -67,6 +67,7 @@ private:
 	 */
 	void handleButtonPress(const int actionID);
 
+	// Initialises all the visual elements of the interface.
 	void initialiseInterface(const sf::Font& font, RuleSet* ruleSet);
 };
 

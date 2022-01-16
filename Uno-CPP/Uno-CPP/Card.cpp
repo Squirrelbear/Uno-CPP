@@ -21,8 +21,7 @@ void Card::drawCardFront(sf::RenderWindow & renderWindow) const
 
 void Card::drawCardBack(sf::RenderWindow & renderWindow) const
 {
-	_cardBack->setPositionWithOffset(sf::Vector2f(_bounds.left, _bounds.top));
-	_cardBack->draw(renderWindow);
+	_cardBack->drawAt(sf::Vector2f(_bounds.left, _bounds.top), renderWindow);
 }
 
 void Card::setColour(const int colourID)

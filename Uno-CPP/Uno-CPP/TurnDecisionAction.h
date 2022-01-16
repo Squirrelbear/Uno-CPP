@@ -60,6 +60,7 @@ public:
 	// Returns true when the decision action requires a timeout for limiting interaction.
 	bool requiresTimeout() const;
 
+	// Gets the name used as a state variable for the decision.
 	std::string getFlagName() const;
 
 private:

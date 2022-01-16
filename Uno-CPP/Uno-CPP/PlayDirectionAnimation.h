@@ -2,6 +2,16 @@
 
 #include <SFML/Graphics.hpp>
 
+/**
+ * Uno
+ *
+ * PlayDirectionAnimation class:
+ * Represents a pair for orbs that circle clockwise or anti-clockwise to
+ * show the direction of play for turn order.
+ * 
+ * @author Peter Mitchell
+ * @version 2022.1
+ */
 class PlayDirectionAnimation
 {
 public:

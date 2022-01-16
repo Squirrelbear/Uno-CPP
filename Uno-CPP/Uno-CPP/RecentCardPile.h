@@ -2,9 +2,19 @@
 
 #include "Card.h"
 
+/**
+ * Uno
+ *
+ * RecentCardPile class:
+ * Defines the place where cards are dumped after being played. Pile automatically clears itself after reaching a bounded size.
+ *
+ * @author Peter Mitchell
+ * @version 2022.1
+ */
 class RecentCardPile
 {
 public:
+	// Initialises the empty pile at the specified position.
 	RecentCardPile(const sf::Vector2f centredCardPos);
 	virtual ~RecentCardPile();
 
@@ -45,6 +55,7 @@ public:
 private:
 	// A history of cards that have been played.
 	std::vector<Card*> _recentCards;
+	// Centre point used to randomly spread cards around.
 	sf::Vector2f _centredCardPos;
 };
 

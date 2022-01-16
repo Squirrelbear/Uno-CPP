@@ -47,6 +47,7 @@ public:
 	 */
 	void update(const float deltaTime) override;
 
+	// Converts the AIStrategyfrom an enum into its std::string equivalent.
 	static std::string aiStrategyToString(const AIStrategy strategy);
 
 private:
@@ -55,17 +56,23 @@ private:
 
 	// The Strategy to be used for selecting how cards are played.
 	AIStrategy _strategy;
+
 	// Timer used for delaying between actions.
 	float _delayTimer;
+
 	// ID of the player being considered for calling out.
 	int _consideringPlayerID;
+
 	// Delay till a decision is made about calling out.
 	float _consideringDelayTimer;
+
 	/** When true the current situation allows for a jump in.
 	 * The transition from false to true is used to evaluate considerJumpIn. */
 	bool _canJumpIn;
+
 	// When true the AIPlayer has chosen to jump in after the period consideringJumpInTimer.
 	bool _consideringJumpIn;
+
 	// Timer till a jump in is executed if still allowed.
 	float _consideringJumpInTimer;
 

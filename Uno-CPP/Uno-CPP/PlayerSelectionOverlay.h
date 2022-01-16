@@ -28,6 +28,7 @@ public:
 
 	// Does nothing
 	virtual void update(const float deltaTime) override {}
+
 	// Draws all the buttons.
 	virtual void draw(sf::RenderWindow & renderWindow) const override;
 
@@ -57,6 +58,7 @@ public:
 private:
 	// List of buttons that can be used in the overlay. Includes a Challenge and Decline button.
 	std::vector<Button> _buttonList;
+
 	// Reference to the TurnAction that triggered the display of this overlay.
 	TurnDecisionAction* _currentAction;
 };

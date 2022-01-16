@@ -36,14 +36,17 @@ public:
 protected:
 	// Current hover status of the button.
 	bool _isHovered;
+
 	// When isActive is active the button can be interacted with and is visible.
 	bool _isActive;
 
 private:
 	// Background colour
 	sf::Color _bgColour;
+
 	// Shape that increases in size when hovered.
 	DrawableShape* _hoverShape;
+
 	// Text shown on top of the oval.
 	DrawableObjectGroup* _text;
 };

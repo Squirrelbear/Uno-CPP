@@ -29,15 +29,18 @@ public:
 
 	// Do nothing during update.
 	virtual void update(const float deltaTime) override {}
+
 	// Draws the background elements and buttons on top.
 	virtual void draw(sf::RenderWindow & renderWindow) const override;
 
 private:
 	// The static background elements of the interface initialised by initialiseInterface().
 	DrawableObjectGroup* _interfaceBackground;
+
 	// A list of all the buttons in the interface.
 	std::vector<Button> _buttonList;
 
+	// Initialises all the visual elements in the interface.
 	void initialiseInterface(const sf::IntRect & bounds, const sf::IntRect& gameBounds, const sf::Font & font);
 };
 

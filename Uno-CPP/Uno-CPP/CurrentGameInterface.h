@@ -22,8 +22,16 @@ class CurrentGameInterface :
 	public WndInterface
 {
 public:
+	/**
+	 * Initialise the interface with bounds and make it enabled. Use this version when coming from the Lobby for
+	 * a new set of rounds.
+	 */
 	CurrentGameInterface(const sf::IntRect& bounds, const sf::Font& font, const std::vector<LobbyPlayer*> playerList, RuleSet* ruleSet, std::default_random_engine& randomEngine);
 
+	/**
+	 * Initialise the interface with bounds and make it enabled. Use this version when coming from
+	 * after a game has already been completed and the sequence of games is continuing.
+	 */
 	CurrentGameInterface(const sf::IntRect& bounds, const sf::Font& font, const std::vector<Player*> playerList, RuleSet* ruleSet, std::default_random_engine& randomEngine);
 	virtual ~CurrentGameInterface();
 
@@ -170,23 +178,31 @@ private:
 
 	// The deck of cards ready to have cards drawn from it.
 	Deck* _deck;
+
 	// A history of cards that have been played.
 	RecentCardPile _recentCardPile;
+
 	// A manager controlling the various overlays that are shown based on events during the game.
 	OverlayManager* _overlayManager;
 
 	// All the players that are currently playing including their hands and other details.
 	std::vector<Player*> _players;
+
 	// Reference to the player who is playing the game.
 	Player* _bottomPlayer;
+
 	// The current player who is in control of actions.
 	int _currentPlayerID;
+
 	// Turn order increasing (true) means clockwise, or false would be anti-clockwise.
 	bool _isIncreasing;
+
 	// Animation to show the direction of turn order.
 	PlayDirectionAnimation* _playDirectionAnimation;
+
 	// DEBUG MODE
 	bool _debugModeEnabled;
+
 	// Result state that changes to Finished when round ends.
 	WndResultState _resultState;
 

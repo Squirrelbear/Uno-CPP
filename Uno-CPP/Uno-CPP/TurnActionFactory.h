@@ -3,6 +3,16 @@
 #include "TurnActionSequence.h"
 #include "TurnDecisionAction.h"
 
+/*
+UNO
+
+TurnActionFactory class:
+Used to generate sequences of actions that start with either playing a card or drawing a card.
+The whole sequence in generated with all possible options and stored into a TurnActionSequence.
+
+@author Peter Mitchell
+@version 2022.1
+*/
 static class TurnActionFactory
 {
 public:

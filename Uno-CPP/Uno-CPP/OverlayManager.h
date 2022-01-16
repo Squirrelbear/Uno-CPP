@@ -74,6 +74,7 @@ public:
 private:
 	// Interfaces mapped to unique strings.
 	std::map<std::string, WndInterface*> _overlays;
+
 	// Current action for an active TurnDecisionAction.
 	TurnDecisionAction* _overlayAction;
 };

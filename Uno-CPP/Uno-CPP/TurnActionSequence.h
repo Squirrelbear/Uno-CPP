@@ -4,15 +4,25 @@
 #include <vector>
 #include <map>
 
+/*
+UNO
+
+TurnActionSequence class:
+Manages the control of a sequence of TurnAction objects. Simulates a linked list with multiple linear pathways.
+
+@author Peter Mitchell
+@version 2022.1
+*/
 template <class T>
 class TurnActionSequence
 {
 public:
+	// Initialises an empty sequence of TurnAction objects.
 	TurnActionSequence();
 	virtual ~TurnActionSequence() = default;
 
 	// Links in a TurnAction as the start of a sequence and parses the tree to find all unique pointers
-
+	// TODO
 
 	/**
 	 * Stores the specified data into the storedData map to be used for future iterations.
@@ -29,9 +39,13 @@ public:
 	RuleSet* getRuleSet();
 
 private:
+	// Unique list referencing all objects in the sequence so they can be properly deleted 
 	std::vector<T*> _unorderedSequence;
+	// Reference to the current action.
 	T* _currentAction;
+	// The data used as a shared reference for the sequence. TurnAction objects have access to this.
 	std::map<std::string, int> _storedData;
+	// Reference to the RuleSet for determining rules to follow during sequences.
 	RuleSet* _ruleSet;
 
 	/**

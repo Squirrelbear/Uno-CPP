@@ -2,6 +2,15 @@
 
 #include "DrawableObject.h"
 
+/**
+ * Uno
+ *
+ * DrawableLine class:
+ * Defines a sequence of points that can be drawn.
+ *
+ * @author Peter Mitchell
+ * @version 2022.1
+ */
 class DrawableLine : public DrawableObject
 {
 public:
@@ -11,14 +20,17 @@ public:
 
 	// Draw the line.
 	virtual void draw(sf::RenderWindow & renderWindow) const override;
+
 	// Do nothing
 	virtual void setPositionWithOffset(const sf::Vector2f & position) override {}
+
 	// Do nothing
 	virtual void move(const sf::Vector2f & offset) override {}
 
 private:
 	// Number of points
 	std::size_t _elementCount;
+
 	// Points to draw
 	sf::Vertex* _line;
 
