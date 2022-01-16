@@ -110,7 +110,7 @@ private:
 	 * @param validCards A collection of cards that are all valid to be played.
 	 * @return A single valid card selected to be played.
 	 */
-	Card* chooseCard(const std::vector<Card*>& validCards);
+	Card* chooseCard(std::vector<Card*>& validCards);
 
 	/**
 	 * Checks the flagName of the decisionAction to determine an

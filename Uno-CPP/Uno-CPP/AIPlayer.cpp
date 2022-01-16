@@ -158,7 +158,7 @@ void AIPlayer::resetDelayTimer()
 	_delayTimer = 1500;
 }
 
-Card * AIPlayer::chooseCard(const std::vector<Card*>& validCards)
+Card * AIPlayer::chooseCard(std::vector<Card*>& validCards)
 {
 	if (_strategy == AIStrategy::Chaotic) {
 		return validCards.at(_randomEngine() % validCards.size());
