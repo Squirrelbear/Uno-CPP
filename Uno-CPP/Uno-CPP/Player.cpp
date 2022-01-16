@@ -86,14 +86,12 @@ std::vector<Card*> Player::getValidMoves(const int curFaceValue, const int curCo
 
 void Player::sortHand()
 {
-	// TODO
-	/*
-	        Comparator<Card> compareByCard = Comparator
-                .comparing(Card::getColourID)
-                .thenComparing(Card::getFaceValueID);
-        hand.sort(compareByCard);
-        recalculateCardPositions();
-	*/
+	// Sort first by colour and then by faceValue
+	std::sort(_hand.begin(), _hand.end(), [](Card* a, Card* b) { 
+		if(a->getColourID() != b->getColourID()) return a->getColourID() < b->getColourID();
+		else return a->getFaceValueID() < b->getFaceValueID();
+		});
+	recalculateCardPositions();
 }
 
 void Player::updateHover(const sf::Vector2i & mousePosition)

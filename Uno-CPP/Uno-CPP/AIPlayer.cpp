@@ -139,18 +139,16 @@ void AIPlayer::updateJumpInCheck(const int deltaTime)
 
 void AIPlayer::performTurn()
 {
-	/*
-	        Card topCard = CurrentGameInterface.getCurrentGame().getTopCard();
-        List<Card> validMoves = getValidMoves(topCard.getFaceValueID(), topCard.getColourID());
-        if(validMoves.isEmpty()) {
-            CurrentGameInterface.getCurrentGame().setCurrentTurnAction(TurnActionFactory.drawCardAsAction(getPlayerID()));
-        } else {
-            Card cardToPlay = chooseCard(validMoves);
-            checkCallUNO();
-            CurrentGameInterface.getCurrentGame().setCurrentTurnAction(TurnActionFactory.playCardAsAction(
-                    getPlayerID(), cardToPlay.getCardID(), cardToPlay.getFaceValueID(), cardToPlay.getColourID()));
-        }
-	*/
+	/*Card* topCard = Game::getCurrentGame()->getTopCard();
+    std::vector<Card*> validMoves = getValidMoves(topCard->getFaceValueID(), topCard->getColourID());
+    if(validMoves.empty()) {
+        Game::getCurrentGame()->setCurrentTurnAction(TurnActionFactory::drawCardAsAction(getPlayerID()));
+    } else {
+        Card* cardToPlay = chooseCard(validMoves);
+        checkCallUNO();
+        Game::getCurrentGame()->setCurrentTurnAction(TurnActionFactory::playCardAsAction(
+                getPlayerID(), cardToPlay->getCardID(), cardToPlay->getFaceValueID(), cardToPlay->getColourID()));
+    }*/
 }
 
 void AIPlayer::resetDelayTimer()

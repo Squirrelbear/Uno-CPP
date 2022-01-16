@@ -201,30 +201,43 @@ public:
 private:
 	// The unique ID for this player.
 	const int _playerID;
+
 	// The name for this player.
 	std::string _playerName;
+
 	// The type of player. (ThisPlayer, or AIPlayer).
 	const PlayerType _playerType;
+
 	// The region for drawing the player's cards.
 	const sf::IntRect _bounds;
+
 	// The collection of cards contained in the player's hand.
 	std::vector<Card*> _hand;
+
 	// The card that the player is currently hovering their mouse over.
 	Card* _hoveredCard;
+
 	// When true the cards for this player are revealed face-up.
 	bool _showCards;
+
 	// The total score between multiple rounds for this player.
 	int _totalScore;
+
 	// The score for a single round for this player.
 	int _currentRoundScore;
+
 	// When true this player won the current round. ecessary to store this because a score could be 0 is all other players only have 0s in their hands.
 	bool _wonRound;
+
 	// When true, the player's name is centred to the left side of the bounds, otherwise it is centred on the top.
 	const bool _showPlayerNameLeft;
+
 	// The current UNOState that can be Safe, Called, or NotSafe.
 	UNOState _unoState;
+
 	// Name tag
 	DrawableObjectGroup* _nameTag;
+
 	// Reference to text to change its colour based on current player ID (handled via _nameTag for rendering).
 	DrawableText* _playerNameText;
 
