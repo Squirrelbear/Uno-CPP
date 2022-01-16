@@ -170,6 +170,9 @@ public:
 	 */
 	Deck* getDeck() const;
 
+	// Gets the recently played cards.
+	RecentCardPile* getRecentCardPile() const;
+
 	// Returns Nothing when interface is still in use, Finished to move to PostGame.
 	WndResultState getResultState() const override;
 
@@ -184,7 +187,7 @@ private:
 	TurnActionSequenceManager* _turnActionSequenceManager;
 
 	// A history of cards that have been played.
-	RecentCardPile _recentCardPile;
+	RecentCardPile* _recentCardPile;
 
 	// A manager controlling the various overlays that are shown based on events during the game.
 	OverlayManager* _overlayManager;

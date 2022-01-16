@@ -66,6 +66,9 @@ public:
 	// When true this decision has run its action once already meaning it should not rerun the action.
 	bool getHasRunOnce() const;
 
+	// When true, the TurnDecisionAction has a time limit to complete it.
+	bool getTimeOut() const;
+
 private:
 	// When true, the TurnDecisionAction has a time limit to complete it.
 	bool _timeOut;

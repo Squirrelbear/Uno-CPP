@@ -1,4 +1,7 @@
 #include "AIPlayer.h"
+#include "Game.h"
+#include <algorithm>
+#include "TurnActionFactory.h"
 
 AIPlayer::AIPlayer(const int playerID, const std::string & playerName, const sf::IntRect bounds, const AIStrategy strategy, const bool showPlayerNameLeft, std::default_random_engine& randomEngine, const sf::Font& font)
 	: Player(playerID, playerName, PlayerType::AIPlayer, bounds, showPlayerNameLeft, font), _randomEngine(randomEngine)
@@ -19,9 +22,9 @@ void AIPlayer::update(const float deltaTime)
 	updateJumpInCheck(deltaTime);
 
 	// Do nothing more if this is not the current player.
-	/*if (CurrentGameInterface.getCurrentGame().getCurrentPlayer().getPlayerID() != getPlayerID()) {
+	if (Game::getCurrentGame()->getCurrentPlayer()->getPlayerID() != getPlayerID()) {
 		return;
-	}*/
+	}
 
 	// Delay until
 	_delayTimer -= deltaTime;
@@ -32,22 +35,21 @@ void AIPlayer::update(const float deltaTime)
 		return;
 	}
 
-	// TODO
-
 	// If there is no turn action to deal with it means that the player is performing their regular turn
-	/*if (CurrentGameInterface.getCurrentGame().getCurrentTurnAction() == nullptr) {
-		performTurn();
+	TurnAction* currentTurnAction = Game::getCurrentGame()->getCurrentTurnAction();
+	if (currentTurnAction == nullptr) {
+		Card* topCard = Game::getCurrentGame()->getRecentCardPile()->getTopCard();
+		Game::getCurrentGame()->setCurrentTurnAction(performTurn(topCard));
 	}
 	else {
 		// Handle the turn action if it is necessary
-		TurnActionFactory.TurnAction currentAction = CurrentGameInterface.getCurrentGame().getCurrentTurnAction();
-		if (currentAction instanceof TurnActionFactory.TurnDecisionAction) {
-			TurnActionFactory.TurnDecisionAction decisionAction = (TurnActionFactory.TurnDecisionAction) currentAction;
-			if (decisionAction.timeOut) {
+		if (typeid(currentTurnAction) == typeid(TurnDecisionAction)) {
+			TurnDecisionAction* decisionAction = dynamic_cast<TurnDecisionAction*>(currentTurnAction);
+			if (decisionAction->getTimeOut()) {
 				handleTurnDecision(decisionAction);
 			}
 		}
-	}*/
+	}
 }
 
 std::string AIPlayer::aiStrategyToString(const AIStrategy strategy)
@@ -72,83 +74,81 @@ void AIPlayer::selectRandomStrategy()
 
 void AIPlayer::updateAntiUnoCheck(const int deltaTime)
 {
-	/*
-	        for(Player player : CurrentGameInterface.getCurrentGame().getAllPlayers()) {
-            if(player != this && !player.isSafe() && player.getHand().size() == 1) {
-                if(consideringPlayerID != player.getPlayerID()) {
-                    consideringDelayTimer = Math.random() * 800 + 200;
-                }
-                consideringPlayerID = player.getPlayerID();
+	for(auto player : Game::getCurrentGame()->getAllPlayers()) {
+        if(player != this && !player->isSafe() && player->getHand().size() == 1) {
+            if(_consideringPlayerID != player->getPlayerID()) {
+                _consideringDelayTimer = _randomEngine() % 800 + 200;
+            }
+            _consideringPlayerID = player->getPlayerID();
+        }
+    }
+    if(_consideringPlayerID == -1 || Game::getCurrentGame()->getPlayerByID(_consideringPlayerID)->isSafe()) {
+        _consideringPlayerID = -1;
+    } else {
+        _consideringDelayTimer -= deltaTime;
+        if(_consideringDelayTimer <= 0) {
+            _consideringDelayTimer = _randomEngine() % 1200 + 300;
+            if(_randomEngine() % 100 < 30) {
+                Game::getCurrentGame()->applyAntiUno(_consideringPlayerID);
             }
         }
-        if(consideringPlayerID == -1 || CurrentGameInterface.getCurrentGame().getPlayerByID(consideringPlayerID).isSafe()) {
-            consideringPlayerID = -1;
-        } else {
-            consideringDelayTimer -= deltaTime;
-            if(consideringDelayTimer <= 0) {
-                consideringDelayTimer = Math.random() * 1200 + 300;
-                if(Math.random() * 100 < 30) {
-                    CurrentGameInterface.getCurrentGame().applyAntiUno(consideringPlayerID);
-                }
-            }
-        }
-	*/
+    }
 }
 
 void AIPlayer::updateJumpInCheck(const int deltaTime)
 {
-	/*
-	if(CurrentGameInterface.getCurrentGame().getRuleSet().allowJumpInRule()
-                && CurrentGameInterface.getCurrentGame().getCurrentTurnAction() == null
-                && CurrentGameInterface.getCurrentGame().getCurrentPlayer() != this) {
-            Card topCard = CurrentGameInterface.getCurrentGame().getTopCard();
-            List<Card> validCards = getHand().stream()
-                    .filter(card -> card.getFaceValueID() == topCard.getFaceValueID()
-                                    && card.getColourID() == topCard.getColourID())
-                    .collect(Collectors.toList());
-            if(!validCards.isEmpty()) {
-                if(!canJumpIn) {
-                    consideringJumpIn = Math.random() * 100 < 80;
-                    consideringJumpInTimer = Math.random() * 200 + 100;
-                }
-                canJumpIn = true;
-            } else {
-                canJumpIn = false;
-                consideringJumpIn = false;
-            }
-        } else {
-            canJumpIn = false;
-            consideringJumpIn = false;
-        }
+	if(Game::getCurrentGame()->getRuleSet()->allowJumpInRule()
+			&& Game::getCurrentGame()->getCurrentTurnAction() == nullptr
+			&& Game::getCurrentGame()->getCurrentPlayer() != this) {
+		Card* topCard = Game::getCurrentGame()->getRecentCardPile()->getTopCard();
+		std::vector<Card*> validCards;
+		for (auto card : getHand()) {
+			if (card->getFaceValueID() == topCard->getFaceValueID()
+				&& card->getColourID() == topCard->getColourID()) {
+				validCards.emplace_back(card);
+			}
+		}
 
-        if(consideringJumpIn) {
-            consideringJumpInTimer -= deltaTime;
-            if(consideringJumpInTimer <= 0) {
-                Card topCard = CurrentGameInterface.getCurrentGame().getTopCard();
-                List<Card> validCards = getHand().stream()
-                        .filter(card -> card.getFaceValueID() == topCard.getFaceValueID()
-                                && card.getColourID() == topCard.getColourID())
-                        .collect(Collectors.toList());
-                if(!validCards.isEmpty()) {
-                    CurrentGameInterface.getCurrentGame().jumpIn(getPlayerID(), validCards.get(0));
-                }
-            }
-        }
-	*/
+		if(!validCards.empty()) {
+			if(!_canJumpIn) {
+				_consideringJumpIn = _randomEngine() % 100 < 80;
+				_consideringJumpInTimer = _randomEngine() % 200 + 100;
+			}
+			_canJumpIn = true;
+		} else {
+			_canJumpIn = false;
+			_consideringJumpIn = false;
+		}
+	} else {
+		_canJumpIn = false;
+		_consideringJumpIn = false;
+	}
+
+	if(_consideringJumpIn) {
+		_consideringJumpInTimer -= deltaTime;
+		if(_consideringJumpInTimer <= 0) {
+			Card* topCard = Game::getCurrentGame()->getRecentCardPile()->getTopCard();
+			for (auto card : getHand()) {
+				if (card->getFaceValueID() == topCard->getFaceValueID()
+					&& card->getColourID() == topCard->getColourID()) {
+					Game::getCurrentGame()->jumpIn(getPlayerID(), card);
+					return;
+				}
+			}
+		}
+	}
 }
 
-void AIPlayer::performTurn()
+TurnActionSequence<TurnAction>* AIPlayer::performTurn(Card* topCard)
 {
-	/*Card* topCard = Game::getCurrentGame()->getTopCard();
     std::vector<Card*> validMoves = getValidMoves(topCard->getFaceValueID(), topCard->getColourID());
     if(validMoves.empty()) {
-        Game::getCurrentGame()->setCurrentTurnAction(TurnActionFactory::drawCardAsAction(getPlayerID()));
+        return TurnActionFactory::drawCardAsAction(getPlayerID());
     } else {
         Card* cardToPlay = chooseCard(validMoves);
         checkCallUNO();
-        Game::getCurrentGame()->setCurrentTurnAction(TurnActionFactory::playCardAsAction(
-                getPlayerID(), cardToPlay->getCardID(), cardToPlay->getFaceValueID(), cardToPlay->getColourID()));
-    }*/
+        return TurnActionFactory::playCardAsAction(getPlayerID(), cardToPlay->getUniqueCardID(), cardToPlay->getFaceValueID(), cardToPlay->getColourID());
+    }
 }
 
 void AIPlayer::resetDelayTimer()
@@ -170,5 +170,109 @@ Card * AIPlayer::chooseCard(std::vector<Card*>& validCards)
 	}
 	else { // Offensive
 		return validCards.at(0);
+	}
+}
+
+void AIPlayer::handleTurnDecision(TurnDecisionAction * decisionAction)
+{
+	if (decisionAction->getFlagName() == "wildColour") {
+		chooseWildColour(decisionAction);
+	}
+	else if (decisionAction->getFlagName() == "keepOrPlay") {
+		chooseKeepOrPlay(decisionAction);
+	}
+	else if (decisionAction->getFlagName() == "otherPlayer") {
+		choosePlayerToSwapWith(decisionAction);
+	}
+	else if (decisionAction->getFlagName() == "isChallenging") {
+		chooseChallengeOrDecline(decisionAction);
+	}
+	else if (decisionAction->getFlagName() == "isStacking") {
+		chooseStackPlus2(decisionAction);
+	}
+}
+
+void AIPlayer::chooseWildColour(TurnDecisionAction * decisionAction)
+{
+	std::vector<Card*> colouredHandCards;
+	for (auto card : getHand()) {
+		if (card->getColourID() != 4) {
+			colouredHandCards.emplace_back(card);
+		}
+	}
+
+	// No cards, or only wilds, or rare 10% chance: randomly choose colour
+	if (colouredHandCards.empty() || _randomEngine() % 100 > 90) {
+		decisionAction->injectProperty("colourID", _randomEngine() % 4);
+	}
+	else { // Use first coloured card
+		decisionAction->injectProperty("colourID", colouredHandCards.at(0)->getColourID());
+	}
+	decisionAction->injectFlagProperty(1);
+}
+
+void AIPlayer::chooseKeepOrPlay(TurnDecisionAction * decisionAction)
+{
+	checkCallUNO();
+	decisionAction->injectFlagProperty(1);
+}
+
+void AIPlayer::choosePlayerToSwapWith(TurnDecisionAction * decisionAction)
+{
+	Player* chosenPlayer = this;
+	int cardCount = 9999;
+	for (auto player : Game::getCurrentGame()->getAllPlayers()) {
+		if (player->getHand().size() < cardCount && player != this) {
+			chosenPlayer = player;
+			cardCount = chosenPlayer->getHand().size();
+		}
+	}
+	decisionAction->injectFlagProperty(chosenPlayer->getPlayerID());
+}
+
+void AIPlayer::chooseChallengeOrDecline(TurnDecisionAction * decisionAction)
+{
+	// Always stack a card if it is allowed and available.
+	if (Game::getCurrentGame()->getRuleSet()->canStackCards()) {
+		auto validCard = std::find_if(getHand().begin(), getHand().end(), [](Card* card) { return card->getFaceValueID() == 13; });
+		if (validCard != getHand().end()) {
+			checkCallUNO();
+			decisionAction->injectProperty("faceValueID", (*validCard)->getFaceValueID());
+			decisionAction->injectProperty("colourID", (*validCard)->getColourID());
+			decisionAction->injectProperty("cardID", (*validCard)->getUniqueCardID());
+			decisionAction->injectProperty("isChaining", 1);
+			decisionAction->injectFlagProperty(0);
+			return;
+		}
+	}
+	decisionAction->injectProperty("isChaining", 0);
+	// Randomly choose 50-50 whether to challenge or decline
+	// Don't need to check the no bluffing rule because this method is only called if a valid choice is available
+	// And the AI will ALWAYS choose to stack a card meaning this will never run the random chance of challenge in those cases.
+	decisionAction->injectFlagProperty(_randomEngine() % 2);
+}
+
+void AIPlayer::chooseStackPlus2(TurnDecisionAction * decisionAction)
+{
+	if (Game::getCurrentGame()->getRuleSet()->canStackCards()) {
+		auto validCard = std::find_if(getHand().begin(), getHand().end(), [](Card* card) { return card->getFaceValueID() == 10; });
+		if (validCard != getHand().end()) {
+			checkCallUNO();
+			decisionAction->injectProperty("faceValueID", (*validCard)->getFaceValueID());
+			decisionAction->injectProperty("colourID", (*validCard)->getColourID());
+			decisionAction->injectProperty("cardID", (*validCard)->getUniqueCardID());
+			decisionAction->injectFlagProperty(1);
+			return;
+		}
+	}
+	decisionAction->injectFlagProperty(0);
+}
+
+void AIPlayer::checkCallUNO()
+{
+	if (getHand().size() != 2) return;
+	if (_randomEngine() % 100 < 70) {
+		setUnoState(UNOState::Called);
+		Game::getCurrentGame()->showGeneralOverlay("UNOCalled" + getPlayerID());
 	}
 }

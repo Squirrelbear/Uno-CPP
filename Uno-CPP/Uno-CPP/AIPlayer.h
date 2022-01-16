@@ -1,5 +1,6 @@
 #pragma once
 #include "Player.h"
+#include "TurnDecisionAction.h"
 #include <random>
 
 /**
@@ -98,7 +99,7 @@ private:
 	 * If there is no valid move, a card is drawn from the deck.
 	 * Otherwise a card is chosen from the valid moves and played by initialising a TurnAction.
 	 */
-	void performTurn();
+	TurnActionSequence<TurnAction>* performTurn(Card* topCard);
 
 	// Resets the delay timer back to default.
 	void resetDelayTimer();
@@ -118,7 +119,49 @@ private:
 	 *
 	 * @param decisionAction Reference to the current action requiring a decision.
 	 */
-	//void handleTurnDecision(); 
-	// TODO
+	void handleTurnDecision(TurnDecisionAction* decisionAction); 
+
+	/**
+	 * Gets a list of coloured cards in the AIPlayer's hand. If there are none, or on a random
+	 * chance the colour is chosen randomly. Otherwise the first card in the list is selected
+	 * as the colour to be applied.
+	 *
+	 * @param decisionAction Reference to the current action requiring a decision.
+	 */
+	void chooseWildColour(TurnDecisionAction* decisionAction);
+
+	/**
+	* Always chooses to play cards that have been drawn.
+	*
+	* @param decisionAction Reference to the current action requiring a decision.
+	*/
+	void chooseKeepOrPlay(TurnDecisionAction* decisionAction);
+
+	/**
+	* Finds the hand with the smallest number of cards other than their own and
+	* swaps indicates a preference to swap with that target.
+	*
+	* @param decisionAction Reference to the current action requiring a decision.
+	*/
+	void choosePlayerToSwapWith(TurnDecisionAction* decisionAction);
+
+	/**
+	* Checks if cards can be stacked and always chains if they can be with a valid card.
+	* Otherwise will randomly decide whether to challenge or decline.
+	*
+	* @param decisionAction Reference to the current action requiring a decision.
+	*/
+	void chooseChallengeOrDecline(TurnDecisionAction* decisionAction);
+
+	/**
+	 * Checks if cards can be stacked and then plays a valid +2 if it is available and allowed.
+	 * Otherwise indicates that it is not being done.
+	 *
+	 * @param decisionAction Reference to the current action requiring a decision.
+	 */
+	void chooseStackPlus2(TurnDecisionAction* decisionAction);
+
+	// Evaluates whether to call UNO to make the AI safe.
+	void checkCallUNO();
 };
 

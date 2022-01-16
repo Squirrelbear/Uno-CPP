@@ -46,3 +46,8 @@ bool TurnDecisionAction::getHasRunOnce() const
 {
 	return _hasRunOnce;
 }
+
+bool TurnDecisionAction::getTimeOut() const
+{
+	return _timeOut;
+}

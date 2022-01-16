@@ -8,7 +8,7 @@ CurrentGameInterface::CurrentGameInterface(const sf::IntRect& bounds, const sf::
 }
 
 CurrentGameInterface::CurrentGameInterface(const sf::IntRect& bounds, const sf::Font& font, const std::vector<Player*> playerList, RuleSet* ruleSet, std::default_random_engine& randomEngine)
-	: WndInterface(bounds), _recentCardPile(sf::Vector2f(bounds.width / 2 - 30, bounds.height / 2 - 45))
+	: WndInterface(bounds), _recentCardPile(new RecentCardPile(sf::Vector2f(bounds.width / 2 - 30, bounds.height / 2 - 45)))
 {
 	_ruleSet = ruleSet;
 	_deck = new Deck(sf::Vector2f(bounds.width / 2 - 30 - 160, bounds.height / 2 - 45), font, randomEngine);
@@ -28,7 +28,7 @@ CurrentGameInterface::CurrentGameInterface(const sf::IntRect& bounds, const sf::
 	_playDirectionAnimation->setIsIncreasing(_isIncreasing);
 
 	_overlayManager = new OverlayManager(bounds, playerList, font);
-	_recentCardPile.forcePlayCard(_deck->drawCard());
+	_recentCardPile->forcePlayCard(_deck->drawCard());
 	_debugModeEnabled = false;
 
 	_turnActionSequenceManager = new TurnActionSequenceManager(_debugModeEnabled);
@@ -42,6 +42,7 @@ CurrentGameInterface::~CurrentGameInterface()
 	delete _overlayManager;
 	delete _playDirectionAnimation;
 	delete _turnActionSequenceManager;
+	delete _recentCardPile;
 }
 
 void CurrentGameInterface::update(const float deltaTime)
@@ -60,7 +61,7 @@ void CurrentGameInterface::update(const float deltaTime)
 void CurrentGameInterface::draw(sf::RenderWindow & renderWindow) const
 {
 	_deck->draw(renderWindow);
-	_recentCardPile.draw(renderWindow);
+	_recentCardPile->draw(renderWindow);
 	for (const auto player : _players) {
 		player->draw(renderWindow);
 	}
@@ -82,7 +83,7 @@ void CurrentGameInterface::handleMousePress(const sf::Vector2i & mousePosition, 
 			}
 			else {
 				Card* cardToPlay = _bottomPlayer->chooseCardFromClick(mousePosition);
-				Card* topCard = _recentCardPile.getTopCard();
+				Card* topCard = _recentCardPile->getTopCard();
 				// Play if a valid move
 				std::vector<Card*> validMoves = _bottomPlayer->getValidMoves(topCard->getFaceValueID(), topCard->getColourID());
 				if (std::find(validMoves.begin(), validMoves.end(), cardToPlay) != validMoves.end()) {
@@ -142,7 +143,7 @@ void CurrentGameInterface::handleKeyInput(const sf::Keyboard::Key key)
 
 void CurrentGameInterface::jumpIn(const int playerID, Card * cardToPlay)
 {
-	Card* topCard = _recentCardPile.getTopCard();
+	Card* topCard = _recentCardPile->getTopCard();
 	if (!_turnActionSequenceManager->hasActiveTurnAction() && _currentPlayerID != playerID
 		&& topCard->getFaceValueID() == cardToPlay->getFaceValueID()
 		&& topCard->getColourID() == cardToPlay->getColourID()) {
@@ -252,6 +253,11 @@ Player * CurrentGameInterface::getPlayerByID(const int playerID) const
 Deck * CurrentGameInterface::getDeck() const
 {
 	return _deck;
+}
+
+RecentCardPile * CurrentGameInterface::getRecentCardPile() const
+{
+	return _recentCardPile;
 }
 
 WndResultState CurrentGameInterface::getResultState() const
