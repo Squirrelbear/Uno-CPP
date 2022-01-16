@@ -144,6 +144,9 @@
     <ClCompile Include="TurnActionSequenceManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="TurnActionSequenceUtility.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Card.h">
@@ -291,6 +294,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="TurnActionSequenceManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TurnActionSequenceUtility.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

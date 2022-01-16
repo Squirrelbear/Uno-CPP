@@ -38,6 +38,9 @@ public:
 	// returns the rules
 	RuleSet* getRuleSet();
 
+	// Iterates over the provided TurnAction tree recursively and outputs it for debug purposes to the console.
+	void debugOutputTurnActionTree();
+
 private:
 	// Unique list referencing all objects in the sequence so they can be properly deleted 
 	std::vector<T*> _unorderedSequence;

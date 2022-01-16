@@ -3,6 +3,7 @@
 #include "TurnAction.h"
 #include "TurnActionFactory.h"
 #include <algorithm>
+#include "TurnActionSequenceUtility.h"
 
 template<class T>
 TurnActionSequence<T>::TurnActionSequence()
@@ -69,6 +70,14 @@ template<class T>
 RuleSet * TurnActionSequence<T>::getRuleSet()
 {
 	return _ruleSet;
+}
+
+
+
+template<class T>
+void TurnActionSequence<T>::debugOutputTurnActionTree()
+{
+	debugRecursiveNodeOutput(dynamic_cast<TurnAction*>(_currentAction), 0);
 }
 
 template<class T>
@@ -347,5 +356,4 @@ void TurnActionSequence<T>::loadAllPointers(T * actionToAdd)
 	}
 	loadAllPointers(actionToAdd->getNextPointer());
 }
-
 

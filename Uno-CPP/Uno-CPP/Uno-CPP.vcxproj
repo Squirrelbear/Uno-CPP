@@ -169,6 +169,7 @@
     <ClCompile Include="TurnActionFactory.cpp" />
     <ClCompile Include="TurnActionSequence.cpp" />
     <ClCompile Include="TurnActionSequenceManager.cpp" />
+    <ClCompile Include="TurnActionSequenceUtility.cpp" />
     <ClCompile Include="TurnDecisionAction.cpp" />
     <ClCompile Include="UnoButton.cpp" />
     <ClCompile Include="UNOCalledOverlay.cpp" />
@@ -218,6 +219,7 @@
     <ClInclude Include="TurnActionFactory.h" />
     <ClInclude Include="TurnActionSequence.h" />
     <ClInclude Include="TurnActionSequenceManager.h" />
+    <ClInclude Include="TurnActionSequenceUtility.h" />
     <ClInclude Include="TurnDecisionAction.h" />
     <ClInclude Include="TurnDecisionOverlayInterface.h" />
     <ClInclude Include="UnoButton.h" />
