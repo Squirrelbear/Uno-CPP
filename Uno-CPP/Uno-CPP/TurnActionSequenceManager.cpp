@@ -38,10 +38,17 @@ void TurnActionSequenceManager::update()
 		// TODO handle performing action
 		/*currentTurnAction.performAction();
 		currentTurnAction = currentTurnAction.getNext();*/
+
+		// Force swap to queued sequence if there is one
 		if (_queuedSequence != nullptr) {
 			delete _currentSequence;
 			_currentSequence = _queuedSequence;
 			_queuedSequence = nullptr;
+		}
+		// If the sequence ended delete the sequence
+		else if (getCurrentTurnAction() == nullptr) {
+			delete _currentSequence;
+			_currentSequence = nullptr;
 		}
 	}
 }

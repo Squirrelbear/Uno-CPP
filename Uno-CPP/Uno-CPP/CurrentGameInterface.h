@@ -213,9 +213,6 @@ private:
 	// Checks if there is currently a player who has won the game and initiates end game conditions once found.
 	void checkForEndOfRound();
 
-	// Updates the current turn action state by performing the action and then iterating to the next one if possible.
-	void updateTurnAction();
-
 	// Sets the current player to NotSafe if they have one card or Safe otherwise, all other players are set to Safe.
 	void updateUNOState();
 
@@ -225,7 +222,7 @@ private:
 	 * @param playerList A list of player data to generate a collection.
 	 * @param bounds The bounds to use for calculating offsets and regions.
 	 */
-	static std::vector<Player*> createPlayersFromLobby(const std::vector<LobbyPlayer*> playerList, sf::IntRect bounds, const sf::Font& font);
+	static std::vector<Player*> createPlayersFromLobby(const std::vector<LobbyPlayer*> playerList, sf::IntRect bounds, const sf::Font& font, std::default_random_engine& randomEngine);
 	/**
 	 * Generates bounds for where a player's cards should be placed.
 	 *

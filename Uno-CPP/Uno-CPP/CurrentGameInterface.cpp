@@ -1,8 +1,9 @@
 #include "CurrentGameInterface.h"
 #include "TurnActionFactory.h"
+#include <iostream>
 
 CurrentGameInterface::CurrentGameInterface(const sf::IntRect& bounds, const sf::Font& font, const std::vector<LobbyPlayer*> playerList, RuleSet* ruleSet, std::default_random_engine& randomEngine) 
-	: CurrentGameInterface(bounds, font, createPlayersFromLobby(playerList, bounds, font), ruleSet, randomEngine)
+	: CurrentGameInterface(bounds, font, createPlayersFromLobby(playerList, bounds, font, randomEngine), ruleSet, randomEngine)
 {
 }
 
@@ -49,7 +50,7 @@ void CurrentGameInterface::update(const float deltaTime)
 
 	_playDirectionAnimation->update(deltaTime);
 	_overlayManager->update(deltaTime);
-	updateTurnAction();
+	_turnActionSequenceManager->update();
 	for (auto player : _players) {
 		player->update(deltaTime);
 	}
@@ -277,30 +278,6 @@ void CurrentGameInterface::checkForEndOfRound()
 	}
 }
 
-void CurrentGameInterface::updateTurnAction()
-{
-	/*
-	        if(currentTurnAction != null) {
-            // Tree Debug Output
-            if(GamePanel.DEBUG_MODE && debugShowTaskActionNotes) {
-                if (currentTurnAction instanceof TurnActionFactory.TurnDecisionAction) {
-                    if (!((TurnActionFactory.TurnDecisionAction) currentTurnAction).hasRunOnce) {
-                        System.out.println(currentTurnAction.actionDebugText);
-                    }
-                } else {
-                    System.out.println(currentTurnAction.actionDebugText);
-                }
-            }
-            currentTurnAction.performAction();
-            currentTurnAction = currentTurnAction.getNext();
-            if(queuedTurnAction != null) {
-                currentTurnAction = queuedTurnAction;
-                queuedTurnAction = null;
-            }
-        }
-	*/
-}
-
 void CurrentGameInterface::updateUNOState()
 {
 	_players.at(_currentPlayerID)->setUnoState(_players.at(_currentPlayerID)->getHand().size() == 1 ? Player::UNOState::NotSafe : Player::UNOState::Safe);
@@ -311,51 +288,53 @@ void CurrentGameInterface::updateUNOState()
 	}
 }
 
-std::vector<Player*> CurrentGameInterface::createPlayersFromLobby(const std::vector<LobbyPlayer*> playerList, sf::IntRect bounds, const sf::Font& font)
+std::vector<Player*> CurrentGameInterface::createPlayersFromLobby(const std::vector<LobbyPlayer*> playerList, sf::IntRect bounds, const sf::Font& font, std::default_random_engine& randomEngine)
 {
-	/*
-	        List<Player> result = new ArrayList<>();
-        List<LobbyPlayer> playersToAdd = playerList.stream().filter(LobbyPlayer::isEnabled).collect(Collectors.toList());
-        if(playersToAdd.size() != 2 && playersToAdd.size() != 4) {
-            System.out.println("Critical Error. Only combinations of 2 or 4 players are allowed");
-            return result;
-        }
-        int thisPlayerIndex = -1;
-        for(int i = 0; i < playersToAdd.size(); i++) {
-            if(playersToAdd.get(i).getPlayerType() == Player.PlayerType.ThisPlayer) {
-                if(thisPlayerIndex == -1) {
-                    thisPlayerIndex = i;
-                } else {
-                    System.out.println("Critical Error. Only one ThisPlayer is allowed.");
-                    return result;
-                }
-            }
-        }
-        if(thisPlayerIndex == -1) {
-            System.out.println("Critical Error. One ThisPlayer is required!");
-            return result;
-        }
-
-        for (int i = 0; i < playersToAdd.size(); i++) {
-            Rectangle playerRegion;
-            boolean showNameLeft;
-            if(playersToAdd.size() == 4) {
-                playerRegion = getPlayerRect((i + 4 - thisPlayerIndex) % 4, bounds);
-                showNameLeft = (i + 4 - thisPlayerIndex) % 2 == 0;
-            } else {
-                playerRegion = getPlayerRect(playersToAdd.get(i).getPlayerType() == Player.PlayerType.ThisPlayer ? 0 : 2, bounds);
-                showNameLeft = true;
-            }
-            if(playersToAdd.get(i).getPlayerType() == Player.PlayerType.AIPlayer) {
-                result.add(new AIPlayer(i, playersToAdd.get(i).getPlayerName(), playerRegion, playersToAdd.get(i).getAIStrategy(), showNameLeft));
-            } else {
-                result.add(new Player(i, playersToAdd.get(i).getPlayerName(), playersToAdd.get(i).getPlayerType(), playerRegion, showNameLeft));
-            }
-        }
+	std::vector<Player*> result;
+	std::vector<LobbyPlayer*> playersToAdd;
+	for (auto lobbyPlayer : playerList) {
+		if (lobbyPlayer->isEnabled()) {
+			playersToAdd.emplace_back(lobbyPlayer);
+		}
+	}
+		 
+    if(playersToAdd.size() != 2 && playersToAdd.size() != 4) {
+        std::cerr << "Critical Error. Only combinations of 2 or 4 players are allowed" << std::endl;
         return result;
-	*/
+    }
+    int thisPlayerIndex = -1;
+    for(int i = 0; i < playersToAdd.size(); i++) {
+        if(playersToAdd.at(i)->getPlayerType() == Player::PlayerType::ThisPlayer) {
+            if(thisPlayerIndex == -1) {
+                thisPlayerIndex = i;
+            } else {
+				std::cerr << "Critical Error. Only one ThisPlayer is allowed." << std::endl;
+                return result;
+            }
+        }
+    }
+    if(thisPlayerIndex == -1) {
+		std::cerr << "Critical Error. One ThisPlayer is required!" << std::endl;
+        return result;
+    }
 
-	return std::vector<Player*>();
+    for (int i = 0; i < playersToAdd.size(); i++) {
+        sf::IntRect playerRegion;
+        bool showNameLeft;
+        if(playersToAdd.size() == 4) {
+            playerRegion = getPlayerRect((i + 4 - thisPlayerIndex) % 4, bounds);
+            showNameLeft = (i + 4 - thisPlayerIndex) % 2 == 0;
+        } else {
+            playerRegion = getPlayerRect(playersToAdd.at(i)->getPlayerType() == Player::PlayerType::ThisPlayer ? 0 : 2, bounds);
+            showNameLeft = true;
+        }
+        if(playersToAdd.at(i)->getPlayerType() == Player::PlayerType::AIPlayer) {
+            result.emplace_back(new AIPlayer(i, playersToAdd.at(i)->getPlayerName(), playerRegion, playersToAdd.at(i)->getAIStrategy(), showNameLeft, randomEngine, font));
+        } else {
+            result.emplace_back(new Player(i, playersToAdd.at(i)->getPlayerName(), playersToAdd.at(i)->getPlayerType(), playerRegion, showNameLeft, font));
+        }
+    }
+    return result;
 }
 
 sf::IntRect CurrentGameInterface::getPlayerRect(const int direction, const sf::IntRect & bounds)

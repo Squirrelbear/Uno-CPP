@@ -18,10 +18,15 @@ public:
 	explicit TurnActionSequenceManager(const bool& debugModeEnabled);
 	virtual ~TurnActionSequenceManager();
 
-	// TODO
+	// Updates the current turn action state by performing the action and then iterating to the next one if possible.
 	void update();
 
-	// Sets the sequence to the specified sequence.
+	/**
+	 * If there is a current sequence already active it will be queued to start asap.
+	 * Otherwise the action is set up immediately.
+	 *
+	 * @param newSequence The TurnAction to begin.
+	 */
 	void setSequence(TurnActionSequence<TurnAction>* newSequence);
 
 	// Queues the specified sequence to begin when the current sequence has safely ended.
