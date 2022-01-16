@@ -135,6 +135,17 @@ std::vector<Card*> Player::getHand() const
 	return _hand;
 }
 
+std::vector<Card*> Player::takeAllHand()
+{
+	std::vector<Card*> result;
+	for (auto card : _hand) {
+		result.emplace_back(card);
+	}
+	_hand.empty();
+
+	return result;
+}
+
 std::string Player::getPlayerName() const
 {
 	return _playerName;

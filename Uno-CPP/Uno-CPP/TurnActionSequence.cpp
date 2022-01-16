@@ -254,52 +254,46 @@ void TurnActionSequence<T>::movePrevious()
 template<class T>
 void TurnActionSequence<T>::swapHandWithOther()
 {
-	// TODO Need to change logic for swapping vectors.
 	int targetPlayerID = getPropertyValue("otherPlayer");
 	Player* targetPlayer = Game::getCurrentGame()->getPlayerByID(targetPlayerID);
-	auto& targetPlayerHand = targetPlayer->getHand();
-	//targetPlayer.emptyHand();
+	auto targetPlayerHand = targetPlayer->takeAllHand();
 	Player currentPlayer = Game::getCurrentGame()->getCurrentPlayer();
-	auto& currentPlayerHand = currentPlayer->getHand();
-	//currentPlayer.emptyHand();
-	/*for (Object card : targetPlayerHand) {
-		currentPlayer.addCardToHand((Card)card);
+	auto currentPlayerHand = currentPlayer->takeAllHand();
+
+	for (auto card : targetPlayerHand) {
+		currentPlayer.addCardToHand(card);
 	}
-	for (Object card : currentPlayerHand) {
-		targetPlayer.addCardToHand((Card)card);
-	}*/
+	for (auto card : currentPlayerHand) {
+		targetPlayer.addCardToHand(card);
+	}
 }
 
 template<class T>
 void TurnActionSequence<T>::passAllHands()
 {
-	// TODO Need to change logic for swapping hands.
-	/*
-	        List<Object[]> hands = new ArrayList<>();
-        List<Player> players = CurrentGameInterface.getCurrentGame().getAllPlayers();
-        for(Player player : players) {
-            hands.add(player.getHand().toArray());
-            player.emptyHand();
-        }
+	std::vector<std::vector<Card*>> hands;
+    std::vector<Player*> players = Game::getCurrentGame()->getAllPlayers();
+    for(auto player : players) {
+        hands.emplace_back(player->getAllHand());
+    }
 
-        // Shuffle the hands
-        if(CurrentGameInterface.getCurrentGame().isIncreasing()) {
-            Object[] movedHand = hands.get(0);
-            hands.remove(0);
-            hands.add(movedHand);
-        } else {
-            Object[] movedHand = hands.get(hands.size()-1);
-            hands.remove(hands.size()-1);
-            hands.add(0, movedHand);
-        }
+    // Shuffle the hands
+    if(Game::getCurrentGame()->isIncreasing()) {
+        auto movedHand = hands.at(0);
+        hands.erase(hands.begin());
+        hands.emplace_back(movedHand);
+    } else {
+        auto movedHand = hands.at(hands.size()-1);
+        hands.pop_back();
+        hands.insert(hands.begin(), movedHand);
+    }
 
-        // put all the cards into the hands again
-        for(int playerID = 0; playerID < players.size(); playerID++) {
-            for(Object card : hands.get(playerID)) {
-                players.get(playerID).addCardToHand((Card)card);
-            }
+    // put all the cards into the hands again
+    for(int playerID = 0; playerID < players.size(); playerID++) {
+        for(auto card : hands.at(playerID)) {
+            players.at(playerID).addCardToHand(card);
         }
-	*/
+    }
 }
 
 template<class T>

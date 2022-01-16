@@ -127,6 +127,9 @@ public:
 	// Gets all the cards in the player's hand.
 	std::vector<Card*> getHand() const;
 
+	// Empties the hand and returns a vector with the cards
+	std::vector<Card*> takeAllHand();
+
 	// Gets the player name.
 	std::string getPlayerName() const;
 
