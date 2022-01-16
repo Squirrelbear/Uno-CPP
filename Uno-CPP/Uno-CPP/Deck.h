@@ -6,6 +6,7 @@
 #include "Card.h"
 #include "CardBackGroupObject.h"
 #include "DrawableText.h"
+#include "InteractableRect.h"
 
 /**
  * Uno
@@ -16,7 +17,7 @@
  * @author Peter Mitchell
  * @version 2022.1
  */
-class Deck
+class Deck : public InteractableRect
 {
 public:
 	/**
@@ -50,9 +51,6 @@ private:
 
 	// Position where the deck is located. Used for drawing the card back.
 	sf::Vector2f _position;
-
-	// Bounds for selection.
-	sf::IntRect _bounds;
 
 	// The list of cards currently in the deck.
 	std::vector<Card*> _deck;

@@ -45,13 +45,19 @@ public:
 	// Gets the value at the specified position, returns -1 if the key could not be found.
 	int getPropertyValue(const std::string& key) const;
 
+	// Gets the debug text describing this TurnAction
+	std::string getActionDebugText() const;
+
 protected:
 	// Reference to the parent for accessing shared data for the sequence and executing the actions.
 	TurnActionSequence<TurnAction>* _parent;
+
 	// Reference to the action to be executed by this TurnAction during performAction().
 	const TurnActionEffect _actionID;
+
 	// Reference to the next TurnAction in the linked list sequence. This can be null to indicate the end.
 	TurnAction* _next;
+
 	// Text to be used to describe the current state in debug output.
 	std::string _actionDebugText;
 };

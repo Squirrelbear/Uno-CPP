@@ -1,4 +1,5 @@
 #include "CurrentGameInterface.h"
+#include "TurnActionFactory.h"
 
 CurrentGameInterface::CurrentGameInterface(const sf::IntRect& bounds, const sf::Font& font, const std::vector<LobbyPlayer*> playerList, RuleSet* ruleSet, std::default_random_engine& randomEngine) 
 	: CurrentGameInterface(bounds, font, createPlayersFromLobby(playerList, bounds, font), ruleSet, randomEngine)
@@ -28,6 +29,9 @@ CurrentGameInterface::CurrentGameInterface(const sf::IntRect& bounds, const sf::
 	_overlayManager = new OverlayManager(bounds, playerList, font);
 	_recentCardPile.forcePlayCard(_deck->drawCard());
 	_debugModeEnabled = false;
+
+	_turnActionSequenceManager = new TurnActionSequenceManager(_debugModeEnabled);
+
 	_resultState = WndResultState::NothingState;
 }
 
@@ -36,6 +40,7 @@ CurrentGameInterface::~CurrentGameInterface()
 {
 	delete _overlayManager;
 	delete _playDirectionAnimation;
+	delete _turnActionSequenceManager;
 }
 
 void CurrentGameInterface::update(const float deltaTime)
@@ -67,26 +72,31 @@ void CurrentGameInterface::handleMousePress(const sf::Vector2i & mousePosition, 
 	if (!isEnabled()) return;
 
 	_overlayManager->handleMousePress(mousePosition, isLeft);
-	/* // TODO
-	if (_currentTurnAction == nullptr && _currentPlayerID == _bottomPlayer->getPlayerID()) {
-		if (deck.isPositionInside(mousePosition)) {
-			currentTurnAction = TurnActionFactory.drawCardAsAction(currentPlayerID);
-		}
-		else {
-			Card* cardToPlay = _bottomPlayer.chooseCardFromClick(mousePosition);
-			Card* topCard = _recentCardPile.getTopCard();
-			if (_bottomPlayer->getValidMoves(topCard->getFaceValueID(), topCard->getColourID()).contains(cardToPlay)) {
-				_currentTurnAction = TurnActionFactory::playCardAsAction(currentPlayerID, cardToPlay.getCardID(), cardToPlay.getFaceValueID(), cardToPlay.getColourID());
+	
+	// Handle player turn actions 
+	if (!_turnActionSequenceManager->hasActiveTurnAction()) {
+		if (_currentPlayerID == _bottomPlayer->getPlayerID()) {
+			if (_deck->isPositionInside(mousePosition)) {
+				_turnActionSequenceManager->setSequence(TurnActionFactory::drawCardAsAction(_currentPlayerID));
+			}
+			else {
+				Card* cardToPlay = _bottomPlayer->chooseCardFromClick(mousePosition);
+				Card* topCard = _recentCardPile.getTopCard();
+				// Play if a valid move
+				std::vector<Card*> validMoves = _bottomPlayer->getValidMoves(topCard->getFaceValueID(), topCard->getColourID());
+				if (std::find(validMoves.begin(), validMoves.end(), cardToPlay) != validMoves.end()) {
+					_turnActionSequenceManager->setSequence(TurnActionFactory::playCardAsAction(
+							_currentPlayerID, cardToPlay->getUniqueCardID(), 
+							cardToPlay->getFaceValueID(), cardToPlay->getColourID()));
+				}
+			}
+		} else if (_ruleSet->allowJumpInRule()) {
+			Card* cardToPlay = _bottomPlayer->chooseCardFromClick(mousePosition);
+			if (cardToPlay != nullptr) {
+				jumpIn(_bottomPlayer->getPlayerID(), cardToPlay);
 			}
 		}
 	}
-	else if (currentTurnAction == null && currentPlayerID != bottomPlayer.getPlayerID() &&
-		CurrentGameInterface.getCurrentGame().getRuleSet().allowJumpInRule()) {
-		Card cardToPlay = bottomPlayer.chooseCardFromClick(mousePosition);
-		if (cardToPlay != null) {
-			jumpIn(bottomPlayer.getPlayerID(), cardToPlay);
-		}
-	}*/
 }
 
 void CurrentGameInterface::handleMouseMove(const sf::Vector2i & mousePosition)
@@ -118,12 +128,10 @@ void CurrentGameInterface::handleKeyInput(const sf::Keyboard::Key key)
 		_bottomPlayer->removeCard(_bottomPlayer->getHand().at(0));
 	}
 	else if (_debugModeEnabled && key == sf::Keyboard::Key::Num5) {
-		// TODO
-		//debugShowTreeOnNewAction = !debugShowTreeOnNewAction;
+		_turnActionSequenceManager->toggleDebugShowTreeOnNewAction();
 	}
 	else if (_debugModeEnabled && key == sf::Keyboard::Key::Num4) {
-		// TODO
-		//debugShowTaskActionNotes = !debugShowTaskActionNotes;
+		_turnActionSequenceManager->toggleDebugShowTaskActionNotes();
 	}
 	else {
 		// Note: The OverlayManager does not actually use the keys at all, but could be used in future.
@@ -134,22 +142,21 @@ void CurrentGameInterface::handleKeyInput(const sf::Keyboard::Key key)
 void CurrentGameInterface::jumpIn(const int playerID, Card * cardToPlay)
 {
 	Card* topCard = _recentCardPile.getTopCard();
-	// TODO
-	/*if (_currentTurnAction == nullptr && _currentPlayerID != playerID
+	if (!_turnActionSequenceManager->hasActiveTurnAction() && _currentPlayerID != playerID
 		&& topCard->getFaceValueID() == cardToPlay->getFaceValueID()
 		&& topCard->getColourID() == cardToPlay->getColourID()) {
 		_currentPlayerID = playerID;
 		showGeneralOverlay("JumpIn" + playerID);
-		_currentTurnAction = TurnActionFactory::playCardAsAction(currentPlayerID, cardToPlay.getCardID(),
-			cardToPlay.getFaceValueID(), cardToPlay.getColourID());
-	}*/
+		_turnActionSequenceManager->setSequence(TurnActionFactory::playCardAsAction(_currentPlayerID, 
+			cardToPlay->getUniqueCardID(), cardToPlay->getFaceValueID(), cardToPlay->getColourID()));
+	}
 }
 
 void CurrentGameInterface::showOverlayForTurnAction()
 {
-	/*if (_currentTurnAction instanceof TurnActionFactory.TurnDecisionAction) {
-		overlayManager.showDecisionOverlay((TurnActionFactory.TurnDecisionAction) currentTurnAction);
-	}*/
+	if (typeid(_turnActionSequenceManager->getCurrentTurnAction()) == typeid(TurnDecisionAction)) {
+		_overlayManager->showDecisionOverlay(dynamic_cast<TurnDecisionAction*>(_turnActionSequenceManager->getCurrentTurnAction()));
+	}
 }
 
 void CurrentGameInterface::showGeneralOverlay(const std::string& overlayName)
@@ -211,28 +218,14 @@ bool CurrentGameInterface::isIncreasing() const
 	return _isIncreasing;
 }
 
-void CurrentGameInterface::setCurrentTurnAction(TurnAction * turnAction)
+void CurrentGameInterface::setCurrentTurnAction(TurnActionSequence<TurnAction>* newSequence)
 {
-	/*if (currentTurnAction != null) {
-		queuedTurnAction = turnAction;
-		if (GamePanel.DEBUG_MODE && debugShowTreeOnNewAction) {
-			System.out.println("Queued action sequence:");
-			TurnActionFactory.debugOutputTurnActionTree(turnAction);
-		}
-	}
-	else {
-		currentTurnAction = turnAction;
-		if (GamePanel.DEBUG_MODE && debugShowTreeOnNewAction) {
-			System.out.println("Set action sequence:");
-			TurnActionFactory.debugOutputTurnActionTree(turnAction);
-		}
-	}*/
+	_turnActionSequenceManager->setSequence(newSequence);
 }
 
 TurnAction * CurrentGameInterface::getCurrentTurnAction() const
 {
-	// TODO
-	return nullptr;
+	return _turnActionSequenceManager->getCurrentTurnAction();
 }
 
 RuleSet * CurrentGameInterface::getRuleSet() const

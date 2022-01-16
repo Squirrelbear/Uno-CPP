@@ -2,7 +2,7 @@
 #include <algorithm>	// std::shuffle
 
 Deck::Deck(const sf::Vector2f position, const sf::Font& font, std::default_random_engine& randomEngine)
-	: _position(position), _bounds(static_cast<int>(position.x), static_cast<int>(position.y), CARD_WIDTH, CARD_HEIGHT),
+	: _position(position), InteractableRect(sf::IntRect(static_cast<int>(position.x), static_cast<int>(position.y), CARD_WIDTH, CARD_HEIGHT)),
 	_deckTitle(sf::Vector2f(0, 0), "DECK", font, 20, sf::Color::Black, sf::Text::Bold),
 	_randomEngine(randomEngine), _font(font)
 {

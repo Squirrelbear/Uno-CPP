@@ -6,6 +6,7 @@
 #include "OverlayManager.h"
 #include "PlayDirectionAnimation.h"
 #include "RuleSet.h"
+#include "TurnActionSequenceManager.h"
 #include <vector>
 
 /**
@@ -122,9 +123,9 @@ public:
 	 * If there is a current action already active it will be queued to start asap.
 	 * Otherwise the action is set up immediately.
 	 *
-	 * @param turnAction The TurnAction to begin.
+	 * @param newSequence The TurnAction to begin.
 	 */
-	void setCurrentTurnAction(TurnAction* turnAction);
+	void setCurrentTurnAction(TurnActionSequence<TurnAction>* newSequence);
 
 	/**
 	 * Gets the current TurnAction if there is one.
@@ -178,6 +179,9 @@ private:
 
 	// The deck of cards ready to have cards drawn from it.
 	Deck* _deck;
+
+	// Manages the active TurnActions and their sequences. 
+	TurnActionSequenceManager* _turnActionSequenceManager;
 
 	// A history of cards that have been played.
 	RecentCardPile _recentCardPile;

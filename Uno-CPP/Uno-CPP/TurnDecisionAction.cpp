@@ -8,6 +8,7 @@ TurnDecisionAction::TurnDecisionAction(TurnAction * next, TurnAction * otherNext
 
 TurnAction * TurnDecisionAction::getNext()
 {
+	// TODO
 	/*
 	if(storedData.containsKey(flagName)) {
                 return (storedData.get(flagName) == 0) ? next : otherNext;
@@ -39,4 +40,9 @@ bool TurnDecisionAction::requiresTimeout() const
 std::string TurnDecisionAction::getFlagName() const
 {
 	return _flagName;
+}
+
+bool TurnDecisionAction::getHasRunOnce() const
+{
+	return _hasRunOnce;
 }

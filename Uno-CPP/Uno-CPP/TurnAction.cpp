@@ -27,3 +27,8 @@ int TurnAction::getPropertyValue(const std::string & key) const
 {
 	return _parent->getPropertyValue(key);
 }
+
+std::string TurnAction::getActionDebugText() const
+{
+	return _actionDebugText;
+}
