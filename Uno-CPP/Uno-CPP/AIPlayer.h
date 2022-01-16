@@ -118,6 +118,7 @@ private:
 	 *
 	 * @param decisionAction Reference to the current action requiring a decision.
 	 */
-	//void handleTurnDecision(); // TODO
+	//void handleTurnDecision(); 
+	// TODO
 };
 

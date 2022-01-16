@@ -4,6 +4,7 @@ PauseInterface::PauseInterface(const sf::IntRect & bounds, const sf::IntRect& ga
 	: WndInterface(bounds)
 {
 	initialiseInterface(bounds, gameBounds, font);
+	_resultState = WndResultState::NothingState;
 }
 
 PauseInterface::~PauseInterface()
@@ -17,6 +18,32 @@ void PauseInterface::draw(sf::RenderWindow & renderWindow) const
 	for (const auto& button : _buttonList) {
 		button.draw(renderWindow);
 	}
+}
+
+void PauseInterface::handleMousePress(const sf::Vector2i & mousePosition, bool isLeft)
+{
+	if (!isEnabled()) return;
+
+	for (const auto& button : _buttonList) {
+		if (button.isPositionInside(mousePosition)) {
+			handleButtonAction(button.getActionID());
+			break;
+		}
+	}
+}
+
+void PauseInterface::handleMouseMove(const sf::Vector2i & mousePosition)
+{
+}
+
+WndResultState PauseInterface::getResultState() const
+{
+	return _resultState;
+}
+
+void PauseInterface::resetResultState()
+{
+	_resultState = WndResultState::NothingState;
 }
 
 void PauseInterface::initialiseInterface(const sf::IntRect & bounds, const sf::IntRect& gameBounds, const sf::Font & font)
@@ -79,4 +106,13 @@ void PauseInterface::initialiseInterface(const sf::IntRect & bounds, const sf::I
 
 	// Force all components to update to their correct positions.
 	_interfaceBackground->setPositionWithOffset(sf::Vector2f(gameBounds.left, gameBounds.top));
+}
+
+void PauseInterface::handleButtonAction(const int actionID)
+{
+	switch (actionID) {
+		case 1: _resultState = WndResultState::Finished; break; // gamePanel.setPauseState(false);
+		case 2: _resultState = WndResultState::Quit; break; // _gamePanel.quitGame();
+		case 3: _resultState = WndResultState::Menu; break; // gamePanel.showLobby();
+	}
 }

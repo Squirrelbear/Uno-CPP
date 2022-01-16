@@ -73,6 +73,19 @@ void Game::handleMousePress(const sf::Vector2i & mousePosition, bool isLeft)
 {
 	if (_pauseInterface->isEnabled()) {
 		_pauseInterface->handleMousePress(mousePosition, isLeft);
+
+		// Handle a result from the pauseInterface if one was triggered.
+		if (_pauseInterface->getResultState() != WndResultState::NothingState) {
+			if (_pauseInterface->getResultState() == WndResultState::Finished) {
+				setPauseState(false);
+			} else if (_pauseInterface->getResultState() == WndResultState::Menu) {
+				showLobby();
+			} else if (_pauseInterface->getResultState() == WndResultState::Quit) {
+				quitGame();
+			}
+			else
+			_pauseInterface->resetResultState();
+		}
 	}
 	if (_activeInterface != nullptr) {
 		_activeInterface->handleMousePress(mousePosition, isLeft);
@@ -159,4 +172,9 @@ void Game::showPostGame()
 
 	_postGameInterface = new PostGameInterface(_bounds, _font, players, ruleSet);
 	_activeInterface = _currentGame;
+}
+
+void Game::quitGame()
+{
+	// TODO terminate game.
 }

@@ -161,11 +161,11 @@ void AIPlayer::resetDelayTimer()
 Card * AIPlayer::chooseCard(const std::vector<Card*>& validCards)
 {
 	if (_strategy == AIStrategy::Chaotic) {
-		return validCards.at(0); // TODO (int)(Math.random()*validCards.size()));
+		return validCards.at(_randomEngine() % validCards.size());
 	}
 
-	// TODO
-	// validCards.sort(Comparator.comparingInt(Card::getScoreValue));
+	// Sort based on scores
+	std::sort(validCards.begin(), validCards.end(), [](Card* a, Card* b) { return a->getScoreValue() < b->getScoreValue(); });
 
 	if (_strategy == AIStrategy::Defensive) {
 		return validCards.at(validCards.size() - 1);

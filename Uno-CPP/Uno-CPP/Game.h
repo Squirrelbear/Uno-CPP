@@ -51,4 +51,7 @@ private:
 
 	// Sets the currently active interface to the post-game interface after a game has ended.
 	void showPostGame();
+
+	// Terminates the game.
+	void quitGame();
 };
