@@ -66,6 +66,9 @@ private:
 	// Title shown above the deck.
 	DrawableText _deckTitle;
 
+	// Reference to font for adding new cards
+	const sf::Font& _font;
+
 	/**
 	 * Fills the deck by populating the deck with all the different card variations,
 	 * and then shuffles the cards to create a random order.

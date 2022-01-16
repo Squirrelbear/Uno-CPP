@@ -4,7 +4,7 @@
 Deck::Deck(const sf::Vector2f position, const sf::Font& font, std::default_random_engine& randomEngine)
 	: _position(position), _bounds(static_cast<int>(position.x), static_cast<int>(position.y), CARD_WIDTH, CARD_HEIGHT),
 	_deckTitle(sf::Vector2f(0, 0), "DECK", font, 20, sf::Color::Black, sf::Text::Bold),
-	_randomEngine(randomEngine)
+	_randomEngine(randomEngine), _font(font)
 {
 	_nextCardID = 0;
 	_cardBack = std::make_shared<CardBackGroupObject>(sf::Vector2f(0, 0), font);
@@ -63,6 +63,6 @@ void Deck::fillDeck()
 
 void Deck::addCard(const int faceValueID, const int colourID)
 {
-	_deck.emplace_back(new Card(faceValueID, colourID, _nextCardID));
+	_deck.emplace_back(new Card(faceValueID, colourID, _nextCardID, _cardBack, _font));
 	++_nextCardID;
 }

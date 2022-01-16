@@ -1,11 +1,13 @@
 #include "Card.h"
 
-Card::Card(const int faceValueID, const int colourID, const int cardID)
-	: InteractableRect(sf::IntRect(0,0,CARD_WIDTH,CARD_HEIGHT)), _faceValueID(faceValueID), _colourID(colourID), _uniqueCardID(cardID)
+Card::Card(const int faceValueID, const int colourID, const int cardID, const std::shared_ptr<CardBackGroupObject>& cardBack, const sf::Font& font)
+	: InteractableRect(sf::IntRect(0,0,CARD_WIDTH,CARD_HEIGHT)), 
+	_faceValueID(faceValueID), _colourID(colourID), _uniqueCardID(cardID), _cardBack(cardBack)
 {
 	_drawColour = getColourByID(_colourID);
 	_cardLabel = getLabelByFaceValue(_faceValueID);
 	_cornerLabel = getCornerLabelByFaceValue(_faceValueID);
+	_cardFront = std::make_unique<CardFrontObjectGroup>(faceValueID, colourID, sf::Vector2f(_bounds.left, _bounds.top), font);
 }
 
 Card::~Card()
@@ -14,12 +16,13 @@ Card::~Card()
 
 void Card::drawCardFront(sf::RenderWindow & renderWindow) const
 {
-	// TODO
+	_cardFront->draw(renderWindow);
 }
 
 void Card::drawCardBack(sf::RenderWindow & renderWindow) const
 {
-	// TODO
+	_cardBack->setPositionWithOffset(sf::Vector2f(_bounds.left, _bounds.top));
+	_cardBack->draw(renderWindow);
 }
 
 void Card::setColour(const int colourID)
@@ -111,5 +114,5 @@ std::string Card::getCornerLabelByFaceValue(const int faceValue)
 void Card::setPosition(const sf::Vector2i& newPosition)
 {
 	_bounds = sf::IntRect(newPosition.x, newPosition.y, _bounds.width, _bounds.height);
-	// TODO
+	_cardFront->setPositionWithOffset(sf::Vector2f(newPosition.x, newPosition.y));
 }

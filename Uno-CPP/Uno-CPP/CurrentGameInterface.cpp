@@ -1,7 +1,7 @@
 #include "CurrentGameInterface.h"
 
 CurrentGameInterface::CurrentGameInterface(const sf::IntRect& bounds, const sf::Font& font, const std::vector<LobbyPlayer*> playerList, RuleSet* ruleSet, std::default_random_engine& randomEngine) 
-	: CurrentGameInterface(bounds, font, createPlayersFromLobby(playerList, bounds), ruleSet, randomEngine)
+	: CurrentGameInterface(bounds, font, createPlayersFromLobby(playerList, bounds, font), ruleSet, randomEngine)
 {
 }
 
@@ -318,7 +318,7 @@ void CurrentGameInterface::updateUNOState()
 	}
 }
 
-std::vector<Player*> CurrentGameInterface::createPlayersFromLobby(const std::vector<LobbyPlayer*> playerList, sf::IntRect bounds)
+std::vector<Player*> CurrentGameInterface::createPlayersFromLobby(const std::vector<LobbyPlayer*> playerList, sf::IntRect bounds, const sf::Font& font)
 {
 	/*
 	        List<Player> result = new ArrayList<>();

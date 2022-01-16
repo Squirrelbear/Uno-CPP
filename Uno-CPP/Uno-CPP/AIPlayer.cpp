@@ -1,7 +1,7 @@
 #include "AIPlayer.h"
 
-AIPlayer::AIPlayer(const int playerID, const std::string & playerName, const sf::IntRect bounds, const AIStrategy strategy, const bool showPlayerNameLeft, std::default_random_engine& randomEngine)
-	: Player(playerID, playerName, PlayerType::AIPlayer, bounds, showPlayerNameLeft), _randomEngine(randomEngine)
+AIPlayer::AIPlayer(const int playerID, const std::string & playerName, const sf::IntRect bounds, const AIStrategy strategy, const bool showPlayerNameLeft, std::default_random_engine& randomEngine, const sf::Font& font)
+	: Player(playerID, playerName, PlayerType::AIPlayer, bounds, showPlayerNameLeft, font), _randomEngine(randomEngine)
 {
 	if (strategy == AIStrategy::Random) {
 		selectRandomStrategy();

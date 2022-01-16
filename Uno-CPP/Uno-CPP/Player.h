@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include "Card.h"
+#include "DrawableText.h"
 
 /**
  * Uno
@@ -41,7 +42,7 @@ public:
 	 * @param bounds The region for drawing the player's cards.
 	 * @param showPlayerNameLeft When true, the player's name is centred to the left side of the bounds, otherwise it is centred on the top.
 	 */
-	Player(const int playerID, const std::string& playerName, const PlayerType playerType, const sf::IntRect bounds, const bool showPlayerNameLeft);
+	Player(const int playerID, const std::string& playerName, const PlayerType playerType, const sf::IntRect bounds, const bool showPlayerNameLeft, const sf::Font& font);
 	virtual ~Player();
 
 	/**
@@ -61,7 +62,7 @@ public:
 	 */
 	void addCardToHand(Card* card);
 
-	// Empties the hand.
+	// Empties the hand. Warning! This deletes all the cards in the hand. 
 	void emptyHand();
 
 	/**
@@ -222,6 +223,10 @@ private:
 	const bool _showPlayerNameLeft;
 	// The current UNOState that can be Safe, Called, or NotSafe.
 	UNOState _unoState;
+	// Name tag
+	DrawableObjectGroup* _nameTag;
+	// Reference to text to change its colour based on current player ID (handled via _nameTag for rendering).
+	DrawableText* _playerNameText;
 
 	/**
 	 * Recalculates positions for all cards by calculating numbers of

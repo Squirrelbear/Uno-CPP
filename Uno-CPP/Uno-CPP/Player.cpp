@@ -1,36 +1,45 @@
 #include "Player.h"
+#include "DrawableShape.h"
+#include "Game.h"
 
-Player::Player(const int playerID, const std::string & playerName, const PlayerType playerType, const sf::IntRect bounds, const bool showPlayerNameLeft)
+Player::Player(const int playerID, const std::string & playerName, const PlayerType playerType, const sf::IntRect bounds, const bool showPlayerNameLeft, const sf::Font& font)
 	: _playerID(playerID), _playerName(playerName), _playerType(playerType), _bounds(bounds), _showPlayerNameLeft(showPlayerNameLeft)
 {
 	_showCards = playerType == PlayerType::ThisPlayer;
 	resetScore();
+
+	_playerNameText = new DrawableText(sf::Vector2f(0, 0), playerName, font, 20, sf::Color(255, 215, 0), sf::Text::Bold);
+	int strWidth = _playerNameText->getTextWidth();
+	int nameXOffset = bounds.left + (_showPlayerNameLeft ? -(strWidth - 50) : (bounds.width / 2 - (strWidth + 30) / 2));
+	int nameYOffset = bounds.top + (_showPlayerNameLeft ? (bounds.height / 2 - 20) : -10);
+	DrawableShape* background = new DrawableShape(new sf::RectangleShape(sf::Vector2f(strWidth + 30, 40)), sf::Color(1, 1, 1, 204), sf::Vector2f(nameXOffset, nameYOffset));
+	_playerNameText->setOffset(sf::Vector2f(nameXOffset + 15, nameYOffset + 5));
+	
+	_nameTag = new DrawableObjectGroup();
+	_nameTag->addChild(background);
+	_nameTag->addChild(_playerNameText);
+	_nameTag->setPositionWithOffset(sf::Vector2f(0, 0));
 }
 
 Player::~Player()
 {
 	emptyHand();
+	delete _nameTag;
 }
 
 void Player::draw(sf::RenderWindow & renderWindow) const
 {
-	// TODO
-	/* 
-	        if(showCards) {
-            hand.forEach(card -> card.paint(g));
-        } else {
-            hand.forEach(card -> Card.paintCardBack(g, card));
-        }
-        g.setFont(new Font("Arial", Font.BOLD, 20));
-        int strWidth = g.getFontMetrics().stringWidth(playerName);
-        g.setColor(new Color(1,1,1, 204));
-        int nameXOffset = bounds.position.x + (showPlayerNameLeft ? -(strWidth-50) : (bounds.width/2-(strWidth+30)/2));
-        int nameYOffset = bounds.position.y + (showPlayerNameLeft ? (bounds.height/2-20) : -10);
-        g.fillRect(nameXOffset, nameYOffset, strWidth+30, 40);
-        g.setColor(CurrentGameInterface.getCurrentGame().getCurrentPlayer().getPlayerID() == getPlayerID()
-                ? Color.ORANGE : Color.WHITE);
-        g.drawString(playerName, nameXOffset+15, nameYOffset+25);
-	*/
+	for (const auto& card : _hand) {
+		if (_showCards) {
+			card->drawCardFront(renderWindow);
+		}
+		else {
+			card->drawCardBack(renderWindow);
+		}
+	}
+
+	_playerNameText->setColour((Game::getCurrentGame()->getCurrentPlayer() == this) ? sf::Color(255, 215, 0) : sf::Color::White);
+	_nameTag->draw(renderWindow);
 }
 
 void Player::addCardToHand(Card * card)

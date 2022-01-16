@@ -205,7 +205,7 @@ private:
 	 * @param playerList A list of player data to generate a collection.
 	 * @param bounds The bounds to use for calculating offsets and regions.
 	 */
-	static std::vector<Player*> createPlayersFromLobby(const std::vector<LobbyPlayer*> playerList, sf::IntRect bounds);
+	static std::vector<Player*> createPlayersFromLobby(const std::vector<LobbyPlayer*> playerList, sf::IntRect bounds, const sf::Font& font);
 	/**
 	 * Generates bounds for where a player's cards should be placed.
 	 *

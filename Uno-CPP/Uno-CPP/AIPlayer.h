@@ -36,7 +36,7 @@ public:
 	 * @param strategy The strategy the AI will use to play.
 	 * @param showPlayerNameLeft When true, the player's name is centred to the left side of the bounds, otherwise it is centred on the top.
 	 */
-	AIPlayer(const int playerID, const std::string& playerName, const sf::IntRect bounds, const AIStrategy strategy, const bool showPlayerNameLeft, std::default_random_engine& randomEngine);
+	AIPlayer(const int playerID, const std::string& playerName, const sf::IntRect bounds, const AIStrategy strategy, const bool showPlayerNameLeft, std::default_random_engine& randomEngine, const sf::Font& font);
 	virtual ~AIPlayer() = default;
 
 	/**
