@@ -9,6 +9,8 @@ Game::Game(const sf::IntRect& gameBounds, const sf::Font& font)
 	unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
 	randomEngine = std::default_random_engine(seed);
 
+	_terminateGame = false;
+
 	_currentGame = nullptr;
 	_lobbyInterface = nullptr;
 	_postGameInterface = nullptr;
@@ -117,6 +119,11 @@ CurrentGameInterface * Game::getCurrentGame()
 	return _currentGame;
 }
 
+bool Game::getGameCloseRequested()
+{
+	return _terminateGame;
+}
+
 void Game::setPauseState(const bool isPaused)
 {
 	if (_activeInterface != nullptr) {
@@ -176,5 +183,5 @@ void Game::showPostGame()
 
 void Game::quitGame()
 {
-	// TODO terminate game.
+	_terminateGame = true;
 }

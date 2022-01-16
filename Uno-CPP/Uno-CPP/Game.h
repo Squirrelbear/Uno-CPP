@@ -5,30 +5,70 @@
 #include "PostGameInterface.h"
 #include "PauseInterface.h"
 
-// TODO comments
+/*
+UNO
+
+Game class:
+Manages all the windows and transitions between game states for the lobby, current game, and postgame.
+
+@author: Peter Mitchell
+@version 2022.1
+*/
 class Game
 {
 public:
+	// Initialises the game with the Lobby.
 	Game(const sf::IntRect& gameBounds, const sf::Font& font);
 	virtual ~Game();
 
+	// Updates the current state of the active window.
 	void update(const float deltaTime);
+
+	// Draws the current window.
 	void draw(sf::RenderWindow & renderWindow) const;
+
+	// Handles passing events on to the active interface.
 	void handleMousePress(const sf::Vector2i& mousePosition, bool isLeft);
+
+	// Handles passing the mouse moved event to the active interface.
 	void handleMouseMove(const sf::Vector2i& mousePosition);
+
+	// Handles passing key pressed event to the active interface.
 	void handleKeyInput(const sf::Keyboard::Key key);
 
+	// Gets a reference to the single active interface used to access all the callbacks.
 	static CurrentGameInterface* getCurrentGame();
 	   
+	//  When true, the game should end.
+	bool getGameCloseRequested();
+
 private:
-	sf::IntRect _bounds;
-	sf::Font _font;
+	// Bounds of the game area.
+	const sf::IntRect _bounds;
+
+	// Reference to the font
+	const sf::Font& _font;
+
+	// Shared randomEngine used for all the randomisation.
 	std::default_random_engine randomEngine;
+
+	// Reference to the current active interface.
 	WndInterface* _activeInterface;
+
+	// Reference to the active current game interface or nullptr.
 	static CurrentGameInterface* _currentGame;
+
+	// Reference to the active LobbyInterface if one exists. Used for passing the LobbyPlayer objects into the CurrentGame.
 	LobbyInterface* _lobbyInterface;
+
+	// Reference to the active PostGameInterface if one exists. Used for the Post Game results.
 	PostGameInterface* _postGameInterface;
+
+	// Reference to the PauseInterface shown when the game enters a pause state.
 	PauseInterface* _pauseInterface;
+
+	// When true, the game should end.
+	bool _terminateGame;
 
 	/**
 	 * Pauses or unpauses the game.
