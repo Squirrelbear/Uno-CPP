@@ -15,7 +15,7 @@ AntiUnoButton::~AntiUnoButton()
 void AntiUnoButton::update(const float deltaTime)
 {
 	_isActive = false;
-	for (const auto& player : Game::getCurrentGame()->getAllPlayers()) {
+	for (const auto& player : *_gameState.players) {
 		if (player != _bottomPlayer && !player->isSafe() && player->getHand().size() == 1) {
 			_isActive = true;
 		}

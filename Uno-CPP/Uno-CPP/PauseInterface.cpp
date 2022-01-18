@@ -34,6 +34,11 @@ void PauseInterface::handleMousePress(const sf::Vector2i & mousePosition, bool i
 
 void PauseInterface::handleMouseMove(const sf::Vector2i & mousePosition)
 {
+	if (!isEnabled()) return;
+
+	for (auto& button : _buttonList) {
+		button.setHovering(button.isPositionInside(mousePosition));
+	}
 }
 
 WndResultState PauseInterface::getResultState() const
@@ -102,7 +107,7 @@ void PauseInterface::initialiseInterface(const sf::IntRect & bounds, const sf::I
 
 	_buttonList.emplace_back(Button(sf::IntRect(bounds.left + 6, bounds.top + 6 + 60, bounds.width - 12, 30), "Resume", 1, font));
 	_buttonList.emplace_back(Button(sf::IntRect(bounds.left + 6, bounds.top + 6 + 30+6+60, bounds.width - 12, 30), "Return to Lobby", 3, font));
-	_buttonList.emplace_back(Button(sf::IntRect(bounds.left + 6, bounds.top + 6 + (30+6)*2 + 60, bounds.width - 12, 30), "Resume", 2, font));
+	_buttonList.emplace_back(Button(sf::IntRect(bounds.left + 6, bounds.top + 6 + (30+6)*2 + 60, bounds.width - 12, 30), "Quit Game", 2, font));
 
 	// Force all components to update to their correct positions.
 	_interfaceBackground->setPositionWithOffset(sf::Vector2f(gameBounds.left, gameBounds.top));

@@ -87,9 +87,6 @@ public:
 	void setPosition(const sf::Vector2i& newPosition);
 
 private:
-	// Location of the card in the game. Width and Height are set to CARD_WIDTH and CARD_HEIGHT.
-	sf::IntRect _bounds;
-
 	// The label in the centre of the card.
 	std::string _cardLabel;
 

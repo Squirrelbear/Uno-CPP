@@ -109,7 +109,7 @@ void OverlayManager::showDecisionOverlay(TurnDecisionAction * currentAction)
 {
 	if (currentAction->requiresTimeout()) {
 		setEnabled(true);
-		if (Game::getCurrentGame()->getCurrentPlayer()->getPlayerType() == Player::PlayerType::ThisPlayer) {
+		if (_gameState.players->at(*_gameState.currentPlayerID)->getPlayerType() == Player::PlayerType::ThisPlayer) {
 			WndInterface* overlayToShow = _overlays[currentAction->getFlagName()];
 			if (typeid(overlayToShow) == typeid(TurnDecisionOverlayInterface)) {
 				(dynamic_cast<TurnDecisionOverlayInterface*>(overlayToShow))->showOverlay(currentAction);
