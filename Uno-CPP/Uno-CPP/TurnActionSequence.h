@@ -3,6 +3,7 @@
 #include "RuleSet.h"
 #include <vector>
 #include <map>
+#include "TurnActionEffect.h"
 
 /*
 UNO
@@ -18,11 +19,17 @@ class TurnActionSequence
 {
 public:
 	// Initialises an empty sequence of TurnAction objects.
-	TurnActionSequence();
+	explicit TurnActionSequence();
 	virtual ~TurnActionSequence();
 
 	// Links in a TurnAction as the start of a sequence and parses the tree to find all unique pointers
 	void setStartOfSequence(T* startAction);
+
+	// Performs any actions associated and iterates to next if possible.
+	void iterateSequence();
+
+	// Gets the current action associated with this sequence.
+	T* getCurrentAction();
 
 	/**
 	 * Stores the specified data into the storedData map to be used for future iterations.
@@ -53,6 +60,9 @@ private:
 
 	// Reference to the RuleSet for determining rules to follow during sequences.
 	RuleSet* _ruleSet;
+
+	// Uses the enum to determine which method should be called based on the effect.
+	void resolveEffect(TurnActionEffect effect);
 
 	/**
 	 * Requires storedData contains (playerID, cardID, faceValueID, colourID)

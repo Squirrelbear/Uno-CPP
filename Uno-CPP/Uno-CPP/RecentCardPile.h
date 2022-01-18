@@ -53,6 +53,9 @@ public:
 	 */
 	Card* getTopCard() const;
 
+	// Gets the card below the top card.
+	Card* getCardBelowTop() const;
+
 private:
 	// A history of cards that have been played.
 	std::vector<Card*> _recentCards;

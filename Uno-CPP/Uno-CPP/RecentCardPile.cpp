@@ -49,3 +49,8 @@ Card * RecentCardPile::getTopCard() const
 {
 	return _recentCards.at(_recentCards.size()-1);
 }
+
+Card * RecentCardPile::getCardBelowTop() const
+{
+	return _recentCards.at(_recentCards.size() - 2);
+}

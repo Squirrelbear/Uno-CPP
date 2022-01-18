@@ -14,12 +14,12 @@ TurnAction * TurnDecisionAction::getNext()
     return this;
 }
 
-void TurnDecisionAction::performAction()
+TurnActionEffect TurnDecisionAction::getTurnAction()
 {
-	if (_hasRunOnce) { return; }
+	if (_hasRunOnce) { return TurnActionEffect::Nothing; }
 	_hasRunOnce = true;
 	// Call the base version with to actually perform the action.
-	TurnAction::performAction();
+	return TurnAction::getTurnAction();
 }
 
 void TurnDecisionAction::injectFlagProperty(const int value)

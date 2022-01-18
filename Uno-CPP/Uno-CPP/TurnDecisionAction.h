@@ -44,10 +44,10 @@ public:
 	TurnAction* getNext() override;
 
 	/**
-	 * Checks if the action has already been performed. Then performs
-	 * the action if it is not null based on the definition in TurnAction.
+	 * Checks if the action has already been performed. Then returns
+	 * the action if it is not nothing based on the definition in TurnAction.
 	 */
-	void performAction() override;
+	TurnActionEffect getTurnAction() override;
 
 	/**
 	 * A shortcut method to storing a value directly into the flagName associated

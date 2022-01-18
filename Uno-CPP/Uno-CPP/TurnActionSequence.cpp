@@ -4,9 +4,17 @@
 #include "TurnActionFactory.h"
 #include <algorithm>
 #include "TurnActionSequenceUtility.h"
+#include <iostream>
+#include <string>
 
 template<class T>
 TurnActionSequence<T>::TurnActionSequence()
+{
+	_currentAction = nullptr;
+	_ruleSet = Game::getCurrentGame()->getRuleSet();
+}
+
+TurnActionSequence<TurnAction>::TurnActionSequence()
 {
 	_currentAction = nullptr;
 	_ruleSet = Game::getCurrentGame()->getRuleSet();
@@ -22,6 +30,30 @@ template<class T>
 void TurnActionSequence<T>::setStartOfSequence(T * startAction)
 {
 	// Do nothing for generic case
+}
+
+template<class T>
+void TurnActionSequence<T>::iterateSequence()
+{
+	return nullptr;
+}
+
+void TurnActionSequence<TurnAction>::iterateSequence()
+{
+	TurnActionEffect effect = _currentAction->getTurnAction();
+	resolveEffect(effect);
+	_currentAction = _currentAction->getNext();
+}
+
+template<class T>
+T * TurnActionSequence<T>::getCurrentAction()
+{
+	return _currentAction;
+}
+
+TurnAction * TurnActionSequence<TurnAction>::getCurrentAction()
+{
+	return _currentAction;
 }
 
 void TurnActionSequence<TurnAction>::setStartOfSequence(TurnAction * startAction)
@@ -72,18 +104,104 @@ RuleSet * TurnActionSequence<T>::getRuleSet()
 	return _ruleSet;
 }
 
-
-
 template<class T>
 void TurnActionSequence<T>::debugOutputTurnActionTree()
+{
+	// Do nothing for generic case.
+	//debugRecursiveNodeOutput(dynamic_cast<TurnAction*>(_currentAction), 0);
+}
+
+void TurnActionSequence<TurnAction>::debugOutputTurnActionTree()
 {
 	debugRecursiveNodeOutput(dynamic_cast<TurnAction*>(_currentAction), 0);
 }
 
 template<class T>
+void TurnActionSequence<T>::resolveEffect(TurnActionEffect effect)
+{
+	switch (effect) {
+		case TurnActionEffect::BeginChoiceOverlay:
+			beginChoiceOverlay();
+			break;
+		case TurnActionEffect::CheckCouldPlayCard:
+			checkCouldPlayCard();
+			break;
+		case TurnActionEffect::CheckDrawTillCanPlayRule:
+			checkDrawTillCanPlayRule();
+			break;
+		case TurnActionEffect::CheckForcedPlayRule:
+			checkForcedPlayRule();
+			break;
+		case TurnActionEffect::CheckNoBluffingRule:
+			checkNoBluffingRule();
+			break;
+		case TurnActionEffect::Draw4ChallengeSuccess:
+			draw4ChallengeSuccess();
+			break;
+		case TurnActionEffect::DrawCard:
+			drawCard();
+			break;
+		case TurnActionEffect::DrawCardAsActionFromData:
+			drawCardAsActionFromData();
+			break;
+		case TurnActionEffect::DrawNCards:
+			drawNCards();
+			break;
+		case TurnActionEffect::HasPlus2AndResponseAllowed:
+			hasPlus2AndResponseAllowed();
+			break;
+		case TurnActionEffect::IncreaseDrawCountBy2:
+			increaseDrawCountBy2();
+			break;
+		case TurnActionEffect::IncreaseDrawCountBy4:
+			increaseDrawCountBy4();
+			break;
+		case TurnActionEffect::IsCardPlayable:
+			isCardPlayable();
+			break;
+		case TurnActionEffect::MoveNextTurn:
+			moveNextTurn();
+			break;
+		case TurnActionEffect::MovePrevious:
+			movePrevious();
+			break;
+		case TurnActionEffect::PassAllHands:
+			passAllHands();
+			break;
+		case TurnActionEffect::PlaceCard:
+			placeCard();
+			break;
+		case TurnActionEffect::PlayCardAsActionFromData:
+			playCardAsActionFromData();
+			break;
+		case TurnActionEffect::SetTopPileColour:
+			setTopPileColour();
+			break;
+		case TurnActionEffect::ShowChallengeResult:
+			showChallengeResult();
+			break;
+		case TurnActionEffect::ShowSkip:
+			showSkip();
+			break;
+		case TurnActionEffect::SwapHandWithOther:
+			swapHandWithOther();
+			break;
+		case TurnActionEffect::TogglePlayDirection:
+			togglePlayDirection();
+			break;
+		case TurnActionEffect::Nothing:
+			// Do nothing...
+			break;
+		default:
+			std::cerr << "ERROR! Unknown TurnActionEffect missing function definition." << std::endl;
+			break;
+	}
+}
+
+template<class T>
 void TurnActionSequence<T>::playCardAsActionFromData()
 {
-	TurnActionSequence<TurnAction>* playCard = playCardAsAction(getPropertyValue("playerID"), getPropertyValue("cardID"),
+	TurnActionSequence<TurnAction>* playCard = TurnActionFactory::playCardAsAction(getPropertyValue("playerID"), getPropertyValue("cardID"),
 		getPropertyValue("faceValueID"), getPropertyValue("colourID"));
 	playCard->injectProperty("drawCount", getPropertyValue("drawCount"));
 	Game::getCurrentGame()->setCurrentTurnAction(playCard);
@@ -100,12 +218,12 @@ template<class T>
 void TurnActionSequence<T>::drawCard()
 {
 	// Draw card from deck
-	Deck deck = Game::getCurrentGame()->getDeck();
-	Card* drawnCard = deck.drawCard();
+	Deck* deck = Game::getCurrentGame()->getDeck();
+	Card* drawnCard = deck->drawCard();
 	// store ID into storedData
-	injectProperty("cardID", drawnCard.getCardID());
-	injectProperty("faceValueID", drawnCard.getFaceValueID());
-	injectProperty("colourID", drawnCard.getColourID());
+	injectProperty("cardID", drawnCard->getUniqueCardID());
+	injectProperty("faceValueID", drawnCard->getFaceValueID());
+	injectProperty("colourID", drawnCard->getColourID());
 	// Add card to hand
 	Game::getCurrentGame()->getCurrentPlayer()->addCardToHand(drawnCard);
 }
@@ -115,11 +233,11 @@ void TurnActionSequence<T>::placeCard()
 {
 	// Get card from hand
 	Player* currentPlayer = Game::getCurrentGame()->getCurrentPlayer();
-	Card* cardToPlace = currentPlayer.getCardByID(getPropertyValue("cardID"));
+	Card* cardToPlace = currentPlayer->getCardByID(getPropertyValue("cardID"));
 	// Remove card from hand
 	currentPlayer->removeCard(cardToPlace);
 	// Add card to pile
-	Game::getCurrentGame()->placeCard(cardToPlace);
+	Game::getCurrentGame()->getRecentCardPile()->placeCard(cardToPlace);
 }
 
 template<class T>
@@ -158,9 +276,9 @@ void TurnActionSequence<T>::drawNCards()
 		for (int i = 0; i < count; i++) {
 			drawCard();
 		}
-		Game::getCurrentGame()->showGeneralOverlay(
-			"DrawN" + Game::getCurrentGame()->getCurrentPlayer()->getPlayerID()
-			+ ";" + count);
+		auto overlayConfig = "DrawN" + std::to_string(Game::getCurrentGame()->getCurrentPlayer()->getPlayerID())
+							+ ";" + std::to_string(count);
+		Game::getCurrentGame()->showGeneralOverlay(overlayConfig);
 		injectProperty("drawCount", -1);
 	}
 }
@@ -168,7 +286,7 @@ void TurnActionSequence<T>::drawNCards()
 template<class T>
 void TurnActionSequence<T>::isCardPlayable()
 {
-	Card* latestCard = Game::getCurrentGame()->getTopCard();
+	Card* latestCard = Game::getCurrentGame()->getRecentCardPile()->getTopCard();
 	bool isPlayable = getPropertyValue("faceValueID") == latestCard->getFaceValueID()
 		|| getPropertyValue("colourID") == latestCard->getColourID()
 		|| getPropertyValue("faceValueID") >= 13;
@@ -190,7 +308,7 @@ void TurnActionSequence<T>::checkDrawTillCanPlayRule()
 template<class T>
 void TurnActionSequence<T>::hasPlus2AndResponseAllowed()
 {
-	auto& hand = Game::getCurrentGame()->getCurrentPlayer()->getHand();
+	auto hand = Game::getCurrentGame()->getCurrentPlayer()->getHand();
 	if (_ruleSet->canStackCards() &&		
 		std::find_if(hand.begin(), hand.end(), [](Card* card) { return card->getFaceValueID() == 10; }) != hand.end()) {
 		injectProperty("hasPlus2AndResponseAllowed", 1);
@@ -215,14 +333,13 @@ void TurnActionSequence<T>::togglePlayDirection()
 template<class T>
 void TurnActionSequence<T>::setTopPileColour()
 {
-	Game::getCurrentGame()->setTopCardColour(getPropertyValue("colourID"));
+	Game::getCurrentGame()->getRecentCardPile()->setTopCardColour(getPropertyValue("colourID"));
 }
 
 template<class T>
 void TurnActionSequence<T>::checkCouldPlayCard()
 {
-	auto& recentCards = Game::getCurrentGame()->getRecentCards();
-	Card* cardBeforeLast = recentCards.at(recentCards.size() - 2);
+	Card* cardBeforeLast = Game::getCurrentGame()->getRecentCardPile()->getCardBelowTop();
 	std::vector<Card*> validMoves = Game::getCurrentGame()->getCurrentPlayer()->getValidMoves(
 		cardBeforeLast->getFaceValueID(), cardBeforeLast->getColourID());
 	for (auto card : validMoves) {
@@ -240,7 +357,7 @@ void TurnActionSequence<T>::draw4ChallengeSuccess()
 	for (int i = 0; i < 4; i++) {
 		drawCard();
 	}
-	Game::getCurrentGame()->showGeneralOverlay("DrawN" + Game::getCurrentGame()->getCurrentPlayer()->getPlayerID() + ";4");
+	Game::getCurrentGame()->showGeneralOverlay("DrawN" + std::to_string(Game::getCurrentGame()->getCurrentPlayer()->getPlayerID()) + ";4");
 }
 
 template<class T>
@@ -257,14 +374,14 @@ void TurnActionSequence<T>::swapHandWithOther()
 	int targetPlayerID = getPropertyValue("otherPlayer");
 	Player* targetPlayer = Game::getCurrentGame()->getPlayerByID(targetPlayerID);
 	auto targetPlayerHand = targetPlayer->takeAllHand();
-	Player currentPlayer = Game::getCurrentGame()->getCurrentPlayer();
+	Player* currentPlayer = Game::getCurrentGame()->getCurrentPlayer();
 	auto currentPlayerHand = currentPlayer->takeAllHand();
 
 	for (auto card : targetPlayerHand) {
-		currentPlayer.addCardToHand(card);
+		currentPlayer->addCardToHand(card);
 	}
 	for (auto card : currentPlayerHand) {
-		targetPlayer.addCardToHand(card);
+		targetPlayer->addCardToHand(card);
 	}
 }
 
@@ -274,7 +391,8 @@ void TurnActionSequence<T>::passAllHands()
 	std::vector<std::vector<Card*>> hands;
     std::vector<Player*> players = Game::getCurrentGame()->getAllPlayers();
     for(auto player : players) {
-        hands.emplace_back(player->getAllHand());
+		auto hand = player->takeAllHand();
+        hands.emplace_back(hand);
     }
 
     // Shuffle the hands
@@ -291,7 +409,7 @@ void TurnActionSequence<T>::passAllHands()
     // put all the cards into the hands again
     for(int playerID = 0; playerID < players.size(); playerID++) {
         for(auto card : hands.at(playerID)) {
-            players.at(playerID).addCardToHand(card);
+            players.at(playerID)->addCardToHand(card);
         }
     }
 }
@@ -311,7 +429,7 @@ template<class T>
 void TurnActionSequence<T>::checkNoBluffingRule()
 {
 	bool canStack = _ruleSet->canStackCards();
-	auto& hand = Game::getCurrentGame()->getCurrentPlayer().getHand();
+	auto hand = Game::getCurrentGame()->getCurrentPlayer()->getHand();
 	bool hasAPlus4 = std::find_if(hand.begin(), hand.end(), [](Card* card) { return card->getFaceValueID() == 13; }) != hand.end();
 	bool canBluff = !_ruleSet->getNoBluffingRule();
 

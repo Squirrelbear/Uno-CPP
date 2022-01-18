@@ -4,31 +4,35 @@
 
 TurnActionSequence<TurnAction>* TurnActionFactory::playCardAsAction(const int playerID, const int cardID, const int faceValueID, const int colourID)
 {
-	//TurnActionSequence<TurnAction>* nextSequence = new TurnActionSequence<TurnAction>();
-	/*nextSequence->injectProperty("playerID", playerID);
+	TurnActionSequence<TurnAction>* nextSequence = new TurnActionSequence<TurnAction>();
+	nextSequence->injectProperty("playerID", playerID);
 	nextSequence->injectProperty("cardID", cardID);
 	nextSequence->injectProperty("faceValueID", faceValueID);
 	nextSequence->injectProperty("colourID", colourID);
-	TurnAction* cardAction = cardIDToTurnAction(faceValueID, *nextSequence);
-	TurnAction* placeCardAction = new TurnAction(cardAction, *nextSequence, TurnActionEffect::PlaceCard, "Place Card");*/
-	// TODO link into sequence.
-	return nullptr;// nextSequence;
+	TurnAction* cardAction = cardIDToTurnAction(faceValueID, nextSequence);
+	TurnAction* placeCardAction = new TurnAction(cardAction, nextSequence, TurnActionEffect::PlaceCard, "Place Card");
+
+	// Link sequence in by setting the start.
+	nextSequence->setStartOfSequence(placeCardAction);
+	return nextSequence;
 }
 
 TurnActionSequence<TurnAction>* TurnActionFactory::drawCardAsAction(const int playerID)
 {
-	//TurnActionSequence<TurnAction>* nextSequence = new TurnActionSequence<TurnAction>();
-	/*nextSequence->injectProperty("playerID", playerID);
-	TurnAction* moveToNextTurn = new TurnAction(nullptr, *nextSequence, TurnActionEffect::MoveNextTurn, "Move to Next Turn");
-	TurnAction* playCard = new TurnAction(nullptr, *nextSequence, TurnActionEffect::PlayCardAsActionFromData, "Play the DrawnCard");
-	TurnDecisionAction* keepOrPlay = new TurnDecisionAction(moveToNextTurn, playCard, true, "keepOrPlay", *nextSequence, TurnActionEffect::BeginChoiceOverlay, "Keep Or Play Choice");
-	TurnDecisionAction* isForcedPlay = new TurnDecisionAction(keepOrPlay, playCard, false, "isForcedPlay", *nextSequence, TurnActionEffect::CheckForcedPlayRule, "Check if the Forced Play is enabled and force the play if so.");
-	TurnAction* keepDrawing = new TurnAction(nullptr, *nextSequence, TurnActionEffect::DrawCardAsActionFromData, "Draw Another Card (Recursive Tree)");
-	TurnDecisionAction* drawTillCanPlay = new TurnDecisionAction(moveToNextTurn, keepDrawing, false, "drawTillCanPlay?", *nextSequence, TurnActionEffect::CheckDrawTillCanPlayRule, "Check Draw Till Can Play Rule");
-	TurnDecisionAction* canPlayCard = new TurnDecisionAction(drawTillCanPlay, isForcedPlay, false, "cardPlayable", *nextSequence, TurnActionEffect::IsCardPlayable, "Check is the Card Playable");
-	TurnAction* drawCard = new TurnAction(canPlayCard, *nextSequence, TurnActionEffect::DrawCard, "Draw a Card");*/
-	// TODO link into squence.
-	return nullptr;// nextSequence;
+	TurnActionSequence<TurnAction>* nextSequence = new TurnActionSequence<TurnAction>();
+	nextSequence->injectProperty("playerID", playerID);
+	TurnAction* moveToNextTurn = new TurnAction(nullptr, nextSequence, TurnActionEffect::MoveNextTurn, "Move to Next Turn");
+	TurnAction* playCard = new TurnAction(nullptr, nextSequence, TurnActionEffect::PlayCardAsActionFromData, "Play the DrawnCard");
+	TurnDecisionAction* keepOrPlay = new TurnDecisionAction(moveToNextTurn, playCard, true, "keepOrPlay", nextSequence, TurnActionEffect::BeginChoiceOverlay, "Keep Or Play Choice");
+	TurnDecisionAction* isForcedPlay = new TurnDecisionAction(keepOrPlay, playCard, false, "isForcedPlay", nextSequence, TurnActionEffect::CheckForcedPlayRule, "Check if the Forced Play is enabled and force the play if so.");
+	TurnAction* keepDrawing = new TurnAction(nullptr, nextSequence, TurnActionEffect::DrawCardAsActionFromData, "Draw Another Card (Recursive Tree)");
+	TurnDecisionAction* drawTillCanPlay = new TurnDecisionAction(moveToNextTurn, keepDrawing, false, "drawTillCanPlay?", nextSequence, TurnActionEffect::CheckDrawTillCanPlayRule, "Check Draw Till Can Play Rule");
+	TurnDecisionAction* canPlayCard = new TurnDecisionAction(drawTillCanPlay, isForcedPlay, false, "cardPlayable", nextSequence, TurnActionEffect::IsCardPlayable, "Check is the Card Playable");
+	TurnAction* drawCard = new TurnAction(canPlayCard, nextSequence, TurnActionEffect::DrawCard, "Draw a Card");
+	
+	// Link sequence in by setting the start.
+	nextSequence->setStartOfSequence(drawCard);
+	return nextSequence;
 }
 
 TurnAction * TurnActionFactory::playPlus2Action(TurnActionSequence<TurnAction>* nextSequence)

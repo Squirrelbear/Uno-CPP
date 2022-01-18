@@ -6,11 +6,9 @@ TurnAction::TurnAction(TurnAction * next, TurnActionSequence<TurnAction>* parent
 	_parent = parentSequence;
 }
 
-void TurnAction::performAction()
+TurnActionEffect TurnAction::getTurnAction()
 {
-	if (_actionID != -1) {
-		// TODO
-	}
+	return _actionID;
 }
 
 TurnAction * TurnAction::getNext()

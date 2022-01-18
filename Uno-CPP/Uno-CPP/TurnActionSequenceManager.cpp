@@ -35,9 +35,7 @@ void TurnActionSequenceManager::update()
 				std::cout << getCurrentTurnAction()->getActionDebugText() << std::endl;
 			}
 		}
-		// TODO handle performing action
-		/*currentTurnAction.performAction();
-		currentTurnAction = currentTurnAction.getNext();*/
+		_currentSequence->iterateSequence();
 
 		// Force swap to queued sequence if there is one
 		if (_queuedSequence != nullptr) {
@@ -60,8 +58,7 @@ void TurnActionSequenceManager::setSequence(TurnActionSequence<TurnAction>* newS
 
 		if (_debugModeEnabled && _debugShowTreeOnNewAction) {
 			std::cout << "Queued action sequence:" << std::endl;
-			// TODO debug output tree
-			//TurnActionFactory.debugOutputTurnActionTree(turnAction);
+			_currentSequence->debugOutputTurnActionTree();
 		}
 	}
 	else {
@@ -72,8 +69,7 @@ void TurnActionSequenceManager::setSequence(TurnActionSequence<TurnAction>* newS
 
 		if (_debugModeEnabled && _debugShowTreeOnNewAction) {
 			std::cout << "Set action sequence:" << std::endl;
-			// TODO debug output tree
-			//TurnActionFactory.debugOutputTurnActionTree(turnAction);
+			_currentSequence->debugOutputTurnActionTree();
 		}
 	}
 }
@@ -91,8 +87,8 @@ TurnAction * TurnActionSequenceManager::getCurrentTurnAction() const
 	if (_currentSequence == nullptr) {
 		return nullptr;
 	}
-	// TODO need to link after adding TurnActionSequence<TurnAction>::getCurrentTurnAction()
-	return nullptr; //_currentSequence->getCurrentTurnAction();
+
+	return _currentSequence->getCurrentAction();
 }
 
 bool TurnActionSequenceManager::hasActiveTurnAction() const

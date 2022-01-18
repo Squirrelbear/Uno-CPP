@@ -28,8 +28,8 @@ public:
 	TurnAction(TurnAction* next, TurnActionSequence<TurnAction>* parentSequence, const TurnActionEffect actionID, const std::string& actionDebugText);
 	virtual ~TurnAction() = default;
 
-	// Calls the action associated with this TurnAction.
-	virtual void performAction();
+	// Gets the action associated with this TurnAction.
+	virtual TurnActionEffect getTurnAction();
 
 	// Gets the reference to the next turn action after this one, can be null if at the end.
 	virtual TurnAction* getNext();
