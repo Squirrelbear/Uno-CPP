@@ -7,7 +7,7 @@ Game::Game(const sf::IntRect& gameBounds, const sf::Font& font)
 	:	_bounds(gameBounds), _font(font)
 {
 	unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
-	randomEngine = std::default_random_engine(seed);
+	_randomEngine = std::default_random_engine(seed);
 
 	_terminateGame = false;
 
@@ -139,7 +139,7 @@ void Game::showLobby()
 			delete _lobbyInterface;
 		}
 		
-		_lobbyInterface = new LobbyInterface(_bounds, _font);
+		_lobbyInterface = new LobbyInterface(_bounds, _font, _randomEngine);
 		_activeInterface = _lobbyInterface;
 	}
 	setPauseState(false);
@@ -153,7 +153,7 @@ void Game::startGame()
 		delete _currentGame;
 	}
 
-	_currentGame = new CurrentGameInterface(_bounds, _font, lobbyPlayers, ruleSet, randomEngine);
+	_currentGame = new CurrentGameInterface(_bounds, _font, lobbyPlayers, ruleSet, _randomEngine);
 	_activeInterface = _currentGame;
 }
 
@@ -165,7 +165,7 @@ void Game::startNextRound()
 		delete _currentGame;
 	}
 
-	_currentGame = new CurrentGameInterface(_bounds, _font, players, ruleSet, randomEngine);
+	_currentGame = new CurrentGameInterface(_bounds, _font, players, ruleSet, _randomEngine);
 	_activeInterface = _currentGame;
 }
 

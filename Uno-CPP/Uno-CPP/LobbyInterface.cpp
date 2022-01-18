@@ -1,15 +1,17 @@
 #include "LobbyInterface.h"
+#include <fstream>
+#include <iostream>
 
-LobbyInterface::LobbyInterface(const sf::IntRect & bounds, const sf::Font & font)
+LobbyInterface::LobbyInterface(const sf::IntRect & bounds, const sf::Font & font, std::default_random_engine& randomEngine)
 	: WndInterface(bounds)
 {
 	_ruleSet = new RuleSet();
 
-	std::vector<std::string> aiNames = getRandomAINameList();
+	std::vector<std::string> aiNames = getRandomAINameList(randomEngine);
 	_playerList.emplace_back(new LobbyPlayer("Player", Player::PlayerType::ThisPlayer, sf::IntRect(20, 100, bounds.width / 2, 100), font));
 	_playerList.emplace_back(new LobbyPlayer(aiNames.at(0), Player::PlayerType::AIPlayer, sf::IntRect(20, 100+120, bounds.width / 2, 100), font));
-	_playerList.emplace_back(new LobbyPlayer(aiNames.at(0), Player::PlayerType::AIPlayer, sf::IntRect(20, 100 + 120*2, bounds.width / 2, 100), font));
-	_playerList.emplace_back(new LobbyPlayer(aiNames.at(0), Player::PlayerType::AIPlayer, sf::IntRect(20, 100 + 120*3, bounds.width / 2, 100), font));
+	_playerList.emplace_back(new LobbyPlayer(aiNames.at(1), Player::PlayerType::AIPlayer, sf::IntRect(20, 100 + 120*2, bounds.width / 2, 100), font));
+	_playerList.emplace_back(new LobbyPlayer(aiNames.at(2), Player::PlayerType::AIPlayer, sf::IntRect(20, 100 + 120*3, bounds.width / 2, 100), font));
 
 	initialiseBackground(bounds, font);
 	initialiseRuleOptions(bounds, font);
@@ -223,10 +225,32 @@ void LobbyInterface::updateAllRuleLabels()
 	updateScoreLimitLabel();
 }
 
-std::vector<std::string> LobbyInterface::getRandomAINameList()
+std::vector<std::string> LobbyInterface::getRandomAINameList(std::default_random_engine& randomEngine)
 {
 	std::vector<std::string> names;
-	names.emplace_back("NOT_TODO");
+	std::ifstream file("../AINameList.txt");
+	if (!file.is_open()) {
+		std::cerr << "ERROR: Failed to load the AINameList.txt file." << std::endl;
+		names.push_back("LOADERROR");
+		names.push_back("LOADERROR");
+		names.push_back("LOADERROR");
+		return names;
+	}
+	std::string name;
+	while (std::getline(file, name)) {
+		names.push_back(name);
+	}
+	file.close();
+	
+	if (names.size() < 3) {
+		std::cerr << "ERROR: AINameList.txt has less than 3 names in it." << std::endl;
+		names.push_back("LOADERROR");
+		names.push_back("LOADERROR");
+		names.push_back("LOADERROR");
+		return names;
+	}
+
+	std::shuffle(names.begin(), names.end(), randomEngine);
 	return names;
 }
 

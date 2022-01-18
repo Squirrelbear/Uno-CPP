@@ -73,7 +73,7 @@ void testing() {
 	Button buttonTest(sf::IntRect(700,150,150,40), "Example Text", 0, font);
 
 	//PauseInterface pauseInterface(sf::IntRect(1280/2-100, 720/2-100, 200, 200), sf::IntRect(0,0,1280,720), font);
-	LobbyInterface lobbyInterface(sf::IntRect(0, 0, 1280, 720), font);
+	LobbyInterface lobbyInterface(sf::IntRect(0, 0, 1280, 720), font, randomEngine);
 	//UnoButton testButton(sf::Vector2f(100, 100), font);
 	//AntiUnoButton testButton2(sf::Vector2f(300, 100), font);
 

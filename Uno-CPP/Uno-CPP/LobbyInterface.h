@@ -24,7 +24,7 @@ public:
 	 *
 	 * @param bounds Area to display the lobby in.
 	 */
-	LobbyInterface(const sf::IntRect& bounds, const sf::Font& font);
+	LobbyInterface(const sf::IntRect& bounds, const sf::Font& font, std::default_random_engine& randomEngine);
 	virtual ~LobbyInterface();
 
 	// Does nothing
@@ -138,7 +138,7 @@ private:
 	 *
 	 * @return A list of names read in from the file.
 	 */
-	std::vector<std::string> getRandomAINameList();
+	std::vector<std::string> getRandomAINameList(std::default_random_engine& randomEngine);
 
 	// Initialises all the labels and buttons stored in _buttonList and _ruleStrings
 	void initialiseRuleOptions(const sf::IntRect& bounds, const sf::Font& font);

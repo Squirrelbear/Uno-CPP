@@ -50,7 +50,7 @@ private:
 	const sf::Font& _font;
 
 	// Shared randomEngine used for all the randomisation.
-	std::default_random_engine randomEngine;
+	std::default_random_engine _randomEngine;
 
 	// Reference to the current active interface.
 	WndInterface* _activeInterface;

@@ -56,8 +56,6 @@ void Deck::fillDeck()
 		addCard(14, 4);
 	}
 
-	
-
 	std::shuffle(_deck.begin(), _deck.end(), _randomEngine);
 }
 
