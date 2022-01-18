@@ -83,6 +83,8 @@ AIPlayer::AIStrategy LobbyPlayer::getAIStrategy() const
 
 void LobbyPlayer::handleClick()
 {
+	if (!isEnabled()) return;
+
 	if (_playerType == Player::PlayerType::AIPlayer) {
 		iterateStrategy();
 	}
@@ -93,6 +95,8 @@ void LobbyPlayer::handleClick()
 
 void LobbyPlayer::draw(sf::RenderWindow & renderWindow) const
 {
+	if (!isEnabled()) return;
+
 	_drawableObject->draw(renderWindow);
 }
 
