@@ -3,6 +3,7 @@
 ChallengeSuccessOverlay::ChallengeSuccessOverlay(const sf::IntRect & bounds)
 	: WndInterface(bounds)
 {
+	setEnabled(false);
 	int widthDiv6 = bounds.width / 6;
 	int x = bounds.left;
 	int y = bounds.top;

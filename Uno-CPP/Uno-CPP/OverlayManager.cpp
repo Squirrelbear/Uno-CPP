@@ -39,19 +39,19 @@ OverlayManager::OverlayManager(const sf::IntRect & bounds, std::vector<Player*> 
     for(int i = 0; i < playerList.size(); i++) {
         sf::Vector2f playerCentre = playerList.at(i)->getCentreOfBounds();
         PlayerFlashOverlay* skipVisualOverlay = new PlayerFlashOverlay(playerCentre, "SKIPPED", sf::Color::Red, 40, font);
-		_overlays["SkipVisual"+i] = skipVisualOverlay;
+		_overlays["SkipVisual"+std::to_string(i)] = skipVisualOverlay;
         PlayerFlashOverlay* drawNMessageOverlay = new PlayerFlashOverlay(playerCentre, "", sf::Color::Red, 40, font);
-		_overlays["DrawN"+i] = drawNMessageOverlay;
+		_overlays["DrawN" + std::to_string(i)] = drawNMessageOverlay;
         ChallengeSuccessOverlay* challengeSuccessOverlay = new ChallengeSuccessOverlay(sf::IntRect(playerCentre.x, playerCentre.y, 100,100));
-		_overlays["ChallengeSuccess"+i] = challengeSuccessOverlay;
+		_overlays["ChallengeSuccess" + std::to_string(i)] = challengeSuccessOverlay;
         ChallengeFailedOverlay* challengeFailedOverlay = new ChallengeFailedOverlay(sf::IntRect(playerCentre.x, playerCentre.y, 100, 100));
-		_overlays["ChallengeFailed"+i] = challengeFailedOverlay;
+		_overlays["ChallengeFailed" + std::to_string(i)] = challengeFailedOverlay;
         UNOCalledOverlay* unoCalledOverlay = new UNOCalledOverlay(sf::Vector2f(playerCentre.x,playerCentre.y+20), font);
-		_overlays["UNOCalled"+i] = unoCalledOverlay;
+		_overlays["UNOCalled" + std::to_string(i)] = unoCalledOverlay;
         PlayerFlashOverlay* antiUnoOverlay = new PlayerFlashOverlay(sf::Vector2f(playerCentre.x,playerCentre.y+20), "!", sf::Color(226, 173, 67), 50, font);
-		_overlays["AntiUnoCalled"+i] = antiUnoOverlay;
+		_overlays["AntiUnoCalled" + std::to_string(i)] = antiUnoOverlay;
         PlayerFlashOverlay* jumpInOverlay = new PlayerFlashOverlay(sf::Vector2f(playerCentre.x,playerCentre.y+20), "JUMPED IN", sf::Color(255,215,0), 40, font);
-		_overlays["JumpIn"+i] = jumpInOverlay;
+		_overlays["JumpIn" + std::to_string(i)] = jumpInOverlay;
     }
 	_overlays["UnoButton"] = unoButton;
 	_overlays["antiUnoButton"] = antiUnoButton;

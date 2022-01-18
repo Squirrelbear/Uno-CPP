@@ -153,7 +153,7 @@ TurnActionSequence<TurnAction>* AIPlayer::performTurn(Card* topCard)
 
 void AIPlayer::resetDelayTimer()
 {
-	_delayTimer = 1500;
+	_delayTimer = 1.5f;
 }
 
 Card * AIPlayer::chooseCard(std::vector<Card*>& validCards)
