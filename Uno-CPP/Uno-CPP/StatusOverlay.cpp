@@ -80,7 +80,7 @@ void StatusOverlay::updateTimeOutLabel()
 	}
 	_timeOutText->setColour(_timeOut < 6 ? sf::Color::Red : sf::Color::Yellow);
 
-	std::string time = static_cast<int>(_timeOut) + "s";
+	std::string time = std::to_string(_timeOut) + "s";
 	_timeOutText->setText(time);
 	_timeOutShadowText->setText(time);
 	int strWidth = _statusText->getTextWidth();

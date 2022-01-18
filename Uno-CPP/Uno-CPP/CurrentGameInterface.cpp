@@ -158,8 +158,9 @@ void CurrentGameInterface::jumpIn(const int playerID, Card * cardToPlay)
 
 void CurrentGameInterface::showOverlayForTurnAction()
 {
-	if (typeid(_turnActionSequenceManager->getCurrentTurnAction()) == typeid(TurnDecisionAction)) {
-		_overlayManager->showDecisionOverlay(dynamic_cast<TurnDecisionAction*>(_turnActionSequenceManager->getCurrentTurnAction()));
+	TurnDecisionAction* action = dynamic_cast<TurnDecisionAction*>(_turnActionSequenceManager->getCurrentTurnAction());
+	if (action != nullptr) {
+		_overlayManager->showDecisionOverlay(action);
 	}
 }
 

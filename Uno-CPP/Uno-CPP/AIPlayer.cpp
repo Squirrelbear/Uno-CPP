@@ -43,8 +43,8 @@ void AIPlayer::update(const float deltaTime)
 	}
 	else {
 		// Handle the turn action if it is necessary
-		if (typeid(currentTurnAction) == typeid(TurnDecisionAction)) {
-			TurnDecisionAction* decisionAction = dynamic_cast<TurnDecisionAction*>(currentTurnAction);
+		TurnDecisionAction* decisionAction = dynamic_cast<TurnDecisionAction*>(currentTurnAction);
+		if (decisionAction != nullptr) {
 			if (decisionAction->getTimeOut()) {
 				handleTurnDecision(decisionAction);
 			}
@@ -162,14 +162,11 @@ Card * AIPlayer::chooseCard(std::vector<Card*>& validCards)
 		return validCards.at(_randomEngine() % validCards.size());
 	}
 
-	// Sort based on scores
-	std::sort(validCards.begin(), validCards.end(), [](Card* a, Card* b) { return a->getScoreValue() < b->getScoreValue(); });
-
 	if (_strategy == AIStrategy::Defensive) {
-		return validCards.at(validCards.size() - 1);
+		return *std::max_element(validCards.begin(), validCards.end(), [](Card* a, Card* b) { return a->getScoreValue() > b->getScoreValue(); });
 	}
 	else { // Offensive
-		return validCards.at(0);
+		return *std::max_element(validCards.begin(), validCards.end(), [](Card* a, Card* b) { return a->getScoreValue() < b->getScoreValue(); });
 	}
 }
 
@@ -234,7 +231,8 @@ void AIPlayer::chooseChallengeOrDecline(TurnDecisionAction * decisionAction)
 {
 	// Always stack a card if it is allowed and available.
 	if (Game::getCurrentGame()->getRuleSet()->canStackCards()) {
-		auto validCard = std::find_if(getHand().begin(), getHand().end(), [](Card* card) { return card->getFaceValueID() == 13; });
+		auto hand = getHand();
+		auto validCard = std::find_if(hand.begin(), hand.end(), [](Card* card) { return card->getFaceValueID() == 13; });
 		if (validCard != getHand().end()) {
 			checkCallUNO();
 			decisionAction->injectProperty("faceValueID", (*validCard)->getFaceValueID());

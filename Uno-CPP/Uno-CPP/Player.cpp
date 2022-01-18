@@ -1,6 +1,8 @@
 #include "Player.h"
 #include "DrawableShape.h"
 #include "Game.h"
+#include <vector>
+#include <algorithm>
 
 Player::Player(const int playerID, const std::string & playerName, const PlayerType playerType, const sf::IntRect bounds, const bool showPlayerNameLeft, const sf::Font& font)
 	: _playerID(playerID), _playerName(playerName), _playerType(playerType), _bounds(bounds), _showPlayerNameLeft(showPlayerNameLeft)
@@ -110,7 +112,8 @@ void Player::updateHover(const sf::Vector2i & mousePosition)
 
 void Player::removeCard(Card * card)
 {
-	auto newEndIt = std::remove(_hand.begin(), _hand.end(), card);
+	_hand.erase(std::remove_if(_hand.begin(), _hand.end(),
+		[&](Card* c) {return c->getUniqueCardID() == card->getUniqueCardID(); }), _hand.end());
 	recalculateCardPositions();
 }
 

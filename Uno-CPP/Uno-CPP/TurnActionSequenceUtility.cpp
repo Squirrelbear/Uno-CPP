@@ -10,8 +10,8 @@ void debugRecursiveNodeOutput(TurnAction * currentNode, int indentLevel)
 		std::cout << "\t";
 	}
 
-	if (typeid(currentNode) == typeid(TurnDecisionAction)) {
-		TurnDecisionAction* currentSplitNode = dynamic_cast<TurnDecisionAction*>(currentNode);
+	TurnDecisionAction* currentSplitNode = dynamic_cast<TurnDecisionAction*>(currentNode);
+	if (currentSplitNode != nullptr) {
 		std::cout << "? " << (indentLevel + 1) << ". " << currentSplitNode->getFlagName()
 			<< " Timeout: " << currentSplitNode->getTimeOut() << " " << currentSplitNode->getActionDebugText() << std::endl;
 			debugRecursiveNodeOutput(currentSplitNode->getNextPointer(), indentLevel + 1);

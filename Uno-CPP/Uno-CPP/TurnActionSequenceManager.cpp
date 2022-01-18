@@ -26,8 +26,9 @@ void TurnActionSequenceManager::update()
 	if (hasActiveTurnAction()) {
 		// Tree Debug Output
 		if (_debugModeEnabled && _debugShowTaskActionNotes) {
-			if (typeid(getCurrentTurnAction()) == typeid(TurnDecisionAction)) {
-				if (!(dynamic_cast<TurnDecisionAction*>(getCurrentTurnAction())->getHasRunOnce())) {
+			TurnDecisionAction* decisionAction = dynamic_cast<TurnDecisionAction*>(getCurrentTurnAction());
+			if (decisionAction != nullptr) {
+				if (!decisionAction->getHasRunOnce()) {
 					std::cout << getCurrentTurnAction()->getActionDebugText() << std::endl;
 				}
 			}

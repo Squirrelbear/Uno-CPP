@@ -463,8 +463,9 @@ void TurnActionSequence<T>::loadAllPointers(T * actionToAdd)
 		_unorderedSequence.emplace_back(actionToAdd);
 	}
 
-	if (typeid(actionToAdd) == typeid(TurnDecisionAction*)) {
-		loadAllPointers(dynamic_cast<TurnDecisionAction*>(actionToAdd)->getOtherNextPointer());
+	TurnDecisionAction* decisionAction = dynamic_cast<TurnDecisionAction*>(actionToAdd);
+	if (decisionAction != nullptr) {
+		loadAllPointers(decisionAction->getOtherNextPointer());
 	}
 	loadAllPointers(actionToAdd->getNextPointer());
 }

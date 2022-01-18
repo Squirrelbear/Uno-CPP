@@ -110,9 +110,9 @@ void OverlayManager::showDecisionOverlay(TurnDecisionAction * currentAction)
 	if (currentAction->requiresTimeout()) {
 		setEnabled(true);
 		if (_gameState.players->at(*_gameState.currentPlayerID)->getPlayerType() == Player::PlayerType::ThisPlayer) {
-			WndInterface* overlayToShow = _overlays[currentAction->getFlagName()];
-			if (typeid(overlayToShow) == typeid(TurnDecisionOverlayInterface)) {
-				(dynamic_cast<TurnDecisionOverlayInterface*>(overlayToShow))->showOverlay(currentAction);
+			TurnDecisionOverlayInterface* overlayToShow = dynamic_cast<TurnDecisionOverlayInterface*>(_overlays[currentAction->getFlagName()]);
+			if (overlayToShow != nullptr) {
+				overlayToShow->showOverlay(currentAction);
 			}
 		}
 		_overlayAction = currentAction;
@@ -129,11 +129,11 @@ void OverlayManager::showGeneralOverlay(const std::string & overlayName)
 	while (std::getline(sstream, part, ';')) {
 		splitOverlayName.push_back(part);
 	}
-	WndInterface* overlayToShow = _overlays[splitOverlayName.at(0)];
-	if (typeid(overlayToShow) == typeid(GeneralOverlayInterface)) {
-		(dynamic_cast<GeneralOverlayInterface*>(overlayToShow))->showOverlay();
+	GeneralOverlayInterface* overlayToShow = dynamic_cast<GeneralOverlayInterface*>(_overlays[splitOverlayName.at(0)]);
+	if (overlayToShow != nullptr) {
+		overlayToShow->showOverlay();
 		if (splitOverlayName.at(0).rfind("DrawN", 0) == 0) {
-			(dynamic_cast<PlayerFlashOverlay*>(overlayToShow))->setMessage("+"+splitOverlayName.at(1));
+			(dynamic_cast<PlayerFlashOverlay*>(_overlays[splitOverlayName.at(0)]))->setMessage("+"+splitOverlayName.at(1));
 		}
 	}
 }
@@ -141,7 +141,7 @@ void OverlayManager::showGeneralOverlay(const std::string & overlayName)
 void OverlayManager::hideAllDecisionOverlays()
 {
 	for (auto &[key, overlay] : _overlays) {
-		if (typeid(overlay) == typeid(TurnDecisionOverlayInterface)) {
+		if (dynamic_cast<TurnDecisionOverlayInterface*>(overlay) != nullptr) {
 			overlay->setEnabled(false);
 		}
 	}
