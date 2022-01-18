@@ -2,7 +2,7 @@
 
 Card::Card(const int faceValueID, const int colourID, const int cardID, const std::shared_ptr<CardBackGroupObject>& cardBack, const sf::Font& font)
 	: InteractableRect(sf::IntRect(0,0,CARD_WIDTH,CARD_HEIGHT)), 
-	_faceValueID(faceValueID), _colourID(colourID), _uniqueCardID(cardID), _cardBack(cardBack)
+	_faceValueID(faceValueID), _colourID(colourID), _uniqueCardID(cardID), _cardBack(cardBack), _font(font)
 {
 	_drawColour = getColourByID(_colourID);
 	_cardLabel = getLabelByFaceValue(_faceValueID);
@@ -28,6 +28,9 @@ void Card::setColour(const int colourID)
 {
 	_colourID = colourID;
 	_drawColour = getColourByID(_colourID);
+	// Remake the card.
+	_cardFront.release();
+	_cardFront = std::make_unique<CardFrontObjectGroup>(_faceValueID, colourID, sf::Vector2f(_bounds.left, _bounds.top), _font);
 }
 
 int Card::getColourID() const

@@ -112,5 +112,8 @@ private:
 
 	// Card back for when the card is visible.
 	std::unique_ptr<CardFrontObjectGroup> _cardFront;
+
+	// Reference to the font for regenerating the card front if the colour is changed.
+	const sf::Font& _font;
 };
 
