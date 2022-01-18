@@ -9,7 +9,7 @@ CurrentGameInterface::CurrentGameInterface(const sf::IntRect& bounds, const sf::
 }
 
 CurrentGameInterface::CurrentGameInterface(const sf::IntRect& bounds, const sf::Font& font, const std::vector<Player*> playerList, RuleSet* ruleSet, std::default_random_engine& randomEngine)
-	: WndInterface(bounds), _recentCardPile(new RecentCardPile(sf::Vector2f(bounds.width / 2 - 30, bounds.height / 2 - 45)))
+	: WndInterface(bounds), _recentCardPile(new RecentCardPile(sf::Vector2f(bounds.width / 2 - 30, bounds.height / 2 - 45), randomEngine))
 {
 	_ruleSet = ruleSet;
 	_deck = new Deck(sf::Vector2f(bounds.width / 2 - 30 - 160, bounds.height / 2 - 45), font, randomEngine);

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Card.h"
+#include <random>
 
 /**
  * Uno
@@ -15,7 +16,7 @@ class RecentCardPile
 {
 public:
 	// Initialises the empty pile at the specified position.
-	RecentCardPile(const sf::Vector2f centredCardPos);
+	RecentCardPile(const sf::Vector2f centredCardPos, std::default_random_engine& randomEngine);
 	virtual ~RecentCardPile();
 
 	// Draw the cards on the pile.
@@ -55,7 +56,11 @@ public:
 private:
 	// A history of cards that have been played.
 	std::vector<Card*> _recentCards;
+
 	// Centre point used to randomly spread cards around.
 	sf::Vector2f _centredCardPos;
+
+	// Reference to the random engine for randomising card colours and positions.
+	std::default_random_engine& _randomEngine;
 };
 

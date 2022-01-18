@@ -1,7 +1,7 @@
 #include "RecentCardPile.h"
 
-RecentCardPile::RecentCardPile(const sf::Vector2f centredCardPos)
-	: _centredCardPos(centredCardPos)
+RecentCardPile::RecentCardPile(const sf::Vector2f centredCardPos, std::default_random_engine& randomEngine)
+	: _centredCardPos(centredCardPos), _randomEngine(randomEngine)
 {
 }
 
@@ -26,8 +26,7 @@ void RecentCardPile::setTopCardColour(const int colourID)
 
 void RecentCardPile::placeCard(Card * card)
 {
-	// TODO add random
-	//card->setPosition(_centredCardPos.x + (int)(Math.random() * 24 - 12), centredCardPos.y + (int)(Math.random() * 24 - 12));
+	card->setPosition(sf::Vector2i(_centredCardPos.x + _randomEngine() % 24 - 12, _centredCardPos.y + _randomEngine() % 24 - 12));
 	_recentCards.emplace_back(card);
 	int MAX_CARD_HISTORY = 10;
 	if (_recentCards.size() > MAX_CARD_HISTORY) {
@@ -42,8 +41,7 @@ void RecentCardPile::forcePlayCard(Card * card)
 	placeCard(card);
 
 	if (card->getFaceValueID() >= 13) {
-		// TODO add random
-		//setTopCardColour((int)(Math.random() * 4));
+		setTopCardColour(_randomEngine() % 4);
 	}
 }
 
