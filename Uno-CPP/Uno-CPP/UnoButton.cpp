@@ -1,18 +1,18 @@
 #include "UnoButton.h"
 #include "Game.h"
 
-UnoButton::UnoButton(const sf::Vector2f position, const sf::Font& font)
-	: OvalHoverButton(sf::IntRect(position.x, position.y, 80, 60), font, "UNO", sf::Color(147, 44, 44))
+UnoButton::UnoButton(const sf::Vector2f position, const sf::Font& font, const GameStateData& gameData)
+	: OvalHoverButton(sf::IntRect(position.x, position.y, 80, 60), font, "UNO", sf::Color(147, 44, 44)), _gameState(gameData)
 {
 	setEnabled(true);
-	_bottomPlayer = Game::getCurrentGame()->getBottomPlayer();
+	_bottomPlayer = _gameState.bottomPlayer;
 }
 
 void UnoButton::update(const float deltaTime)
 {
 	_isActive = _bottomPlayer->getUnoState() == Player::UNOState::NotSafe
 		|| (_bottomPlayer->getUnoState() == Player::UNOState::Safe
-			&& Game::getCurrentGame()->getCurrentPlayer() == _bottomPlayer
+			&& _gameState.players->at(*_gameState.currentPlayerID) == _bottomPlayer
 			&& _bottomPlayer->getHand().size() == 2);
 }
 

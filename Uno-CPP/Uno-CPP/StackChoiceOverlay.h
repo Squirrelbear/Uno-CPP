@@ -4,6 +4,7 @@
 #include "TurnDecisionOverlayInterface.h"
 #include "Button.h"
 #include "Player.h"
+#include "GameStateData.h"
 
 /**
  * Uno
@@ -22,7 +23,7 @@ public:
 	 *
 	 * @param bounds The bounds of the entire game area. The buttons are offset from the centre.
 	 */
-	StackChoiceOverlay(const sf::IntRect & bounds, const sf::Font & font);
+	StackChoiceOverlay(const sf::IntRect & bounds, const sf::Font & font, const GameStateData& gameData);
 	virtual ~StackChoiceOverlay();
 
 	// Does nothing.

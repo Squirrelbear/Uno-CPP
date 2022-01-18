@@ -163,6 +163,7 @@
     <ClCompile Include="PostGameInterface.cpp" />
     <ClCompile Include="RecentCardPile.cpp" />
     <ClCompile Include="RuleSet.cpp" />
+    <ClCompile Include="SFMLGame.cpp" />
     <ClCompile Include="StackChoiceOverlay.cpp" />
     <ClCompile Include="StatusOverlay.cpp" />
     <ClCompile Include="TurnAction.cpp" />
@@ -195,6 +196,7 @@
     <ClInclude Include="DrawableText.h" />
     <ClInclude Include="EllipseShape.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="GameStateData.h" />
     <ClInclude Include="GeneralOverlayInterface.h" />
     <ClInclude Include="InteractableRect.h" />
     <ClInclude Include="KeepOrPlayOverlay.h" />
@@ -211,6 +213,7 @@
     <ClInclude Include="PostGameInterface.h" />
     <ClInclude Include="RecentCardPile.h" />
     <ClInclude Include="RuleSet.h" />
+    <ClInclude Include="SFMLGame.h" />
     <ClInclude Include="StackChoiceOverlay.h" />
     <ClInclude Include="StatusOverlay.h" />
     <ClInclude Include="StringUtility.h" />

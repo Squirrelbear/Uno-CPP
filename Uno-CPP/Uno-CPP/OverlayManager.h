@@ -4,6 +4,7 @@
 #include "TurnDecisionAction.h"
 #include "WndInterface.h"
 #include "Player.h"
+#include "GameStateData.h"
 
 /**
  * Uno
@@ -25,7 +26,7 @@ public:
 	 * @param bounds The bounds of the entire game area.
 	 * @param playerList Has the list of playerrs as required for the playerSelection overlay.
 	 */
-	OverlayManager(const sf::IntRect& bounds, std::vector<Player*> playerList, const sf::Font& font);
+	OverlayManager(const sf::IntRect& bounds, std::vector<Player*> playerList, const sf::Font& font, GameStateData gameData);
 	virtual ~OverlayManager();
 
 	/**
@@ -77,5 +78,8 @@ private:
 
 	// Current action for an active TurnDecisionAction.
 	TurnDecisionAction* _overlayAction;
+
+	// Reference to core game variables.
+	GameStateData _gameState;
 };
 

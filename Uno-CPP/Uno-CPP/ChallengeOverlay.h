@@ -4,6 +4,7 @@
 #include "TurnDecisionOverlayInterface.h"
 #include "Button.h"
 #include "Player.h"
+#include "GameStateData.h"
 
 /**
  * Uno
@@ -24,7 +25,7 @@ public:
 	 * @param bounds The bounds of the entire game area. The buttons are offset from the centre.
 	 * @param font reference to the font for adding buttons.
 	 */
-	ChallengeOverlay(const sf::IntRect& bounds, const sf::Font& font);
+	ChallengeOverlay(const sf::IntRect& bounds, const sf::Font& font, const GameStateData& gameData);
 	virtual ~ChallengeOverlay() = default;
 
 

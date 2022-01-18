@@ -1,8 +1,7 @@
 #include "StatusOverlay.h"
-#include "Game.h"
 
-StatusOverlay::StatusOverlay(const sf::IntRect & bounds, const sf::Font & font)
-	: WndInterface(bounds)
+StatusOverlay::StatusOverlay(const sf::IntRect & bounds, const sf::Font & font, const GameStateData& gameData)
+	: WndInterface(bounds), _gameData(gameData)
 {
 	_background = new DrawableShape(new sf::RectangleShape(sf::Vector2f(20, 60)), sf::Color(184, 154, 143, 204));
 	_statusText = new DrawableText(sf::Vector2f(0, 0), "NOTSET", font, 20, sf::Color::Black, sf::Text::Bold);
@@ -37,7 +36,7 @@ void StatusOverlay::showOverlay(TurnDecisionAction * currentAction)
 	setEnabled(true);
 	std::string statusText = createContextString(currentAction);
 	updateStatusLabel(statusText);
-	_timeOut = Game::getCurrentGame()->getRuleSet()->getDefaultTimeOut();
+	_timeOut = _gameData.ruleSet->getDefaultTimeOut();
 	updateTimeOutLabel();
 }
 
@@ -56,10 +55,10 @@ std::string StatusOverlay::createContextString(TurnDecisionAction * currentActio
 	else 
 		result = "thinking...";
 
-	if (Game::getCurrentGame()->getCurrentPlayer()->getPlayerType() == Player::PlayerType::ThisPlayer) {
+	if (_gameData.players->at(*_gameData.currentPlayerID)->getPlayerType() == Player::PlayerType::ThisPlayer) {
 		return "You are " + result;
 	}
-	return Game::getCurrentGame()->getCurrentPlayer()->getPlayerName() + " is " + result;
+	return _gameData.players->at(*_gameData.currentPlayerID)->getPlayerName() + " is " + result;
 }
 
 void StatusOverlay::updateStatusLabel(const std::string& status)

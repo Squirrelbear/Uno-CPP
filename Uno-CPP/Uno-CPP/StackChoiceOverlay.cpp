@@ -1,13 +1,12 @@
 #include "StackChoiceOverlay.h"
-#include "Game.h"
 
-StackChoiceOverlay::StackChoiceOverlay(const sf::IntRect & bounds, const sf::Font & font)
+StackChoiceOverlay::StackChoiceOverlay(const sf::IntRect & bounds, const sf::Font & font, const GameStateData& gameData)
 	: WndInterface(bounds)
 {
 	setEnabled(false);
 	_declineButton = new Button(sf::IntRect(bounds.left + bounds.width / 2 - 50, bounds.top + bounds.height / 2 + 100, 100, 40), "Decline", 0, font);
 
-	_playerReference = Game::getCurrentGame()->getBottomPlayer();
+	_playerReference = gameData.bottomPlayer;
 }
 
 StackChoiceOverlay::~StackChoiceOverlay()

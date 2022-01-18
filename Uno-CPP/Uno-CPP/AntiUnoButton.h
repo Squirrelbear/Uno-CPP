@@ -2,6 +2,7 @@
 #include "OvalHoverButton.h"
 #include "GeneralOverlayInterface.h"
 #include "Player.h"
+#include "GameStateData.h"
 
 /**
  * Uno
@@ -22,7 +23,7 @@ public:
 	 *
 	 * @param position Position to place the Uno button.
 	 */
-	AntiUnoButton(const sf::Vector2f position, const sf::Font& font);
+	AntiUnoButton(const sf::Vector2f position, const sf::Font& font, const GameStateData& gameData);
 	virtual ~AntiUnoButton();
 
 	/**
@@ -49,5 +50,8 @@ public:
 private:
 	// Reference to the BottomPlayer.
 	Player* _bottomPlayer;
+
+	// Reference to the game state.
+	const GameStateData& _gameState;
 };
 

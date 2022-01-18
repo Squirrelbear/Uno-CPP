@@ -1,18 +1,17 @@
 #include "ChallengeOverlay.h"
-#include "Game.h"
 
-ChallengeOverlay::ChallengeOverlay(const sf::IntRect & bounds, const sf::Font & font)
+ChallengeOverlay::ChallengeOverlay(const sf::IntRect & bounds, const sf::Font & font, const GameStateData& gameData)
 	: WndInterface(bounds)
 {
 	setEnabled(false);
 	sf::Vector2f centre(bounds.left + bounds.width / 2, bounds.top + bounds.height / 2);
-	if (Game::getCurrentGame()->getRuleSet()->getNoBluffingRule()) {
+	if (gameData.ruleSet->getNoBluffingRule()) {
 		_buttonList.emplace_back(Button(sf::IntRect(centre.x - 150, centre.y + 100, 100, 40), "Challenge", 1, font));
 	}
 	_buttonList.emplace_back(Button(sf::IntRect(centre.x + 50, centre.y + 100, 100, 40), "Decline", 0, font));
 
-	_allowStacking = Game::getCurrentGame()->getRuleSet()->canStackCards();
-	_playerReference = Game::getCurrentGame()->getBottomPlayer();
+	_allowStacking = gameData.ruleSet->canStackCards();
+	_playerReference = gameData.bottomPlayer;
 }
 
 void ChallengeOverlay::draw(sf::RenderWindow & renderWindow) const

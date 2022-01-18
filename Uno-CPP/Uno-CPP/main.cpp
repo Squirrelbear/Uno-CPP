@@ -17,8 +17,16 @@
 #include <chrono>       // std::chrono::system_clock
 #include <iostream> // TODO remove
 
+#include "SFMLGame.h"
+
 int main()
 {
+	SFMLGame uno;
+	uno.gameLoop();
+	return 0;
+}
+
+void testing() {
 	//std::cout << "CWD: " << std::filesystem::current_path() << std::endl;
 	sf::Font font;
 	if (!font.loadFromFile("../Fonts/arial.ttf"))
@@ -125,6 +133,4 @@ int main()
 		lobbyInterface.draw(window);
 		window.display();
 	}
-	
-	return 0;
 }

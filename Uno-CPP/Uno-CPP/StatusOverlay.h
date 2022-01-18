@@ -4,6 +4,7 @@
 #include "TurnDecisionOverlayInterface.h"
 #include "DrawableShape.h"
 #include "DrawableText.h"
+#include "GameStateData.h"
 
 /**
  * Uno
@@ -22,7 +23,7 @@ public:
 	 *
 	 * @param bounds The bounds of the entire game area.
 	 */
-	StatusOverlay(const sf::IntRect& bounds, const sf::Font& font);
+	StatusOverlay(const sf::IntRect& bounds, const sf::Font& font, const GameStateData& gameData);
 	virtual ~StatusOverlay();
 
 	// Updates the timeOut remaining.
@@ -40,16 +41,24 @@ public:
 private:
 	// Centre of the bounds to draw the text at.
 	sf::Vector2f _centre;
+	
 	// Timeout representing time remaining to complete the action.
 	float _timeOut;
+	
 	// Text to display showing the current status.
 	DrawableText* _statusText;
+	
 	// String showing the number representing the time remaining.
 	DrawableText* _timeOutText;
+	
 	// Shadow for the string showing the number representing the time remaining.
 	DrawableText* _timeOutShadowText;
+	
 	// Background for status text
 	DrawableShape* _background;
+
+	// Reference to the game state for checking the current player.
+	const GameStateData& _gameData;
 
 	/**
 	 * Checks whether the action is one the player has to do or if it is someone else,

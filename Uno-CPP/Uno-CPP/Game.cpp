@@ -134,7 +134,7 @@ void Game::setPauseState(const bool isPaused)
 
 void Game::showLobby()
 {
-	if (_activeInterface != _lobbyInterface) {
+	if (_activeInterface != _lobbyInterface || _activeInterface == nullptr) {
 		if (_lobbyInterface != nullptr) {
 			delete _lobbyInterface;
 		}

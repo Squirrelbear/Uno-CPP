@@ -17,16 +17,16 @@
 #include <sstream>
 #include "Game.h"
 
-OverlayManager::OverlayManager(const sf::IntRect & bounds, std::vector<Player*> playerList, const sf::Font& font)
-	: WndInterface(bounds)
+OverlayManager::OverlayManager(const sf::IntRect & bounds, std::vector<Player*> playerList, const sf::Font& font, GameStateData gameData)
+	: WndInterface(bounds), _gameState(gameData)
 {
 	setEnabled(true);
     WildColourSelectionOverlay* wildColourSelectionOverlay = new WildColourSelectionOverlay(sf::IntRect(bounds.width/2-100,bounds.height/2-100,200,200), font);
     KeepOrPlayOverlay* keepOrPlayOverlay = new KeepOrPlayOverlay(bounds, font);
     PlayerSelectionOverlay* playerSelectionOverlay = new PlayerSelectionOverlay(bounds, playerList, font);
-    StatusOverlay* statusOverlay = new StatusOverlay(bounds, font);
-    ChallengeOverlay* challengeOverlay = new ChallengeOverlay(bounds, font);
-    StackChoiceOverlay* stackChoiceOverlay = new StackChoiceOverlay(bounds, font);
+    StatusOverlay* statusOverlay = new StatusOverlay(bounds, font, _gameState);
+    ChallengeOverlay* challengeOverlay = new ChallengeOverlay(bounds, font, _gameState);
+    StackChoiceOverlay* stackChoiceOverlay = new StackChoiceOverlay(bounds, font, _gameState);
     _overlays["wildColour"] = wildColourSelectionOverlay;
 	_overlays["keepOrPlay"] = keepOrPlayOverlay;
 	_overlays["otherPlayer"] = playerSelectionOverlay;
@@ -34,8 +34,8 @@ OverlayManager::OverlayManager(const sf::IntRect & bounds, std::vector<Player*> 
 	_overlays["isChallenging"] = challengeOverlay;
 	_overlays["isStacking"] = stackChoiceOverlay;
 
-    UnoButton* unoButton = new UnoButton(sf::Vector2f(bounds.left + bounds.width - 80 - 40, bounds.top + bounds.height - 60-40), font);
-    AntiUnoButton* antiUnoButton = new AntiUnoButton(sf::Vector2f(bounds.left + bounds.width - 80-40-100, bounds.top + bounds.height - 60-40), font);
+    UnoButton* unoButton = new UnoButton(sf::Vector2f(bounds.left + bounds.width - 80 - 40, bounds.top + bounds.height - 60-40), font, _gameState);
+    AntiUnoButton* antiUnoButton = new AntiUnoButton(sf::Vector2f(bounds.left + bounds.width - 80-40-100, bounds.top + bounds.height - 60-40), font, _gameState);
     for(int i = 0; i < playerList.size(); i++) {
         sf::Vector2f playerCentre = playerList.at(i)->getCentreOfBounds();
         PlayerFlashOverlay* skipVisualOverlay = new PlayerFlashOverlay(playerCentre, "SKIPPED", sf::Color::Red, 40, font);

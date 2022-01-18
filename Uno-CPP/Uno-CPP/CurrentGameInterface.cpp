@@ -1,6 +1,7 @@
 #include "CurrentGameInterface.h"
 #include "TurnActionFactory.h"
 #include <iostream>
+#include "GameStateData.h"
 
 CurrentGameInterface::CurrentGameInterface(const sf::IntRect& bounds, const sf::Font& font, const std::vector<LobbyPlayer*> playerList, RuleSet* ruleSet, std::default_random_engine& randomEngine) 
 	: CurrentGameInterface(bounds, font, createPlayersFromLobby(playerList, bounds, font, randomEngine), ruleSet, randomEngine)
@@ -27,7 +28,8 @@ CurrentGameInterface::CurrentGameInterface(const sf::IntRect& bounds, const sf::
 	_playDirectionAnimation = new PlayDirectionAnimation(sf::Vector2f(bounds.width / 2, bounds.height / 2), 120, 5);
 	_playDirectionAnimation->setIsIncreasing(_isIncreasing);
 
-	_overlayManager = new OverlayManager(bounds, playerList, font);
+	GameStateData gameStateData = { _ruleSet, &_players, _bottomPlayer, &_isIncreasing, _deck, &_currentPlayerID };
+	_overlayManager = new OverlayManager(bounds, playerList, font, gameStateData);
 	_recentCardPile->forcePlayCard(_deck->drawCard());
 	_debugModeEnabled = false;
 
