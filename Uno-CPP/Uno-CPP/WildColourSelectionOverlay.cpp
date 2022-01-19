@@ -8,8 +8,6 @@ WildColourSelectionOverlay::WildColourSelectionOverlay(const sf::IntRect & bound
 {
 	setEnabled(false);
 
-	// TODO Need to handle visual change based on selection.
-
 	_background = new DrawableObjectGroup();
 	DrawableShape* backgroundRect = new DrawableShape(new sf::RectangleShape(sf::Vector2f(bounds.width + 40-2, bounds.height + 60-2)),
 		sf::Color::Black, sf::Vector2f(bounds.left - 20+1, bounds.top - 40+1));
