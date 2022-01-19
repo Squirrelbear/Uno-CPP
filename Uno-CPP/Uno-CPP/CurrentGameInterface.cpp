@@ -36,6 +36,9 @@ CurrentGameInterface::CurrentGameInterface(const sf::IntRect& bounds, const sf::
 	_turnActionSequenceManager = new TurnActionSequenceManager(_debugModeEnabled);
 
 	_resultState = WndResultState::NothingState;
+	_debugEnabledText = sf::Text("DEBUG MODE ENABLED", font, 30);
+	_debugEnabledText.setPosition(sf::Vector2f(5, 5));
+	_debugEnabledText.setFillColor(sf::Color::Black);
 }
 
 
@@ -69,6 +72,10 @@ void CurrentGameInterface::draw(sf::RenderWindow & renderWindow) const
 	}
 	_overlayManager->draw(renderWindow);
 	_playDirectionAnimation->draw(renderWindow);
+
+	if (_debugModeEnabled) {
+		renderWindow.draw(_debugEnabledText);
+	}
 }
 
 void CurrentGameInterface::handleMousePress(const sf::Vector2i & mousePosition, bool isLeft)

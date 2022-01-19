@@ -210,6 +210,9 @@ private:
 	// DEBUG MODE
 	bool _debugModeEnabled;
 
+	// Text shown when the debug mode is enabled.
+	sf::Text _debugEnabledText;
+
 	// Result state that changes to Finished when round ends.
 	WndResultState _resultState;
 
