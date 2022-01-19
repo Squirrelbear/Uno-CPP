@@ -10,6 +10,7 @@ UNOCalledOverlay::UNOCalledOverlay(sf::Vector2f position, const sf::Font & font)
 		_UNOLetters.at(i).setFillColor(Card::getColourByID(i % 4));
 		_UNOLetters.at(i).setPosition(position.x + 2 + i * 30, position.y + 2);
 	}
+	_shadowText.setPosition(position);
 }
 
 UNOCalledOverlay::~UNOCalledOverlay()

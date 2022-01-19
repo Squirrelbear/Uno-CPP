@@ -1,5 +1,4 @@
 #include "WildColourSelectionOverlay.h"
-#include "DrawableShape.h"
 #include "DrawableText.h"
 #include "ArcShape.h"
 #include "Card.h"
@@ -17,7 +16,7 @@ WildColourSelectionOverlay::WildColourSelectionOverlay(const sf::IntRect & bound
 	backgroundRect->setBorder(1, sf::Color::White);
 	_background->addChild(backgroundRect);
 	DrawableText* title = new DrawableText(sf::Vector2f(0, 0), "Choose Colour", font, 20, sf::Color::White, sf::Text::Bold);
-	title->setOffset(sf::Vector2f(bounds.left + bounds.width / 2 - title->getTextWidth() / 2, bounds.top - 5));
+	title->setOffset(sf::Vector2f(bounds.left + bounds.width / 2 - title->getTextWidth() / 2, bounds.top - 35));
 	_background->addChild(title);
 	
 	for (int i = 0; i < 4; i++) {
@@ -25,18 +24,29 @@ WildColourSelectionOverlay::WildColourSelectionOverlay(const sf::IntRect & bound
 		DrawableShape* arc = new DrawableShape(arcShape, Card::getColourByID(i), sf::Vector2f(bounds.left, bounds.top));
 		_background->addChild(arc);
 	}
+	for (int i = 0; i < 4; i++) {
+		ArcShape* arcShape = new ArcShape(90 * i, 90 * (i + 1), sf::Vector2f(bounds.width / 2+10, bounds.height / 2+10));
+		_hoverArcs.emplace_back(new DrawableShape(arcShape, Card::getColourByID(i), sf::Vector2f(bounds.left-10, bounds.top-10)));
+		_hoverArcs.at(_hoverArcs.size() - 1)->setPositionWithOffset(sf::Vector2f(0, 0));
+	}
 
-	_background->setPositionWithOffset(sf::Vector2f(bounds.left, bounds.top));
+	_background->setPositionWithOffset(sf::Vector2f(0,0));
 }
 
 WildColourSelectionOverlay::~WildColourSelectionOverlay()
 {
 	delete _background;
+	for (auto p : _hoverArcs) {
+		delete p;
+	}
 }
 
 void WildColourSelectionOverlay::draw(sf::RenderWindow & renderWindow) const
 {
 	_background->draw(renderWindow);
+	if (_hoveredRegion != -1) {
+		_hoverArcs.at(_hoveredRegion)->draw(renderWindow);
+	}
 }
 
 void WildColourSelectionOverlay::showOverlay(TurnDecisionAction * currentAction)
@@ -48,8 +58,8 @@ void WildColourSelectionOverlay::showOverlay(TurnDecisionAction * currentAction)
 void WildColourSelectionOverlay::handleMousePress(const sf::Vector2i & mousePosition, bool isLeft)
 {
 	handleMouseMove(mousePosition);
-	if (hoveredRegion != -1) {
-		_currentAction->injectProperty("colourID", hoveredRegion);
+	if (_hoveredRegion != -1) {
+		_currentAction->injectProperty("colourID", _hoveredRegion);
 		_currentAction->injectFlagProperty(1);
 		setEnabled(false);
 	}
@@ -57,13 +67,13 @@ void WildColourSelectionOverlay::handleMousePress(const sf::Vector2i & mousePosi
 
 void WildColourSelectionOverlay::handleMouseMove(const sf::Vector2i & mousePosition)
 {
-	hoveredRegion = -1;
+	_hoveredRegion = -1;
 	if (_interactionRect.isPositionInside(mousePosition)) {
-		hoverX = (mousePosition.x - _bounds.left) / (_bounds.width / 2);
-		hoverY = (mousePosition.y - _bounds.top) / (_bounds.height / 2);
-		if (hoverX == 0 && hoverY == 0) hoveredRegion = 2;
-		else if (hoverX == 1 && hoverY == 0) hoveredRegion = 1;
-		else if (hoverX == 1 && hoverY == 1) hoveredRegion = 0;
-		else if (hoverX == 0 && hoverY == 1) hoveredRegion = 3;
+		_hoverX = (mousePosition.x - _bounds.left) / (_bounds.width / 2);
+		_hoverY = (mousePosition.y - _bounds.top) / (_bounds.height / 2);
+		if (_hoverX == 0 && _hoverY == 0) _hoveredRegion = 2;
+		else if (_hoverX == 1 && _hoverY == 0) _hoveredRegion = 3;
+		else if (_hoverX == 1 && _hoverY == 1) _hoveredRegion = 0;
+		else if (_hoverX == 0 && _hoverY == 1) _hoveredRegion = 1;
 	}
 }

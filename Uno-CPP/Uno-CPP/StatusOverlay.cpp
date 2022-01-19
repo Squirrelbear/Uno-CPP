@@ -3,7 +3,7 @@
 #include <sstream>
 
 StatusOverlay::StatusOverlay(const sf::IntRect & bounds, const sf::Font & font, const GameStateData& gameData)
-	: WndInterface(bounds), _gameData(gameData), _centre(sf::Vector2f(bounds.left+bounds.width/2, bounds.top+bounds.height/2))
+	: WndInterface(bounds), _gameData(gameData), _centre(sf::Vector2f(bounds.left+bounds.width/2, bounds.top+bounds.height/2-100))
 {
 	setEnabled(false);
 	_background = new DrawableShape(new sf::RectangleShape(sf::Vector2f(400, 60)), sf::Color(184, 154, 143, 204));

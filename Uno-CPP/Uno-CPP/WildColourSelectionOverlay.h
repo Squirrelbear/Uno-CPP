@@ -4,6 +4,7 @@
 #include "TurnDecisionOverlayInterface.h"
 #include "InteractableRect.h"
 #include "DrawableObjectGroup.h"
+#include "DrawableShape.h"
 
 /**
  * Uno
@@ -55,12 +56,18 @@ public:
 
 private:
 	// Tracking of the area hovered with the current grid position and region number.
-	int hoveredRegion, hoverX, hoverY;
+	int _hoveredRegion, _hoverX, _hoverY;
+	
 	// Reference to the TurnAction that triggered the display of this overlay.
 	TurnDecisionAction* _currentAction;
+	
 	// Region where hovering is managed.
 	InteractableRect _interactionRect;
+	
 	// Collection of background graphics for the overlay.
 	DrawableObjectGroup* _background;
+
+	// Arcs to show only when hovering.
+	std::vector<DrawableShape*> _hoverArcs;
 };
 

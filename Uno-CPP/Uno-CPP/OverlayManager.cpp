@@ -21,7 +21,7 @@ OverlayManager::OverlayManager(const sf::IntRect & bounds, std::vector<Player*> 
 	: WndInterface(bounds), _gameState(gameData)
 {
 	setEnabled(true);
-    WildColourSelectionOverlay* wildColourSelectionOverlay = new WildColourSelectionOverlay(sf::IntRect(bounds.width/2-100,bounds.height/2-100,200,200), font);
+    WildColourSelectionOverlay* wildColourSelectionOverlay = new WildColourSelectionOverlay(sf::IntRect(bounds.width/2-100,bounds.height/2-30,200,200), font);
     KeepOrPlayOverlay* keepOrPlayOverlay = new KeepOrPlayOverlay(bounds, font);
     PlayerSelectionOverlay* playerSelectionOverlay = new PlayerSelectionOverlay(bounds, playerList, font);
     StatusOverlay* statusOverlay = new StatusOverlay(bounds, font, _gameState);
