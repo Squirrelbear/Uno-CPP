@@ -137,6 +137,7 @@ void Game::showLobby()
 	if (_activeInterface != _lobbyInterface || _activeInterface == nullptr) {
 		if (_lobbyInterface != nullptr) {
 			delete _lobbyInterface;
+			_lobbyInterface = nullptr;
 		}
 		
 		_lobbyInterface = new LobbyInterface(_bounds, _font, _randomEngine);
@@ -151,6 +152,7 @@ void Game::startGame()
 	RuleSet* ruleSet = _lobbyInterface->getRuleSet();
 	if (_currentGame != nullptr) {
 		delete _currentGame;
+		_currentGame = nullptr;
 	}
 
 	_currentGame = new CurrentGameInterface(_bounds, _font, lobbyPlayers, ruleSet, _randomEngine);
@@ -163,6 +165,7 @@ void Game::startNextRound()
 	RuleSet* ruleSet = _currentGame->getRuleSet();
 	if (_currentGame != nullptr) {
 		delete _currentGame;
+		_currentGame = nullptr;
 	}
 
 	_currentGame = new CurrentGameInterface(_bounds, _font, players, ruleSet, _randomEngine);
@@ -175,10 +178,11 @@ void Game::showPostGame()
 	RuleSet* ruleSet = _currentGame->getRuleSet();
 	if (_currentGame != nullptr) {
 		delete _currentGame;
+		_currentGame = nullptr;
 	}
 
 	_postGameInterface = new PostGameInterface(_bounds, _font, players, ruleSet);
-	_activeInterface = _currentGame;
+	_activeInterface = _postGameInterface;
 }
 
 void Game::quitGame()

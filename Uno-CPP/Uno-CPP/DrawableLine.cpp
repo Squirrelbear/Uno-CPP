@@ -22,6 +22,7 @@ sf::Vertex * DrawableLine::getVertexList(std::initializer_list<sf::Vector2f> ver
 	size_t insertPos = 0;
 	for (const auto& pos : vertexList) {
 		result[insertPos] = sf::Vertex(pos);
+		result[insertPos].color = sf::Color::Black;
 		++insertPos;
 	}
 	return result;
