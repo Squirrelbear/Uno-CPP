@@ -272,6 +272,6 @@ void AIPlayer::checkCallUNO()
 	if (getHand().size() != 2) return;
 	if (_randomEngine() % 100 < 70) {
 		setUnoState(UNOState::Called);
-		Game::getCurrentGame()->showGeneralOverlay("UNOCalled" + getPlayerID());
+		Game::getCurrentGame()->showGeneralOverlay("UNOCalled" + std::to_string(getPlayerID()));
 	}
 }

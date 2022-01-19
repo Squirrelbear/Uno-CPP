@@ -321,7 +321,7 @@ void TurnActionSequence<T>::hasPlus2AndResponseAllowed()
 template<class T>
 void TurnActionSequence<T>::showSkip()
 {
-	Game::getCurrentGame()->showGeneralOverlay("SkipVisual"	+ Game::getCurrentGame()->getCurrentPlayer()->getPlayerID());
+	Game::getCurrentGame()->showGeneralOverlay("SkipVisual"	+ std::to_string(Game::getCurrentGame()->getCurrentPlayer()->getPlayerID()));
 }
 
 template<class T>
@@ -418,10 +418,10 @@ template<class T>
 void TurnActionSequence<T>::showChallengeResult()
 {
 	if (getPropertyValue("couldPreviousPlayCard") == 0) {
-		Game::getCurrentGame()->showGeneralOverlay("ChallengeFailed" + Game::getCurrentGame()->getCurrentPlayer()->getPlayerID());
+		Game::getCurrentGame()->showGeneralOverlay("ChallengeFailed" + std::to_string(Game::getCurrentGame()->getCurrentPlayer()->getPlayerID()));
 	}
 	else {
-		Game::getCurrentGame()->showGeneralOverlay("ChallengeSuccess" + Game::getCurrentGame()->getCurrentPlayer()->getPlayerID());
+		Game::getCurrentGame()->showGeneralOverlay("ChallengeSuccess" + std::to_string(Game::getCurrentGame()->getCurrentPlayer()->getPlayerID()));
 	}
 }
 

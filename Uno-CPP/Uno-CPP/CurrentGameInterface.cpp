@@ -150,7 +150,7 @@ void CurrentGameInterface::jumpIn(const int playerID, Card * cardToPlay)
 		&& topCard->getFaceValueID() == cardToPlay->getFaceValueID()
 		&& topCard->getColourID() == cardToPlay->getColourID()) {
 		_currentPlayerID = playerID;
-		showGeneralOverlay("JumpIn" + playerID);
+		showGeneralOverlay("JumpIn" + std::to_string(playerID));
 		_turnActionSequenceManager->setSequence(TurnActionFactory::playCardAsAction(_currentPlayerID, 
 			cardToPlay->getUniqueCardID(), cardToPlay->getFaceValueID(), cardToPlay->getColourID()));
 	}
@@ -211,7 +211,7 @@ void CurrentGameInterface::moveToNextPlayer()
 
 void CurrentGameInterface::applyAntiUno(const int playerID)
 {
-	showGeneralOverlay("AntiUnoCalled" + playerID);
+	showGeneralOverlay("AntiUnoCalled" + std::to_string(playerID));
 	// Set to safe to prevent multiple anti-uno callouts.
 	_players.at(playerID)->setUnoState(Player::UNOState::Safe);
 	_players.at(playerID)->addCardToHand(_deck->drawCard());
