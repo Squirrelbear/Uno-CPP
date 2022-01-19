@@ -5,7 +5,8 @@ ChallengeOverlay::ChallengeOverlay(const sf::IntRect & bounds, const sf::Font & 
 {
 	setEnabled(false);
 	sf::Vector2f centre(bounds.left + bounds.width / 2, bounds.top + bounds.height / 2);
-	if (gameData.ruleSet->getNoBluffingRule()) {
+	// Only add the Challenge button if bluffing is allowed.
+	if (!gameData.ruleSet->getNoBluffingRule()) {
 		_buttonList.emplace_back(Button(sf::IntRect(centre.x - 150, centre.y + 100, 100, 40), "Challenge", 1, font));
 	}
 	_buttonList.emplace_back(Button(sf::IntRect(centre.x + 50, centre.y + 100, 100, 40), "Decline", 0, font));
