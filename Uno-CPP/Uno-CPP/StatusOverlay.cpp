@@ -1,10 +1,13 @@
 #include "StatusOverlay.h"
+#include <iomanip>
+#include <sstream>
 
 StatusOverlay::StatusOverlay(const sf::IntRect & bounds, const sf::Font & font, const GameStateData& gameData)
 	: WndInterface(bounds), _gameData(gameData), _centre(sf::Vector2f(bounds.left+bounds.width/2, bounds.top+bounds.height/2))
 {
 	setEnabled(false);
-	_background = new DrawableShape(new sf::RectangleShape(sf::Vector2f(20, 60)), sf::Color(184, 154, 143, 204));
+	_background = new DrawableShape(new sf::RectangleShape(sf::Vector2f(400, 60)), sf::Color(184, 154, 143, 204));
+	_background->setPositionWithOffset(sf::Vector2f(_centre.x - 200, _centre.y - 45));
 	_statusText = new DrawableText(sf::Vector2f(0, 0), "NOTSET", font, 20, sf::Color::Black, sf::Text::Bold);
 	_timeOutText = new DrawableText(sf::Vector2f(0, 0), "NOTSET", font, 20, sf::Color::Black, sf::Text::Bold);
 	_timeOutShadowText = new DrawableText(sf::Vector2f(0, 0), "NOTSET", font, 20, sf::Color::Black, sf::Text::Bold);
@@ -66,11 +69,11 @@ void StatusOverlay::updateStatusLabel(const std::string& status)
 {
 	_statusText->setText(status);
 	int strWidth = _statusText->getTextWidth();
-	_statusText->setPositionWithOffset(sf::Vector2f(_centre.x - strWidth / 2, _centre.y - 20));
-	_background->setPositionWithOffset(sf::Vector2f(_centre.x - strWidth / 2 - 10, _centre.y - 65));
-	_background->setSize(sf::Vector2f(_centre.x - strWidth / 2 - 10, _centre.y - 65));
-	_timeOutText->setPositionWithOffset(sf::Vector2f(_centre.x - strWidth / 2 - 2, _centre.y - 40 + 2));
-	_timeOutShadowText->setPositionWithOffset(sf::Vector2f(_centre.x - strWidth / 2, _centre.y - 40));
+	_statusText->setPositionWithOffset(sf::Vector2f(_centre.x - strWidth / 2, _centre.y-40));
+	//_background->setPositionWithOffset(sf::Vector2f(_centre.x - 200, _centre.y - 45));
+	//_background->setSize(sf::Vector2f(_centre.x - strWidth / 2 - 10, _centre.y - 25));
+	//_timeOutText->setPositionWithOffset(sf::Vector2f(_centre.x - strWidth / 2 - 2, _centre.y - 60 + 2));
+	//_timeOutShadowText->setPositionWithOffset(sf::Vector2f(_centre.x - strWidth / 2, _centre.y - 60));
 }
 
 void StatusOverlay::updateTimeOutLabel()
@@ -78,12 +81,15 @@ void StatusOverlay::updateTimeOutLabel()
 	if (_timeOut < 0) {
 		_timeOut = 0;
 	}
+	std::stringstream ss;
+	ss << std::fixed << std::setprecision(1) << _timeOut;
+	std::string time = ss.str() + "s";
+
 	_timeOutText->setColour(_timeOut < 6 ? sf::Color::Red : sf::Color::Yellow);
 
-	std::string time = std::to_string(_timeOut) + "s";
 	_timeOutText->setText(time);
 	_timeOutShadowText->setText(time);
-	int strWidth = _statusText->getTextWidth();
-	_timeOutText->setPositionWithOffset(sf::Vector2f(_centre.x - strWidth / 2, _centre.y - 40));
-	_timeOutShadowText->setPositionWithOffset(sf::Vector2f(_centre.x - strWidth / 2 - 2, _centre.y - 40 + 2));
+	int strWidth = _timeOutText->getTextWidth();
+	_timeOutText->setPositionWithOffset(sf::Vector2f(_centre.x - strWidth / 2, _centre.y - 20));
+	_timeOutShadowText->setPositionWithOffset(sf::Vector2f(_centre.x - strWidth / 2 - 2, _centre.y - 20 + 2));
 }
