@@ -5,7 +5,7 @@
 #define FONT_FILE_PATH "../Fonts/arial.ttf"
 
 SFMLGame::SFMLGame()
-	: _window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "UNO - by Peter Mitchell (2022)"),
+	: _window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "UNO - by Peter Mitchell (2022)", sf::Style::Titlebar | sf::Style::Close),
 		_font(loadFont()), _game(sf::IntRect(0,0,WINDOW_WIDTH,WINDOW_HEIGHT), _font)
 {
 }
