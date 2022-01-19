@@ -233,7 +233,7 @@ void AIPlayer::chooseChallengeOrDecline(TurnDecisionAction * decisionAction)
 	if (Game::getCurrentGame()->getRuleSet()->canStackCards()) {
 		auto hand = getHand();
 		auto validCard = std::find_if(hand.begin(), hand.end(), [](Card* card) { return card->getFaceValueID() == 13; });
-		if (validCard != getHand().end()) {
+		if (validCard != hand.end()) {
 			checkCallUNO();
 			decisionAction->injectProperty("faceValueID", (*validCard)->getFaceValueID());
 			decisionAction->injectProperty("colourID", (*validCard)->getColourID());
@@ -253,8 +253,9 @@ void AIPlayer::chooseChallengeOrDecline(TurnDecisionAction * decisionAction)
 void AIPlayer::chooseStackPlus2(TurnDecisionAction * decisionAction)
 {
 	if (Game::getCurrentGame()->getRuleSet()->canStackCards()) {
-		auto validCard = std::find_if(getHand().begin(), getHand().end(), [](Card* card) { return card->getFaceValueID() == 10; });
-		if (validCard != getHand().end()) {
+		auto hand = getHand();
+		auto validCard = std::find_if(hand.begin(), hand.end(), [](Card* card) { return card->getFaceValueID() == 10; });
+		if (validCard != hand.end()) {
 			checkCallUNO();
 			decisionAction->injectProperty("faceValueID", (*validCard)->getFaceValueID());
 			decisionAction->injectProperty("colourID", (*validCard)->getColourID());
