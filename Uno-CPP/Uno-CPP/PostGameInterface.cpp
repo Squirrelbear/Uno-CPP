@@ -6,6 +6,7 @@ PostGameInterface::PostGameInterface(const sf::IntRect & bounds, const sf::Font 
 {
 	initialiseInterface(font, ruleSet);
 	_resultState = WndResultState::NothingState;
+	_rules = ruleSet;
 }
 
 PostGameInterface::~PostGameInterface()
@@ -41,6 +42,16 @@ void PostGameInterface::handleMouseMove(const sf::Vector2i & mousePosition)
 WndResultState PostGameInterface::getResultState() const
 {
 	return _resultState;
+}
+
+std::vector<Player*> PostGameInterface::getPlayers() const
+{
+	return _playerList;
+}
+
+RuleSet * PostGameInterface::getRuleSet() const
+{
+	return _rules;
 }
 
 void PostGameInterface::handleButtonPress(const int actionID)
@@ -161,13 +172,13 @@ void PostGameInterface::initialiseInterface(const sf::Font & font, RuleSet * rul
 		scoreLimitReachedText->setOffset(sf::Vector2f(_bounds.width / 2 + 40, 510));
 		_staticElements->addChild(scoreLimitReachedText);
 
+		_buttonList.emplace_back(Button(sf::IntRect(_bounds.width / 2 - 250 - 10, 620, 250, 40), "Return to Lobby", 1, font));
+		_buttonList.emplace_back(Button(sf::IntRect(_bounds.width / 2 + 10, 620, 270, 40), "New Game Same Settings", 3, font));
+	}
+	else {
 		_buttonList.emplace_back(Button(sf::IntRect(_bounds.width / 2 - 125 - 250 - 20, 620, 250, 40), "Return to Lobby", 1, font));
 		_buttonList.emplace_back(Button(sf::IntRect(_bounds.width / 2 - 125, 620, 250, 40), "Continue Next Round", 2, font));
 		_buttonList.emplace_back(Button(sf::IntRect(_bounds.width / 2 + 125 + 20, 620, 270, 40), "New Game Same Settings", 3, font));
-	}
-	else {
-		_buttonList.emplace_back(Button(sf::IntRect(_bounds.width / 2 - 250 - 10, 620, 250, 40), "Return to Lobby", 1, font));
-		_buttonList.emplace_back(Button(sf::IntRect(_bounds.width / 2 + 10, 620, 270, 40), "New Game Same Settings", 3, font));
 	}
 
 	_staticElements->setPositionWithOffset(sf::Vector2f(0, 0));

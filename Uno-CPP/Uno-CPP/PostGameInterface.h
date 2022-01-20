@@ -50,15 +50,27 @@ public:
 	// Returns Nothing when interface is still in use, Finished for Continue, Menu for Lobby
 	WndResultState getResultState() const override;
 
+	// Gets references to all the players.
+	std::vector<Player*> getPlayers() const;
+
+	// Gets a reference to the rules.
+	RuleSet* getRuleSet() const;
+
 private:
 	// List of buttons visible on the interface.
 	std::vector<Button> _buttonList;
+	
 	// Reference to the players that are being shown for scores.
 	std::vector<Player*> _playerList;
+	
 	// Static interface elements
 	DrawableObjectGroup* _staticElements;
+	
 	// Result state that changes to Finished for Continue, Menu for Lobby
 	WndResultState _resultState;
+
+	// Reference to the rules.
+	RuleSet* _rules;
 
 	/**
 	 * Looks up the action to apply based on an actionID for a button.

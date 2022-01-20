@@ -22,7 +22,13 @@ Game::Game(const sf::IntRect& gameBounds, const sf::Font& font)
 
 Game::~Game()
 {
+	// Current game handles deleting of Player objects if they exist because that created them.
 	if (_currentGame != nullptr) {
+		auto players = _currentGame->getAllPlayers();
+		for (auto p : players) {
+			delete p;
+		}
+
 		delete _currentGame;
 	} 
 	if (_lobbyInterface != nullptr) {
@@ -134,53 +140,75 @@ void Game::setPauseState(const bool isPaused)
 
 void Game::showLobby()
 {
+	// Allows for transition from anywhere including itself while using the pause menu
+	// Only wipe the interface and recreate it if the interface is not already active.
 	if (_activeInterface != _lobbyInterface || _activeInterface == nullptr) {
 		if (_lobbyInterface != nullptr) {
 			delete _lobbyInterface;
 			_lobbyInterface = nullptr;
 		}
 		
+		// Create the interface and make it active.
 		_lobbyInterface = new LobbyInterface(_bounds, _font, _randomEngine);
 		_activeInterface = _lobbyInterface;
 	}
+
+	// Hide the pause menu in case that is what brought the user here.
 	setPauseState(false);
 }
 
 void Game::startGame()
 {
+	// Expects transition from lobby as the start of a new game
 	std::vector<LobbyPlayer*> lobbyPlayers = _lobbyInterface->getLobbyPlayerList();
 	RuleSet* ruleSet = _lobbyInterface->getRuleSet();
+
+	// Delete any existing current game including all the references to players.
 	if (_currentGame != nullptr) {
+		auto players = _currentGame->getAllPlayers();
+		for (auto p : players) {
+			delete p;
+		}
+
 		delete _currentGame;
 		_currentGame = nullptr;
 	}
 
+	// Create a new game using LobbyPlayers to let CurrentGameInterface create the Player objects.
 	_currentGame = new CurrentGameInterface(_bounds, _font, lobbyPlayers, ruleSet, _randomEngine);
 	_activeInterface = _currentGame;
 }
 
 void Game::startNextRound()
 {
-	std::vector<Player*> players = _currentGame->getAllPlayers();
-	RuleSet* ruleSet = _currentGame->getRuleSet();
+	// Expects transition from post game so get the info from there
+	std::vector<Player*> players = _postGameInterface->getPlayers();
+	RuleSet* ruleSet = _postGameInterface->getRuleSet();
+
+	// Delete any existing current game but NOT the players
 	if (_currentGame != nullptr) {
 		delete _currentGame;
 		_currentGame = nullptr;
 	}
 
+	// Create the new current game and make it active
 	_currentGame = new CurrentGameInterface(_bounds, _font, players, ruleSet, _randomEngine);
 	_activeInterface = _currentGame;
 }
 
 void Game::showPostGame()
 {
+	// Expects transition from current game
 	std::vector<Player*> players = _currentGame->getAllPlayers();
 	RuleSet* ruleSet = _currentGame->getRuleSet();
-	if (_currentGame != nullptr) {
-		delete _currentGame;
-		_currentGame = nullptr;
+
+	// Delete any existing post game interface
+	if (_postGameInterface != nullptr) {
+		delete _postGameInterface;
+		_postGameInterface = nullptr;
 	}
 
+	// Create the interface and make it active
 	_postGameInterface = new PostGameInterface(_bounds, _font, players, ruleSet);
 	_activeInterface = _postGameInterface;
 }

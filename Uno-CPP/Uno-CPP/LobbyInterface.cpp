@@ -25,6 +25,7 @@ LobbyInterface::~LobbyInterface()
 	for (auto& p : _playerList) {
 		delete p;
 	}
+	delete _ruleSet;
 }
 
 void LobbyInterface::draw(sf::RenderWindow & renderWindow) const

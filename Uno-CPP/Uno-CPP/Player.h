@@ -63,7 +63,7 @@ public:
 	}
 
 	// Draws the player's cards with either card backs or fronts. Then draws the player's name nearby.
-	void draw(sf::RenderWindow& renderWindow) const;
+	void draw(sf::RenderWindow& renderWindow, const Player* currentPlayer) const;
 
 	/**
 	 * Adds the card to the hand and recalculates the positions where all cards should be positioned.

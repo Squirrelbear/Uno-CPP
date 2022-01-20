@@ -1,6 +1,5 @@
 #include "Player.h"
 #include "DrawableShape.h"
-#include "Game.h"
 #include <vector>
 #include <algorithm>
 
@@ -29,7 +28,7 @@ Player::~Player()
 	delete _nameTag;
 }
 
-void Player::draw(sf::RenderWindow & renderWindow) const
+void Player::draw(sf::RenderWindow & renderWindow, const Player* currentPlayer) const
 {
 	for (const auto& card : _hand) {
 		if (_showCards) {
@@ -40,7 +39,7 @@ void Player::draw(sf::RenderWindow & renderWindow) const
 		}
 	}
 
-	_playerNameText->setColour((Game::getCurrentGame()->getCurrentPlayer() == this) ? sf::Color(255, 215, 0) : sf::Color::White);
+	_playerNameText->setColour((currentPlayer == this) ? sf::Color(255, 215, 0) : sf::Color::White);
 	_nameTag->draw(renderWindow);
 }
 

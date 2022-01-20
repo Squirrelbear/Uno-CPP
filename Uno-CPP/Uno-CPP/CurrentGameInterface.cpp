@@ -82,7 +82,7 @@ void CurrentGameInterface::draw(sf::RenderWindow & renderWindow) const
 	_deck->draw(renderWindow);
 	_recentCardPile->draw(renderWindow);
 	for (const auto player : _players) {
-		player->draw(renderWindow);
+		player->draw(renderWindow, getCurrentPlayer());
 	}
 	_overlayManager->draw(renderWindow);
 	_playDirectionAnimation->draw(renderWindow);
