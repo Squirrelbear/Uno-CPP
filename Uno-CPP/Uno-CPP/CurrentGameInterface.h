@@ -72,7 +72,7 @@ public:
 	 * @param playerID The player trying to jump in.
 	 * @param cardToPlay The card that is being jumped in with.
 	 */
-	void jumpIn(const int playerID, Card* cardToPlay);
+	void jumpIn(const int playerID, const Card* cardToPlay);
 
 	// Used to show an overlay based on a current decision.
 	void showOverlayForTurnAction();

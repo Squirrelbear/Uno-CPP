@@ -47,7 +47,7 @@ void ChallengeOverlay::handleMousePress(const sf::Vector2i & mousePosition, bool
 
 	// If stacking is allowed and a draw 4 card has been clicked then inject properties to force a chain.
 	if (_allowStacking) {
-		Card* clickedCard = _playerReference->chooseCardFromClick(mousePosition);
+		auto clickedCard = _playerReference->chooseCardFromClick(mousePosition);
 		if (clickedCard != nullptr && clickedCard->getFaceValueID() == 13) {
 			_currentAction->injectProperty("faceValueID", clickedCard->getFaceValueID());
 			_currentAction->injectProperty("colourID", clickedCard->getColourID());

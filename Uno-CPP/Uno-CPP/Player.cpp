@@ -109,14 +109,24 @@ void Player::updateHover(const sf::Vector2i & mousePosition)
 	recalculateCardPositions();
 }
 
-void Player::removeCard(Card * card)
+Card* Player::removeCard(const int uniqueCardID)
 {
+	Card* removedCard = nullptr;
 	_hand.erase(std::remove_if(_hand.begin(), _hand.end(),
-		[&](Card* c) {return c->getUniqueCardID() == card->getUniqueCardID(); }), _hand.end());
+		[&](Card* c) {
+			if (c->getUniqueCardID() == uniqueCardID && removedCard == nullptr) {
+				removedCard = c;
+				return true;
+			}
+			else {
+				return false;
+			}
+		}), _hand.end());
 	recalculateCardPositions();
+	return removedCard;
 }
 
-Card * Player::getCardByID(const int cardID)
+const Card * Player::getCardByID(const int cardID)
 {
 	for (auto card : _hand) {
 		if (card->getUniqueCardID() == cardID) {
@@ -126,13 +136,13 @@ Card * Player::getCardByID(const int cardID)
 	return nullptr;
 }
 
-Card * Player::chooseCardFromClick(const sf::Vector2i & mousePosition)
+const Card * Player::chooseCardFromClick(const sf::Vector2i & mousePosition)
 {
 	updateHover(mousePosition);
 	return _hoveredCard;
 }
 
-std::vector<Card*> Player::getHand() const
+const std::vector<Card*>& Player::getHand() const
 {
 	return _hand;
 }
@@ -148,7 +158,7 @@ std::vector<Card*> Player::takeAllHand()
 	return result;
 }
 
-std::string Player::getPlayerName() const
+const std::string& Player::getPlayerName() const
 {
 	return _playerName;
 }

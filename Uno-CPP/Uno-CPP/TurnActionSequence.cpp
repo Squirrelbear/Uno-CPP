@@ -233,11 +233,10 @@ void TurnActionSequence<T>::placeCard()
 {
 	// Get card from hand
 	Player* currentPlayer = Game::getCurrentGame()->getCurrentPlayer();
-	Card* cardToPlace = currentPlayer->getCardByID(getPropertyValue("cardID"));
 	// Remove card from hand
-	currentPlayer->removeCard(cardToPlace);
+	Card* removedCard = currentPlayer->removeCard(getPropertyValue("cardID"));
 	// Add card to pile
-	Game::getCurrentGame()->getRecentCardPile()->placeCard(cardToPlace);
+	Game::getCurrentGame()->getRecentCardPile()->placeCard(removedCard);
 }
 
 template<class T>

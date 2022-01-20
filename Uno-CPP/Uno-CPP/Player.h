@@ -114,9 +114,10 @@ public:
 	/**
 	 * Removes the card from the hand and recalculates position of all cards.
 	 *
-	 * @param card Card to be removed.
+	 * @param uniqueCardID Card to be removed.
+	 * @return returns the reference to the removed card.
 	 */
-	void removeCard(Card* card);
+	Card* removeCard(const int uniqueCardID);
 
 	/**
 	 * Searches to find the cardID.
@@ -124,7 +125,7 @@ public:
 	 * @param cardID cardID to search for.
 	 * @return The Card with cardID or null.
 	 */
-	Card* getCardByID(const int cardID);
+	const Card* getCardByID(const int cardID);
 
 	/**
 	 * Updates the hovering position. Then returns any currently hovered card.
@@ -132,16 +133,16 @@ public:
 	 * @param mousePosition Position of the mouse.
 	 * @return The currently hovered card (can be null if none).
 	 */
-	Card* chooseCardFromClick(const sf::Vector2i& mousePosition);
+	const Card* chooseCardFromClick(const sf::Vector2i& mousePosition);
 
 	// Gets all the cards in the player's hand.
-	std::vector<Card*> getHand() const;
+	const std::vector<Card*>& getHand() const;
 
 	// Empties the hand and returns a vector with the cards
 	std::vector<Card*> takeAllHand();
 
 	// Gets the player name.
-	std::string getPlayerName() const;
+	const std::string& getPlayerName() const;
 
 	/**
 	 * Adds up the score of all cards in the current hand.

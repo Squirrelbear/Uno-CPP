@@ -105,8 +105,8 @@ void CurrentGameInterface::handleMousePress(const sf::Vector2i & mousePosition, 
 				_turnActionSequenceManager->setSequence(TurnActionFactory::drawCardAsAction(_currentPlayerID));
 			}
 			else {
-				Card* cardToPlay = _bottomPlayer->chooseCardFromClick(mousePosition);
-				Card* topCard = _recentCardPile->getTopCard();
+				auto cardToPlay = _bottomPlayer->chooseCardFromClick(mousePosition);
+				auto topCard = _recentCardPile->getTopCard();
 				// Play if a valid move
 				std::vector<Card*> validMoves = _bottomPlayer->getValidMoves(topCard->getFaceValueID(), topCard->getColourID());
 				if (std::find(validMoves.begin(), validMoves.end(), cardToPlay) != validMoves.end()) {
@@ -116,7 +116,7 @@ void CurrentGameInterface::handleMousePress(const sf::Vector2i & mousePosition, 
 				}
 			}
 		} else if (_ruleSet->allowJumpInRule()) {
-			Card* cardToPlay = _bottomPlayer->chooseCardFromClick(mousePosition);
+			auto cardToPlay = _bottomPlayer->chooseCardFromClick(mousePosition);
 			if (cardToPlay != nullptr) {
 				jumpIn(_bottomPlayer->getPlayerID(), cardToPlay);
 			}
@@ -150,7 +150,8 @@ void CurrentGameInterface::handleKeyInput(const sf::Keyboard::Key key)
 		_bottomPlayer->emptyHand();
 	}
 	else if (_debugModeEnabled && key == sf::Keyboard::Key::Num6) {
-		_bottomPlayer->removeCard(_bottomPlayer->getHand().at(0));
+		Card* removedCard = _bottomPlayer->removeCard(_bottomPlayer->getHand().at(0)->getUniqueCardID());
+		delete removedCard;
 	}
 	else if (_debugModeEnabled && key == sf::Keyboard::Key::Num5) {
 		_turnActionSequenceManager->toggleDebugShowTreeOnNewAction();
@@ -164,9 +165,9 @@ void CurrentGameInterface::handleKeyInput(const sf::Keyboard::Key key)
 	}
 }
 
-void CurrentGameInterface::jumpIn(const int playerID, Card * cardToPlay)
+void CurrentGameInterface::jumpIn(const int playerID, const Card * cardToPlay)
 {
-	Card* topCard = _recentCardPile->getTopCard();
+	auto topCard = _recentCardPile->getTopCard();
 	if (!_turnActionSequenceManager->hasActiveTurnAction() && _currentPlayerID != playerID
 		&& topCard->getFaceValueID() == cardToPlay->getFaceValueID()
 		&& topCard->getColourID() == cardToPlay->getColourID()) {

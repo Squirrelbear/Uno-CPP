@@ -29,7 +29,7 @@ void StackChoiceOverlay::handleMousePress(const sf::Vector2i & mousePosition, bo
 		return;
 	}
 
-	Card* clickedCard = _playerReference->chooseCardFromClick(mousePosition);
+	auto clickedCard = _playerReference->chooseCardFromClick(mousePosition);
 	if (clickedCard != nullptr && clickedCard->getFaceValueID() == 10) {
 		_currentAction->injectProperty("faceValueID", clickedCard->getFaceValueID());
 		_currentAction->injectProperty("colourID", clickedCard->getColourID());
