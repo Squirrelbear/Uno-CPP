@@ -9,10 +9,10 @@ OvalHoverButton::OvalHoverButton(const sf::IntRect & bounds, const sf::Font & fo
 	_isHovered = false;
 	_isActive = true;
 
-	DrawableText* _foreground = new DrawableText(sf::Vector2f(0, 0), message, font, 30, sf::Color(226, 173, 67), sf::Text::Bold);
+	DrawableText* _foreground = new DrawableText(message, font, 30, sf::Color(226, 173, 67), sf::Text::Bold);
 	int strWidth = _foreground->getTextWidth();
 	_foreground->setPositionWithOffset(sf::Vector2f(bounds.left + _bounds.width / 2 - strWidth / 2, bounds.top + _bounds.height / 2 - 20));
-	DrawableText* _shadow = new DrawableText(sf::Vector2f(0, 0), message, font, 30, sf::Color::Black, sf::Text::Bold);
+	DrawableText* _shadow = new DrawableText(message, font, 30, sf::Color::Black, sf::Text::Bold);
 	_shadow->setPositionWithOffset(sf::Vector2f(bounds.left + _bounds.width / 2 - strWidth / 2 - 2, bounds.top + _bounds.height / 2 - 20 + 2));
 	_text = new DrawableObjectGroup();
 	_text->addChild(_shadow);

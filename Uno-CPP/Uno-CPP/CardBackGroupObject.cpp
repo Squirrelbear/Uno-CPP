@@ -17,11 +17,11 @@ CardBackGroupObject::CardBackGroupObject(const sf::Vector2f& initialPosition, co
 												sf::Color(147, 44, 44), sf::Vector2f(4, CARD_HEIGHT / 2 - (CARD_WIDTH - 8) / 4));
 	addChild(centreOval);
 
-	DrawableText* shadowText = new DrawableText(sf::Vector2f(0, 0), "UNO", font, 20, sf::Color::Black, sf::Text::Bold);
+	DrawableText* shadowText = new DrawableText("UNO", font, 20, sf::Color::Black, sf::Text::Bold);
 	shadowText->setOffset(sf::Vector2f(CARD_WIDTH / 2 - shadowText->getTextWidth() / 2 - 2, CARD_HEIGHT / 2 - 20 / 2 - 2));
 	addChild(shadowText);
 
-	DrawableText* mainText = new DrawableText(sf::Vector2f(0, 0), "UNO", font, 20, sf::Color(226, 173, 67), sf::Text::Bold);
+	DrawableText* mainText = new DrawableText("UNO", font, 20, sf::Color(226, 173, 67), sf::Text::Bold);
 	mainText->setOffset(sf::Vector2f(CARD_WIDTH / 2 - mainText->getTextWidth() / 2, CARD_HEIGHT / 2 - 20 / 2));
 	addChild(mainText);
 

@@ -304,29 +304,29 @@ void LobbyInterface::initialiseBackground(const sf::IntRect & bounds, const sf::
 	rightRegion->setBorder(1, sf::Color::Black);
 	_background->addChild(rightRegion);
 
-	DrawableText* rulesTitle = new DrawableText(sf::Vector2f(0, 0), "Rules", font, 30, sf::Color::Black, sf::Text::Bold);
+	DrawableText* rulesTitle = new DrawableText("Rules", font, 30, sf::Color::Black, sf::Text::Bold);
 	rulesTitle->setOffset(sf::Vector2f(bounds.width / 2 + 280, 120 - 30));
 	_background->addChild(rulesTitle);
 
 	// UNO! Text with shadow
-	DrawableText* unoShadow = new DrawableText(sf::Vector2f(0, 0), "UNO!", font, 40, sf::Color::Black, sf::Text::Bold);
+	DrawableText* unoShadow = new DrawableText("UNO!", font, 40, sf::Color::Black, sf::Text::Bold);
 	unoShadow->setOffset(sf::Vector2f(bounds.width / 2 - 40, 50 - 40));
 	_background->addChild(unoShadow);
-	DrawableText* uLetter = new DrawableText(sf::Vector2f(0, 0), "U", font, 40, Card::getColourByID(0), sf::Text::Bold);
+	DrawableText* uLetter = new DrawableText("U", font, 40, Card::getColourByID(0), sf::Text::Bold);
 	uLetter->setOffset(sf::Vector2f(bounds.width / 2 - 40 + 2, 48 - 40));
 	_background->addChild(uLetter);
-	DrawableText* nLetter = new DrawableText(sf::Vector2f(0, 0), "N", font, 40, Card::getColourByID(1), sf::Text::Bold);
+	DrawableText* nLetter = new DrawableText("N", font, 40, Card::getColourByID(1), sf::Text::Bold);
 	nLetter->setOffset(sf::Vector2f(bounds.width / 2 - 40 + 2 + 30, 48 - 40));
 	_background->addChild(nLetter);
-	DrawableText* oLetter = new DrawableText(sf::Vector2f(0, 0), "O", font, 40, Card::getColourByID(2), sf::Text::Bold);
+	DrawableText* oLetter = new DrawableText("O", font, 40, Card::getColourByID(2), sf::Text::Bold);
 	oLetter->setOffset(sf::Vector2f(bounds.width / 2 - 40 + 2 + 60, 48 - 40));
 	_background->addChild(oLetter);
-	DrawableText* exclamationMark = new DrawableText(sf::Vector2f(0, 0), "!", font, 40, Card::getColourByID(3), sf::Text::Bold);
+	DrawableText* exclamationMark = new DrawableText("!", font, 40, Card::getColourByID(3), sf::Text::Bold);
 	exclamationMark->setOffset(sf::Vector2f(bounds.width / 2 - 40 + 2 + 90, 48 - 40));
 	_background->addChild(exclamationMark);
 
 	// Credits
-	DrawableText* credits = new DrawableText(sf::Vector2f(0, 0), "Developed by Peter Mitchell (2022)", font, 10, sf::Color::Black, sf::Text::Bold);
+	DrawableText* credits = new DrawableText("Developed by Peter Mitchell (2022)", font, 10, sf::Color::Black, sf::Text::Bold);
 	credits->setOffset(sf::Vector2f(bounds.width / 2 - 85, 65 - 10));
 	_background->addChild(credits);
 

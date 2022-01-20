@@ -8,9 +8,9 @@ StatusOverlay::StatusOverlay(const sf::IntRect & bounds, const sf::Font & font, 
 	setEnabled(false);
 	_background = new DrawableShape(new sf::RectangleShape(sf::Vector2f(400, 60)), sf::Color(184, 154, 143, 204));
 	_background->setPositionWithOffset(sf::Vector2f(_centre.x - 200, _centre.y - 45));
-	_statusText = new DrawableText(sf::Vector2f(0, 0), "NOTSET", font, 20, sf::Color::Black, sf::Text::Bold);
-	_timeOutText = new DrawableText(sf::Vector2f(0, 0), "NOTSET", font, 20, sf::Color::Black, sf::Text::Bold);
-	_timeOutShadowText = new DrawableText(sf::Vector2f(0, 0), "NOTSET", font, 20, sf::Color::Black, sf::Text::Bold);
+	_statusText = new DrawableText("NOTSET", font, 20, sf::Color::Black, sf::Text::Bold);
+	_timeOutText = new DrawableText("NOTSET", font, 20, sf::Color::Black, sf::Text::Bold);
+	_timeOutShadowText = new DrawableText("NOTSET", font, 20, sf::Color::Black, sf::Text::Bold);
 }
 
 StatusOverlay::~StatusOverlay()

@@ -9,7 +9,7 @@ Player::Player(const int playerID, const std::string & playerName, const PlayerT
 	_showCards = playerType == PlayerType::ThisPlayer;
 	resetScore();
 
-	_playerNameText = new DrawableText(sf::Vector2f(0, 0), playerName, font, 20, sf::Color(255, 215, 0), sf::Text::Bold);
+	_playerNameText = new DrawableText(playerName, font, 20, sf::Color(255, 215, 0), sf::Text::Bold);
 	int strWidth = _playerNameText->getTextWidth();
 	int nameXOffset = bounds.left + (_showPlayerNameLeft ? -(strWidth - 50) : (bounds.width / 2 - (strWidth + 30) / 2));
 	int nameYOffset = bounds.top + (_showPlayerNameLeft ? (bounds.height / 2 - 20) : -10);

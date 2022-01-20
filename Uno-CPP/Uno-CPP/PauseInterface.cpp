@@ -66,12 +66,12 @@ void PauseInterface::initialiseInterface(const sf::IntRect & bounds, const sf::I
 	_interfaceBackground->addChild(rightBackground);
 	rightBackground->setBorder(1, sf::Color::Black);
 
-	DrawableText* titleText = new DrawableText(sf::Vector2f(0, 0), "Paused", font, 40, sf::Color::Black, sf::Text::Bold);
+	DrawableText* titleText = new DrawableText("Paused", font, 40, sf::Color::Black, sf::Text::Bold);
 	titleText->setOffset(sf::Vector2f(bounds.left + bounds.width / 2 - titleText->getTextWidth() / 2, bounds.top));
 	_interfaceBackground->addChild(titleText);
 
 	// LEFT SIZE TEXT
-	DrawableText* leftTextTitle = new DrawableText(sf::Vector2f(0, 0), "Controls", font, 20, sf::Color::Black, sf::Text::Bold);
+	DrawableText* leftTextTitle = new DrawableText("Controls", font, 20, sf::Color::Black, sf::Text::Bold);
 	leftTextTitle->setOffset(sf::Vector2f(210, 300));
 	_interfaceBackground->addChild(leftTextTitle);
 
@@ -80,13 +80,13 @@ void PauseInterface::initialiseInterface(const sf::IntRect & bounds, const sf::I
 	leftTextArray.push_back("Q: Sort hand");
 
 	for (int y = 0; y < leftTextArray.size(); y++) {
-		DrawableText* leftText = new DrawableText(sf::Vector2f(0, 0), leftTextArray.at(y), font, 20, sf::Color::Black, sf::Text::Bold);
+		DrawableText* leftText = new DrawableText(leftTextArray.at(y), font, 20, sf::Color::Black, sf::Text::Bold);
 		leftText->setOffset(sf::Vector2f(180, 325+y*30));
 		_interfaceBackground->addChild(leftText);
 	}
 
 	// RIGHT SIDE TEXT
-	DrawableText* rightTextTitle = new DrawableText(sf::Vector2f(0, 0), "Debug Controls (0 first)", font, 20, sf::Color::Black, sf::Text::Bold);
+	DrawableText* rightTextTitle = new DrawableText("Debug Controls (0 first)", font, 20, sf::Color::Black, sf::Text::Bold);
 	rightTextTitle->setOffset(sf::Vector2f(880, 230));
 	_interfaceBackground->addChild(rightTextTitle);
 
@@ -100,7 +100,7 @@ void PauseInterface::initialiseInterface(const sf::IntRect & bounds, const sf::I
 	rightTextArray.push_back("4: Toggle Show Turn Action Tree On Set");
 
 	for (int y = 0; y < rightTextArray.size(); y++) {
-		DrawableText* rightText = new DrawableText(sf::Vector2f(0, 0), rightTextArray.at(y), font, 20, sf::Color::Black, sf::Text::Bold);
+		DrawableText* rightText = new DrawableText(rightTextArray.at(y), font, 20, sf::Color::Black, sf::Text::Bold);
 		rightText->setOffset(sf::Vector2f(800, 270 + y * 30));
 		_interfaceBackground->addChild(rightText);
 	}

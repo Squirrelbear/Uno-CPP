@@ -13,7 +13,7 @@ WildColourSelectionOverlay::WildColourSelectionOverlay(const sf::IntRect & bound
 		sf::Color::Black, sf::Vector2f(bounds.left - 20+1, bounds.top - 40+1));
 	backgroundRect->setBorder(1, sf::Color::White);
 	_background->addChild(backgroundRect);
-	DrawableText* title = new DrawableText(sf::Vector2f(0, 0), "Choose Colour", font, 20, sf::Color::White, sf::Text::Bold);
+	DrawableText* title = new DrawableText("Choose Colour", font, 20, sf::Color::White, sf::Text::Bold);
 	title->setOffset(sf::Vector2f(bounds.left + bounds.width / 2 - title->getTextWidth() / 2, bounds.top - 35));
 	_background->addChild(title);
 	

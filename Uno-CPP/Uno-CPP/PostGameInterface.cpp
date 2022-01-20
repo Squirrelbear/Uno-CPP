@@ -72,33 +72,33 @@ void PostGameInterface::initialiseInterface(const sf::Font & font, RuleSet * rul
 	_staticElements->addChild(background);
 
 	// UNO! Text with shadow
-	DrawableText* unoShadow = new DrawableText(sf::Vector2f(0, 0), "UNO!", font, 40, sf::Color::Black, sf::Text::Bold);
+	DrawableText* unoShadow = new DrawableText("UNO!", font, 40, sf::Color::Black, sf::Text::Bold);
 	unoShadow->setOffset(sf::Vector2f(_bounds.width / 2 - 40, 10));
 	_staticElements->addChild(unoShadow);
-	DrawableText* uLetter = new DrawableText(sf::Vector2f(0, 0), "U", font, 40, Card::getColourByID(0), sf::Text::Bold);
+	DrawableText* uLetter = new DrawableText("U", font, 40, Card::getColourByID(0), sf::Text::Bold);
 	uLetter->setOffset(sf::Vector2f(_bounds.width / 2 - 40 + 2, 8));
 	_staticElements->addChild(uLetter);
-	DrawableText* nLetter = new DrawableText(sf::Vector2f(0, 0), "N", font, 40, Card::getColourByID(1), sf::Text::Bold);
+	DrawableText* nLetter = new DrawableText("N", font, 40, Card::getColourByID(1), sf::Text::Bold);
 	nLetter->setOffset(sf::Vector2f(_bounds.width / 2 - 40 + 2 + 30, 8));
 	_staticElements->addChild(nLetter);
-	DrawableText* oLetter = new DrawableText(sf::Vector2f(0, 0), "O", font, 40, Card::getColourByID(2), sf::Text::Bold);
+	DrawableText* oLetter = new DrawableText("O", font, 40, Card::getColourByID(2), sf::Text::Bold);
 	oLetter->setOffset(sf::Vector2f(_bounds.width / 2 - 40 + 2 + 60, 8));
 	_staticElements->addChild(oLetter);
-	DrawableText* exclamationMark = new DrawableText(sf::Vector2f(0, 0), "!", font, 40, Card::getColourByID(3), sf::Text::Bold);
+	DrawableText* exclamationMark = new DrawableText("!", font, 40, Card::getColourByID(3), sf::Text::Bold);
 	exclamationMark->setOffset(sf::Vector2f(_bounds.width / 2 - 40 + 2 + 90, 8));
 	_staticElements->addChild(exclamationMark);
 
-	DrawableText* titleText = new DrawableText(sf::Vector2f(0, 0), "Post-Game Summary", font, 40, sf::Color::Black, sf::Text::Bold);
+	DrawableText* titleText = new DrawableText("Post-Game Summary", font, 40, sf::Color::Black, sf::Text::Bold);
 	titleText->setOffset(sf::Vector2f(_bounds.width / 2 - titleText->getTextWidth() / 2, 80));
 	_staticElements->addChild(titleText);
 
 	DrawableLine* topLine = new DrawableLine({ sf::Vector2f(_bounds.width / 4 + 10, 200), sf::Vector2f(_bounds.width * 3 / 4 - 10, 200) });
 	_staticElements->addChild(topLine);
 
-	DrawableText* roundScoreTitle = new DrawableText(sf::Vector2f(0, 0), "Round Score", font, 20, sf::Color::Black, sf::Text::Bold);
+	DrawableText* roundScoreTitle = new DrawableText("Round Score", font, 20, sf::Color::Black, sf::Text::Bold);
 	roundScoreTitle->setOffset(sf::Vector2f(_bounds.width / 2-20, 160));
 	_staticElements->addChild(roundScoreTitle);
-	DrawableText* totalScoreTitle = new DrawableText(sf::Vector2f(0, 0), "Total Score", font, 20, sf::Color::Black, sf::Text::Bold);
+	DrawableText* totalScoreTitle = new DrawableText("Total Score", font, 20, sf::Color::Black, sf::Text::Bold);
 	totalScoreTitle->setOffset(sf::Vector2f(_bounds.width / 2 + 165, 160));
 	_staticElements->addChild(totalScoreTitle);
 
@@ -111,13 +111,13 @@ void PostGameInterface::initialiseInterface(const sf::Font & font, RuleSet * rul
 		DrawableLine* dividerLine = new DrawableLine({ sf::Vector2f(_bounds.width / 4 + 10, 260 + i * 60), sf::Vector2f(_bounds.width * 3 / 4 - 10, 260 + i * 60) });
 		_staticElements->addChild(dividerLine);
 		std::string playerString = (_playerList.at(i)->getPlayerType() == Player::PlayerType::ThisPlayer ? "You: " : "AI: ") + _playerList.at(i)->getPlayerName();
-		DrawableText* playerStringText = new DrawableText(sf::Vector2f(0, 0), playerString, font, 20, sf::Color::Black, sf::Text::Bold);
+		DrawableText* playerStringText = new DrawableText(playerString, font, 20, sf::Color::Black, sf::Text::Bold);
 		playerStringText->setOffset(sf::Vector2f(_bounds.width / 4 + 50, 220 + i * 60));
 		_staticElements->addChild(playerStringText);
-		DrawableText* currentRoundScore = new DrawableText(sf::Vector2f(0, 0), std::to_string(_playerList.at(i)->getCurrentRoundScore()), font, 20, sf::Color::Black, sf::Text::Bold);
+		DrawableText* currentRoundScore = new DrawableText(std::to_string(_playerList.at(i)->getCurrentRoundScore()), font, 20, sf::Color::Black, sf::Text::Bold);
 		currentRoundScore->setOffset(sf::Vector2f(_bounds.width / 2, 220 + i * 60));
 		_staticElements->addChild(currentRoundScore);
-		DrawableText* totalScore = new DrawableText(sf::Vector2f(0, 0), std::to_string(_playerList.at(i)->getTotalScore()), font, 20, sf::Color::Black, sf::Text::Bold);
+		DrawableText* totalScore = new DrawableText(std::to_string(_playerList.at(i)->getTotalScore()), font, 20, sf::Color::Black, sf::Text::Bold);
 		totalScore->setOffset(sf::Vector2f(_bounds.width / 2 + 180, 220 + i * 60));
 		_staticElements->addChild(totalScore);
 	}
@@ -157,18 +157,18 @@ void PostGameInterface::initialiseInterface(const sf::Font & font, RuleSet * rul
 			scoreLimitStr = "Score Limit: Unlimited"; break;
 	}
 
-	DrawableText* winnerTitle = new DrawableText(sf::Vector2f(0, 0), "Round Winner: ", font, 20, sf::Color::Black, sf::Text::Bold);
+	DrawableText* winnerTitle = new DrawableText("Round Winner: ", font, 20, sf::Color::Black, sf::Text::Bold);
 	winnerTitle->setOffset(sf::Vector2f(_bounds.width / 4 + 25, 470));
 	_staticElements->addChild(winnerTitle);
-	DrawableText* winnerLabel = new DrawableText(sf::Vector2f(0, 0), winner->getPlayerName(), font, 20, sf::Color::Black, sf::Text::Bold);
+	DrawableText* winnerLabel = new DrawableText(winner->getPlayerName(), font, 20, sf::Color::Black, sf::Text::Bold);
 	winnerLabel->setOffset(sf::Vector2f(_bounds.width / 4 + 175, 470));
 	_staticElements->addChild(winnerLabel);
-	DrawableText* scoreLimitText = new DrawableText(sf::Vector2f(0, 0), scoreLimitStr, font, 20, sf::Color::Black, sf::Text::Bold);
+	DrawableText* scoreLimitText = new DrawableText(scoreLimitStr, font, 20, sf::Color::Black, sf::Text::Bold);
 	scoreLimitText->setOffset(sf::Vector2f(_bounds.width / 2 + 20, 470));
 	_staticElements->addChild(scoreLimitText);
 
 	if (scoreLimitReached) {
-		DrawableText* scoreLimitReachedText = new DrawableText(sf::Vector2f(0, 0), "Score limit reached!", font, 20, sf::Color::Black, sf::Text::Bold);
+		DrawableText* scoreLimitReachedText = new DrawableText("Score limit reached!", font, 20, sf::Color::Black, sf::Text::Bold);
 		scoreLimitReachedText->setOffset(sf::Vector2f(_bounds.width / 2 + 40, 510));
 		_staticElements->addChild(scoreLimitReachedText);
 

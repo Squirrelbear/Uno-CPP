@@ -14,24 +14,24 @@ LobbyPlayer::LobbyPlayer(const std::string & playerName, const Player::PlayerTyp
 	_drawableObject = new DrawableObjectGroup();
 	_background = new DrawableShape(new sf::RectangleShape(sf::Vector2f(bounds.width-2, bounds.height-2)), _bgNotHoveredColour, sf::Vector2f(1, 1));
 	_background->setBorder(1, sf::Color::Black);
-	_playerNameText = new DrawableText(sf::Vector2f(0, 0), playerName, font, 20, sf::Color::Black, sf::Text::Bold);
+	_playerNameText = new DrawableText(playerName, font, 20, sf::Color::Black, sf::Text::Bold);
 	_playerNameText->setOffset(sf::Vector2f(120, 30));
-	DrawableText* playerTypeText = new DrawableText(sf::Vector2f(0, 0), _playerTypeStr, font, 20, sf::Color::Black, sf::Text::Bold);
+	DrawableText* playerTypeText = new DrawableText(_playerTypeStr, font, 20, sf::Color::Black, sf::Text::Bold);
 	playerTypeText->setOffset(sf::Vector2f(20, 30));
 	_drawableObject->addChild(_background);
 	_drawableObject->addChild(_playerNameText);
 	_drawableObject->addChild(playerTypeText);
 
 	if (playerType == Player::PlayerType::AIPlayer) {
-		_aiStrategyText = new DrawableText(sf::Vector2f(0, 0), _strategyStr, font, 20, sf::Color::Black, sf::Text::Bold);
+		_aiStrategyText = new DrawableText(_strategyStr, font, 20, sf::Color::Black, sf::Text::Bold);
 		_aiStrategyText->setOffset(sf::Vector2f(300, 30));
-		DrawableText* actionText = new DrawableText(sf::Vector2f(0, 0), "(Click to cycle strategies)", font, 20, sf::Color::Black, sf::Text::Bold);
+		DrawableText* actionText = new DrawableText("(Click to cycle strategies)", font, 20, sf::Color::Black, sf::Text::Bold);
 		actionText->setOffset(sf::Vector2f(300, 55));
 		_drawableObject->addChild(_aiStrategyText);
 		_drawableObject->addChild(actionText);
 	}
 	else {
-		DrawableText* actionText = new DrawableText(sf::Vector2f(0, 0), "(Click to change your name)", font, 20, sf::Color::Black, sf::Text::Bold);
+		DrawableText* actionText = new DrawableText("(Click to change your name)", font, 20, sf::Color::Black, sf::Text::Bold);
 		actionText->setOffset(sf::Vector2f(300, 30));
 		_drawableObject->addChild(actionText);
 	}

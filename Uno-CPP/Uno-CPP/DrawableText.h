@@ -15,7 +15,7 @@ class DrawableText :
 {
 public:
 	// Sets the initial properties applied to the sf::Text object.
-	DrawableText(const sf::Vector2f& position, const std::string& str, const sf::Font& font, const size_t fontSize, const sf::Color textColour, const sf::Uint32 style);
+	DrawableText(const std::string& str, const sf::Font& font, const size_t fontSize, const sf::Color textColour, const sf::Uint32 style);
 	virtual ~DrawableText() = default;
 
 	// Draws the text to the renderWindow.
