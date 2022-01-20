@@ -55,24 +55,11 @@ void CurrentGameInterface::update(const float deltaTime)
 	if (!isEnabled()) return;
 
 	_playDirectionAnimation->update(deltaTime);
-	_overlayManager->update(deltaTime);
+	_overlayManager->update(deltaTime, getCurrentTurnAction());
 	_turnActionSequenceManager->update();
 	for (auto player : _players) {
 		PlayerUpdateResult result = player->update(deltaTime, getCurrentPlayer(), getCurrentTurnAction(), getRecentCardPile(), getAllPlayers(), getRuleSet());
-		switch (result.resultState) {
-		case PlayerUpdateResultState::PlayerCalledAntiUno:
-			applyAntiUno(result.playerIDForResult);
-			break;
-		case PlayerUpdateResultState::PlayerCalledUno:
-			showGeneralOverlay("UNOCalled" + std::to_string(result.playerIDForResult));
-			break;
-		case PlayerUpdateResultState::PlayerJumpedIn:
-			jumpIn(result.playerIDForResult, result.cardForJump);
-			break;
-		case PlayerUpdateResultState::PlayerStartedTurnAction:
-			setCurrentTurnAction(result.turnActionRequest);
-			break;
-		}
+		applyPlayerUpdateResult(result);
 	}
 	checkForEndOfRound();
 }
@@ -97,6 +84,8 @@ void CurrentGameInterface::handleMousePress(const sf::Vector2i & mousePosition, 
 	if (!isEnabled()) return;
 
 	_overlayManager->handleMousePress(mousePosition, isLeft);
+	PlayerUpdateResult buttonState = _overlayManager->getUnoButtonsState();
+	applyPlayerUpdateResult(buttonState);
 	
 	// Handle player turn actions 
 	if (!_turnActionSequenceManager->hasActiveTurnAction()) {
@@ -316,6 +305,24 @@ void CurrentGameInterface::updateUNOState()
 		if (player->getPlayerID() != _currentPlayerID) {
 			player->setUnoState(Player::UNOState::Safe);
 		}
+	}
+}
+
+void CurrentGameInterface::applyPlayerUpdateResult(PlayerUpdateResult & playerUpdateResult)
+{
+	switch (playerUpdateResult.resultState) {
+		case PlayerUpdateResultState::PlayerCalledAntiUno:
+			applyAntiUno(playerUpdateResult.playerIDForResult);
+			break;
+		case PlayerUpdateResultState::PlayerCalledUno:
+			showGeneralOverlay("UNOCalled" + std::to_string(playerUpdateResult.playerIDForResult));
+			break;
+		case PlayerUpdateResultState::PlayerJumpedIn:
+			jumpIn(playerUpdateResult.playerIDForResult, playerUpdateResult.cardForJump);
+			break;
+		case PlayerUpdateResultState::PlayerStartedTurnAction:
+			setCurrentTurnAction(playerUpdateResult.turnActionRequest);
+			break;
 	}
 }
 

@@ -45,3 +45,15 @@ void OvalHoverButton::draw(sf::RenderWindow & renderWindow) const
 	_hoverShape->draw(renderWindow);
 	_text->draw(renderWindow);
 }
+
+bool OvalHoverButton::isTriggeredReset()
+{
+	bool result = _isTriggered;
+	_isTriggered = false;
+	return result;
+}
+
+int OvalHoverButton::getActionID() const
+{
+	return _actionID;
+}

@@ -5,6 +5,8 @@
 #include "WndInterface.h"
 #include "Player.h"
 #include "GameStateData.h"
+#include "UnoButton.h"
+#include "AntiUnoButton.h"
 
 /**
  * Uno
@@ -33,8 +35,12 @@ public:
 	 * Updates all the active overlays and hides all the decision overlays if the TurnAction changed.
 	 *
 	 * @param deltaTime Time since last update.
+	 * @param currentTurnAction The reference to the current action.
 	 */
-	virtual void update(const float deltaTime) override;
+	virtual void update(const float deltaTime, const TurnAction* currentTurnAction);
+
+	// Do not call the default WndInterface update method for this.
+	virtual void update(const float deltaTime) override {};
 
 	// Draws all enabled overlays.
 	virtual void draw(sf::RenderWindow & renderWindow) const override;
@@ -72,6 +78,9 @@ public:
 	// Hides all the decision overlays automatically called when the TurnAction changes in update().
 	void hideAllDecisionOverlays();
 
+	// Gets any trigger state of the Uno or AntiUno buttons handled during handleMousePress
+	PlayerUpdateResult getUnoButtonsState();
+
 private:
 	// Interfaces mapped to unique strings.
 	std::map<std::string, WndInterface*> _overlays;
@@ -81,5 +90,11 @@ private:
 
 	// Reference to core game variables.
 	GameStateData _gameState;
+
+	// Reference to the Uno button for getUnoButtonsState()
+	UnoButton* _unoButton;
+
+	// Reference to the AntiUno button for getUnoButtonState()
+	AntiUnoButton* _antiUnoButton;
 };
 

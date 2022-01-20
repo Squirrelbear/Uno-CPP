@@ -222,6 +222,9 @@ private:
 	// Sets the current player to NotSafe if they have one card or Safe otherwise, all other players are set to Safe.
 	void updateUNOState();
 
+	// Applies the specified result
+	void applyPlayerUpdateResult(PlayerUpdateResult& playerUpdateResult);
+
 	/**
 	 * Generates a list of players using the specified types. Requires a single ThisPlayer and 1 or 3 AIPlayer.
 	 *

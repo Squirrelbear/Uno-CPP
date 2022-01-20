@@ -33,12 +33,24 @@ public:
 	// Draws the button with an expanding oval on hover with the text in the middle.
 	virtual void draw(sf::RenderWindow & renderWindow) const override;
 
+	// Gets the current state of isTriggered and forces it to reset to false.
+	bool isTriggeredReset();
+
+	// Gets the actionID for this button.
+	int getActionID() const;
+
 protected:
 	// Current hover status of the button.
 	bool _isHovered;
 
 	// When isActive is active the button can be interacted with and is visible.
 	bool _isActive;
+
+	// The triggered state to know when the button has been interacted with.
+	bool _isTriggered;
+
+	// The action id associated with the triggering
+	int _actionID;
 
 private:
 	// Background colour

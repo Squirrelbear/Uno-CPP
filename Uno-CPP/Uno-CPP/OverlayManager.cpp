@@ -15,7 +15,6 @@
 #include "TurnDecisionOverlayInterface.h"
 #include "GeneralOverlayInterface.h"
 #include <sstream>
-#include "Game.h"
 
 OverlayManager::OverlayManager(const sf::IntRect & bounds, std::vector<Player*> playerList, const sf::Font& font, GameStateData gameData)
 	: WndInterface(bounds), _gameState(gameData)
@@ -34,8 +33,8 @@ OverlayManager::OverlayManager(const sf::IntRect & bounds, std::vector<Player*> 
 	_overlays["isChallenging"] = challengeOverlay;
 	_overlays["isStacking"] = stackChoiceOverlay;
 
-    UnoButton* unoButton = new UnoButton(sf::Vector2f(bounds.left + bounds.width - 80 - 40, bounds.top + bounds.height - 60-40), font, _gameState);
-    AntiUnoButton* antiUnoButton = new AntiUnoButton(sf::Vector2f(bounds.left + bounds.width - 80-40-100, bounds.top + bounds.height - 60-40), font, _gameState);
+    _unoButton = new UnoButton(sf::Vector2f(bounds.left + bounds.width - 80 - 40, bounds.top + bounds.height - 60-40), font, _gameState);
+    _antiUnoButton = new AntiUnoButton(sf::Vector2f(bounds.left + bounds.width - 80-40-100, bounds.top + bounds.height - 60-40), font, _gameState);
     for(int i = 0; i < playerList.size(); i++) {
         sf::Vector2f playerCentre = playerList.at(i)->getCentreOfBounds();
         PlayerFlashOverlay* skipVisualOverlay = new PlayerFlashOverlay(playerCentre, "SKIPPED", sf::Color::Red, 40, font);
@@ -53,8 +52,8 @@ OverlayManager::OverlayManager(const sf::IntRect & bounds, std::vector<Player*> 
         PlayerFlashOverlay* jumpInOverlay = new PlayerFlashOverlay(sf::Vector2f(playerCentre.x,playerCentre.y+20), "JUMPED IN", sf::Color(255,215,0), 40, font);
 		_overlays["JumpIn" + std::to_string(i)] = jumpInOverlay;
     }
-	_overlays["UnoButton"] = unoButton;
-	_overlays["antiUnoButton"] = antiUnoButton;
+	_overlays["UnoButton"] = _unoButton;
+	_overlays["antiUnoButton"] = _antiUnoButton;
 }
 
 OverlayManager::~OverlayManager()
@@ -64,9 +63,9 @@ OverlayManager::~OverlayManager()
 	}
 }
 
-void OverlayManager::update(const float deltaTime)
+void OverlayManager::update(const float deltaTime, const TurnAction* currentTurnAction)
 {
-	if (_overlayAction != Game::getCurrentGame()->getCurrentTurnAction()) {
+	if (_overlayAction != currentTurnAction) {
 		_overlayAction = nullptr;
 		hideAllDecisionOverlays();
 	}
@@ -146,4 +145,18 @@ void OverlayManager::hideAllDecisionOverlays()
 		}
 	}
 	setEnabled(false);
+}
+
+PlayerUpdateResult OverlayManager::getUnoButtonsState()
+{
+	bool buttonTriggered = _unoButton->isTriggeredReset();
+	if (buttonTriggered) {
+		return { PlayerUpdateResultState::PlayerCalledUno, nullptr, _unoButton->getActionID(), nullptr };
+	}
+	buttonTriggered = _antiUnoButton->isTriggeredReset();
+	if (buttonTriggered) {
+		return { PlayerUpdateResultState::PlayerCalledAntiUno, nullptr, _antiUnoButton->getActionID(), nullptr };
+	}
+
+	return { PlayerUpdateResultState::PlayerDidNothing, nullptr, -1, nullptr };
 }
