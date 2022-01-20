@@ -209,6 +209,7 @@
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerFlashOverlay.h" />
     <ClInclude Include="PlayerSelectionOverlay.h" />
+    <ClInclude Include="PlayerUpdateResult.h" />
     <ClInclude Include="PolygonShape.h" />
     <ClInclude Include="PostGameInterface.h" />
     <ClInclude Include="RecentCardPile.h" />

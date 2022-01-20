@@ -308,5 +308,8 @@
     <ClInclude Include="GameStateData.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="PlayerUpdateResult.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

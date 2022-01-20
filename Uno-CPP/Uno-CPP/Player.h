@@ -5,6 +5,9 @@
 #include <vector>
 #include "Card.h"
 #include "DrawableText.h"
+#include "RecentCardPile.h"
+#include "TurnAction.h"
+#include "PlayerUpdateResult.h"
 
 /**
  * Uno
@@ -49,8 +52,15 @@ public:
 	 * Does nothing by default.
 	 *
 	 * @param deltaTime Time since last update.
+	 * @param currentPlayer A reference to the player whose current turn it is.
+	 * @param currentTurnAction A reference to any turn action currently active.
+	 * @param recentCards A reference to the pile of cards for accessing the top card.
+	 * @param players A reference to the list of players who are playing.
+	 * @param rules A reference to the rules that are in use.
 	 */
-	virtual void update(const float deltaTime) {}
+	virtual PlayerUpdateResult update(const float deltaTime, const Player* currentPlayer, TurnAction* currentTurnAction, const RecentCardPile* recentCards, const std::vector<Player*>& players, const RuleSet* rules) { 
+		return { PlayerUpdateResultState::PlayerDidNothing, nullptr, -1, nullptr };
+	}
 
 	// Draws the player's cards with either card backs or fronts. Then draws the player's name nearby.
 	void draw(sf::RenderWindow& renderWindow) const;

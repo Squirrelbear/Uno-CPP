@@ -58,7 +58,21 @@ void CurrentGameInterface::update(const float deltaTime)
 	_overlayManager->update(deltaTime);
 	_turnActionSequenceManager->update();
 	for (auto player : _players) {
-		player->update(deltaTime);
+		PlayerUpdateResult result = player->update(deltaTime, getCurrentPlayer(), getCurrentTurnAction(), getRecentCardPile(), getAllPlayers(), getRuleSet());
+		switch (result.resultState) {
+		case PlayerUpdateResultState::PlayerCalledAntiUno:
+			applyAntiUno(result.playerIDForResult);
+			break;
+		case PlayerUpdateResultState::PlayerCalledUno:
+			showGeneralOverlay("UNOCalled" + std::to_string(result.playerIDForResult));
+			break;
+		case PlayerUpdateResultState::PlayerJumpedIn:
+			jumpIn(result.playerIDForResult, result.cardForJump);
+			break;
+		case PlayerUpdateResultState::PlayerStartedTurnAction:
+			setCurrentTurnAction(result.turnActionRequest);
+			break;
+		}
 	}
 	checkForEndOfRound();
 }

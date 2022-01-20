@@ -45,8 +45,13 @@ public:
 	 * performs them if there is the ability to.
 	 *
 	 * @param deltaTime Time since last update.
+	 * @param currentPlayer A reference to the player whose current turn it is.
+	 * @param currentTurnAction A reference to any turn action currently active.
+	 * @param recentCards A reference to the pile of cards for accessing the top card.
+	 * @param players A reference to the list of players who are playing.
+	 * @param rules A reference to the rules that are in use.
 	 */
-	void update(const float deltaTime) override;
+	PlayerUpdateResult update(const float deltaTime, const Player* currentPlayer, TurnAction* currentTurnAction, const RecentCardPile* recentCards, const std::vector<Player*>& players, const RuleSet* rules) override;
 
 	// Converts the AIStrategyfrom an enum into its std::string equivalent.
 	static std::string aiStrategyToString(const AIStrategy strategy);
@@ -84,15 +89,20 @@ private:
 	 * Checks the current status of any available anti-uno calls and makes a decision whether to call them out.
 	 *
 	 * @param deltaTime Time since last update.
+	 * @param players A reference to the list of players who are playing.
 	 */
-	void updateAntiUnoCheck(const int deltaTime);
+	PlayerUpdateResult updateAntiUnoCheck(const int deltaTime, const std::vector<Player*>& players);
 
 	/**
 	 * Updates the state of jumping in if it is allowed and possible for this player.
 	 *
 	 * @param deltaTime Time since last update.
+	 * @param currentPlayer A reference to the player whose current turn it is.
+	 * @param currentTurnAction A reference to any turn action currently active.
+	 * @param recentCards A reference to the pile of cards for accessing the top card.
+	 * @param rules A reference to the rules that are in use.
 	 */
-	void updateJumpInCheck(const int deltaTime);
+	PlayerUpdateResult updateJumpInCheck(const int deltaTime, const RuleSet* rules, const TurnAction* currentTurnAction, const Player* currentPlayer, const RecentCardPile* recentCards);
 
 	/**
 	 * Performs the turn by checking if there are any valid moves to be played.
@@ -118,8 +128,10 @@ private:
 	 * appropriate response based on other methods in this class.
 	 *
 	 * @param decisionAction Reference to the current action requiring a decision.
+	 * @param players A reference to the list of players who are playing.
+	 * @param rules A reference to the rules that are in use.
 	 */
-	void handleTurnDecision(TurnDecisionAction* decisionAction); 
+	PlayerUpdateResult handleTurnDecision(TurnDecisionAction* decisionAction, const std::vector<Player*>& players, const RuleSet* rules);
 
 	/**
 	 * Gets a list of coloured cards in the AIPlayer's hand. If there are none, or on a random
@@ -128,40 +140,43 @@ private:
 	 *
 	 * @param decisionAction Reference to the current action requiring a decision.
 	 */
-	void chooseWildColour(TurnDecisionAction* decisionAction);
+	PlayerUpdateResult chooseWildColour(TurnDecisionAction* decisionAction);
 
 	/**
 	* Always chooses to play cards that have been drawn.
 	*
 	* @param decisionAction Reference to the current action requiring a decision.
 	*/
-	void chooseKeepOrPlay(TurnDecisionAction* decisionAction);
+	PlayerUpdateResult chooseKeepOrPlay(TurnDecisionAction* decisionAction);
 
 	/**
 	* Finds the hand with the smallest number of cards other than their own and
 	* swaps indicates a preference to swap with that target.
 	*
 	* @param decisionAction Reference to the current action requiring a decision.
+	* @param players A reference to the list of players who are playing.
 	*/
-	void choosePlayerToSwapWith(TurnDecisionAction* decisionAction);
+	PlayerUpdateResult choosePlayerToSwapWith(TurnDecisionAction* decisionAction, const std::vector<Player*>& players);
 
 	/**
 	* Checks if cards can be stacked and always chains if they can be with a valid card.
 	* Otherwise will randomly decide whether to challenge or decline.
 	*
 	* @param decisionAction Reference to the current action requiring a decision.
+	 * @param rules A reference to the rules that are in use.
 	*/
-	void chooseChallengeOrDecline(TurnDecisionAction* decisionAction);
+	PlayerUpdateResult chooseChallengeOrDecline(TurnDecisionAction* decisionAction, const RuleSet* rules);
 
 	/**
 	 * Checks if cards can be stacked and then plays a valid +2 if it is available and allowed.
 	 * Otherwise indicates that it is not being done.
 	 *
 	 * @param decisionAction Reference to the current action requiring a decision.
+	 * @param rules A reference to the rules that are in use.
 	 */
-	void chooseStackPlus2(TurnDecisionAction* decisionAction);
+	PlayerUpdateResult chooseStackPlus2(TurnDecisionAction* decisionAction, const RuleSet* rules);
 
 	// Evaluates whether to call UNO to make the AI safe.
-	void checkCallUNO();
+	PlayerUpdateResult checkCallUNO();
 };
 
