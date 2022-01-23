@@ -2,7 +2,7 @@
 
 A C++ version of Uno based on my other Java project. See the Java version of the project for full details about the constraints and features. This project is a replication to convert the Java with drawing on JPanels to using SFML to draw onto the SFML window using shapes.
 
-- C++ version YouTube Demo: ([C++ Youtube Demo](https://youtu.be/FrpcG1bfcx4)
+- C++ version YouTube Demo: ([C++ Youtube Demo](https://youtu.be/FrpcG1bfcx4))
 - Java project link: https://github.com/Squirrelbear/Uno
 - Java version YouTube Demo: ([Java Youtube Demo](https://youtu.be/6feJMIqSF98))
 
