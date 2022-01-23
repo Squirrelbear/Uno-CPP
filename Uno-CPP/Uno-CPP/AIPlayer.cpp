@@ -44,7 +44,10 @@ PlayerUpdateResult AIPlayer::update(const float deltaTime, const Player* current
 	// If there is no turn action to deal with it means that the player is performing their regular turn
 	if (currentTurnAction == nullptr) {
 		Card* topCard = recentCards->getTopCard();
-		return { PlayerUpdateResultState::PlayerStartedTurnAction, performTurn(topCard), -1, nullptr };
+		auto action = performTurn(topCard);
+		// Handle special case where the player needs to call UNO simultaneously with playing their card.
+		PlayerUpdateResultState state = action.second.resultState == PlayerUpdateResultState::PlayerCalledUno ? PlayerUpdateResultState::PlayerStartedTurnActionWithUno : PlayerUpdateResultState::PlayerStartedTurnAction;
+		return {state, action.first, action.second.playerIDForResult, nullptr };
 	}
 	else {
 		// Handle the turn action if it is necessary
@@ -83,7 +86,7 @@ PlayerUpdateResult AIPlayer::updateAntiUnoCheck(const int deltaTime, const std::
 	for(auto player : players) {
         if(player != this && !player->isSafe() && player->getHand().size() == 1) {
             if(_consideringPlayerID != player->getPlayerID()) {
-                _consideringDelayTimer = _randomEngine() % 800 + 200;
+                _consideringDelayTimer = (_randomEngine() % 800 + 200) / 1000.0f;
             }
             _consideringPlayerID = player->getPlayerID();
         }
@@ -93,7 +96,7 @@ PlayerUpdateResult AIPlayer::updateAntiUnoCheck(const int deltaTime, const std::
     } else {
         _consideringDelayTimer -= deltaTime;
         if(_consideringDelayTimer <= 0) {
-            _consideringDelayTimer = _randomEngine() % 1200 + 300;
+            _consideringDelayTimer = (_randomEngine() % 1200 + 300) / 1000.0f;
             if(_randomEngine() % 100 < 30) {
 				return { PlayerUpdateResultState::PlayerCalledAntiUno, nullptr, _consideringPlayerID, nullptr };
             }
@@ -119,7 +122,7 @@ PlayerUpdateResult AIPlayer::updateJumpInCheck(const int deltaTime, const RuleSe
 		if(!validCards.empty()) {
 			if(!_canJumpIn) {
 				_consideringJumpIn = _randomEngine() % 100 < 80;
-				_consideringJumpInTimer = _randomEngine() % 200 + 100;
+				_consideringJumpInTimer = (_randomEngine() % 200 + 100) / 1000.0f;
 			}
 			_canJumpIn = true;
 		} else {
@@ -146,15 +149,15 @@ PlayerUpdateResult AIPlayer::updateJumpInCheck(const int deltaTime, const RuleSe
 	return { PlayerUpdateResultState::PlayerDidNothing, nullptr, -1, nullptr };
 }
 
-TurnActionSequence<TurnAction>* AIPlayer::performTurn(Card* topCard)
+std::pair<TurnActionSequence<TurnAction>*, PlayerUpdateResult> AIPlayer::performTurn(Card* topCard)
 {
     std::vector<Card*> validMoves = getValidMoves(topCard->getFaceValueID(), topCard->getColourID());
     if(validMoves.empty()) {
-        return TurnActionFactory::drawCardAsAction(getPlayerID());
+		return std::make_pair(TurnActionFactory::drawCardAsAction(getPlayerID()), PlayerUpdateResult{ PlayerUpdateResultState::PlayerDidNothing, nullptr, -1, nullptr });
     } else {
         Card* cardToPlay = chooseCard(validMoves);
-        checkCallUNO();
-        return TurnActionFactory::playCardAsAction(getPlayerID(), cardToPlay->getUniqueCardID(), cardToPlay->getFaceValueID(), cardToPlay->getColourID());
+		PlayerUpdateResult result = checkCallUNO();
+        return std::make_pair(TurnActionFactory::playCardAsAction(getPlayerID(), cardToPlay->getUniqueCardID(), cardToPlay->getFaceValueID(), cardToPlay->getColourID()), result);
     }
 }
 

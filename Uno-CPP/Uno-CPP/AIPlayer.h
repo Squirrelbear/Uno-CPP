@@ -108,8 +108,9 @@ private:
 	 * Performs the turn by checking if there are any valid moves to be played.
 	 * If there is no valid move, a card is drawn from the deck.
 	 * Otherwise a card is chosen from the valid moves and played by initialising a TurnAction.
+	 * Returns a pair containing any selection action sequence and optionally a PlayerUpdateResult if the player called UNO as part of the action.
 	 */
-	TurnActionSequence<TurnAction>* performTurn(Card* topCard);
+	std::pair<TurnActionSequence<TurnAction>*, PlayerUpdateResult> performTurn(Card* topCard);
 
 	// Resets the delay timer back to default.
 	void resetDelayTimer();

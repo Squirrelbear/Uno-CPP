@@ -2,7 +2,7 @@
 
 #include "TurnAction.h"
 
-enum PlayerUpdateResultState { PlayerDidNothing, PlayerStartedTurnAction, PlayerJumpedIn, PlayerCalledAntiUno, PlayerCalledUno };
+enum PlayerUpdateResultState { PlayerDidNothing, PlayerStartedTurnAction, PlayerStartedTurnActionWithUno, PlayerJumpedIn, PlayerCalledAntiUno, PlayerCalledUno };
 
 /*
 Uno

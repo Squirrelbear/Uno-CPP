@@ -323,6 +323,10 @@ void CurrentGameInterface::applyPlayerUpdateResult(PlayerUpdateResult & playerUp
 		case PlayerUpdateResultState::PlayerStartedTurnAction:
 			setCurrentTurnAction(playerUpdateResult.turnActionRequest);
 			break;
+		case PlayerUpdateResultState::PlayerStartedTurnActionWithUno:
+			showGeneralOverlay("UNOCalled" + std::to_string(playerUpdateResult.playerIDForResult));
+			setCurrentTurnAction(playerUpdateResult.turnActionRequest);
+		break;
 	}
 }
 

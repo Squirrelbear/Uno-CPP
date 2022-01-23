@@ -155,7 +155,11 @@ PlayerUpdateResult OverlayManager::getUnoButtonsState()
 	}
 	buttonTriggered = _antiUnoButton->isTriggeredReset();
 	if (buttonTriggered) {
-		return { PlayerUpdateResultState::PlayerCalledAntiUno, nullptr, _antiUnoButton->getActionID(), nullptr };
+		for (const auto& player : *_gameState.players) {
+			if (player != _gameState.bottomPlayer && !player->isSafe() && player->getHand().size() == 1) {
+				return { PlayerUpdateResultState::PlayerCalledAntiUno, nullptr, player->getPlayerID(), nullptr };
+			}
+		}
 	}
 
 	return { PlayerUpdateResultState::PlayerDidNothing, nullptr, -1, nullptr };
