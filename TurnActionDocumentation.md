@@ -88,7 +88,8 @@ class TurnDecisionAction :
 	public TurnAction
 {
 public:
-	TurnDecisionAction(TurnAction* next, TurnAction* otherNext, const bool timeOut, const std::string& flagName, TurnActionSequence<TurnAction>* parentSequence, const TurnActionEffect actionID, const std::string& actionDebugText);
+	TurnDecisionAction(TurnAction* next, TurnAction* otherNext, const bool timeOut, const std::string& flagName, 
+    TurnActionSequence<TurnAction>* parentSequence, const TurnActionEffect actionID, const std::string& actionDebugText);
 	virtual ~TurnDecisionAction() = default;
 
 	TurnAction* getNext() override;
@@ -332,7 +333,8 @@ void TurnActionSequence<T>::checkDrawTillCanPlayRule()
 template<class T>
 void TurnActionSequence<T>::playCardAsActionFromData()
 {
-	TurnActionSequence<TurnAction>* playCard = TurnActionFactory::playCardAsAction(getPropertyValue("playerID"), getPropertyValue("cardID"),
+	TurnActionSequence<TurnAction>* playCard = TurnActionFactory::playCardAsAction(
+        getPropertyValue("playerID"), getPropertyValue("cardID"),
 		getPropertyValue("faceValueID"), getPropertyValue("colourID"));
 	playCard->injectProperty("drawCount", getPropertyValue("drawCount"));
 	Game::getCurrentGame()->setCurrentTurnAction(playCard);
@@ -439,7 +441,8 @@ The Turn Action Factory provides methods to generate a TurnActionSequence releva
 static class TurnActionFactory
 {
 public:
-	static TurnActionSequence<TurnAction>* playCardAsAction(const int playerID, const int cardID, const int faceValueID, const int colourID);
+	static TurnActionSequence<TurnAction>* playCardAsAction(const int playerID, const int cardID, 
+    const int faceValueID, const int colourID);
 	static TurnActionSequence<TurnAction>* drawCardAsAction(const int playerID);
 
 private:
@@ -458,7 +461,8 @@ Some examples of the methods are seen below.
 
 [Turn Action Factory Implementation Direct Link](https://github.com/Squirrelbear/Uno-CPP/blob/main/Uno-CPP/Uno-CPP/TurnActionFactory.cpp)
 ```c++
-TurnActionSequence<TurnAction>* TurnActionFactory::playCardAsAction(const int playerID, const int cardID, const int faceValueID, const int colourID)
+TurnActionSequence<TurnAction>* TurnActionFactory::playCardAsAction(const int playerID, const int cardID, 
+const int faceValueID, const int colourID)
 {
 	TurnActionSequence<TurnAction>* nextSequence = new TurnActionSequence<TurnAction>();
 	nextSequence->injectProperty("playerID", playerID);
@@ -478,13 +482,20 @@ TurnActionSequence<TurnAction>* TurnActionFactory::drawCardAsAction(const int pl
 	TurnActionSequence<TurnAction>* nextSequence = new TurnActionSequence<TurnAction>();
 	nextSequence->injectProperty("playerID", playerID);
 	TurnAction* moveToNextTurn = new TurnAction(nullptr, nextSequence, TurnActionEffect::MoveNextTurn, "Move to Next Turn");
-	TurnAction* playCard = new TurnAction(nullptr, nextSequence, TurnActionEffect::PlayCardAsActionFromData, "Play the DrawnCard");
-	TurnDecisionAction* keepOrPlay = new TurnDecisionAction(moveToNextTurn, playCard, true, "keepOrPlay", nextSequence, TurnActionEffect::BeginChoiceOverlay, "Keep Or Play Choice");
-	TurnDecisionAction* isForcedPlay = new TurnDecisionAction(keepOrPlay, playCard, false, "isForcedPlay", nextSequence, TurnActionEffect::CheckForcedPlayRule, "Check if the Forced Play is enabled and force the play if so.");
-	TurnAction* keepDrawing = new TurnAction(nullptr, nextSequence, TurnActionEffect::DrawCardAsActionFromData, "Draw Another Card (Recursive Tree)");
-	TurnDecisionAction* drawTillCanPlay = new TurnDecisionAction(moveToNextTurn, keepDrawing, false, "drawTillCanPlay?", nextSequence, TurnActionEffect::CheckDrawTillCanPlayRule, "Check Draw Till Can Play Rule");
-	TurnDecisionAction* canPlayCard = new TurnDecisionAction(drawTillCanPlay, isForcedPlay, false, "cardPlayable", nextSequence, TurnActionEffect::IsCardPlayable, "Check is the Card Playable");
-	TurnAction* drawCard = new TurnAction(canPlayCard, nextSequence, TurnActionEffect::DrawCard, "Draw a Card");
+	TurnAction* playCard = new TurnAction(nullptr, nextSequence, 
+        TurnActionEffect::PlayCardAsActionFromData, "Play the DrawnCard");
+	TurnDecisionAction* keepOrPlay = new TurnDecisionAction(moveToNextTurn, playCard, true, "keepOrPlay", nextSequence, 
+        TurnActionEffect::BeginChoiceOverlay, "Keep Or Play Choice");
+	TurnDecisionAction* isForcedPlay = new TurnDecisionAction(keepOrPlay, playCard, false, "isForcedPlay", nextSequence, 
+        TurnActionEffect::CheckForcedPlayRule, "Check if the Forced Play is enabled and force the play if so.");
+	TurnAction* keepDrawing = new TurnAction(nullptr, nextSequence, 
+        TurnActionEffect::DrawCardAsActionFromData, "Draw Another Card (Recursive Tree)");
+	TurnDecisionAction* drawTillCanPlay = new TurnDecisionAction(moveToNextTurn, keepDrawing, false, "drawTillCanPlay?", nextSequence, 
+        TurnActionEffect::CheckDrawTillCanPlayRule, "Check Draw Till Can Play Rule");
+	TurnDecisionAction* canPlayCard = new TurnDecisionAction(drawTillCanPlay, isForcedPlay, false, "cardPlayable", nextSequence, 
+        TurnActionEffect::IsCardPlayable, "Check is the Card Playable");
+	TurnAction* drawCard = new TurnAction(canPlayCard, nextSequence, 
+        TurnActionEffect::DrawCard, "Draw a Card");
 	
 	// Link sequence in by setting the start.
 	nextSequence->setStartOfSequence(drawCard);
@@ -507,28 +518,46 @@ TurnAction * TurnActionFactory::cardIDToTurnAction(const int faceValueID, TurnAc
 
 TurnAction * TurnActionFactory::playPlus4Action(TurnActionSequence<TurnAction>* nextSequence)
 {
-	TurnAction* moveToNextSkipDamagedPlayer = new TurnAction(nullptr, nextSequence, TurnActionEffect::MoveNextTurn, "Move to Next Turn");
-	TurnAction* drawNCards = new TurnAction(moveToNextSkipDamagedPlayer, nextSequence, TurnActionEffect::DrawNCards, "Draw N Number Cards");
-	TurnAction* increaseDrawBy4 = new TurnAction(drawNCards, nextSequence, TurnActionEffect::IncreaseDrawCountBy4, "Increase N (drawCount) by 4");
-	TurnAction* playCardAsResponse = new TurnAction(nullptr, nextSequence, TurnActionEffect::PlayCardAsActionFromData, "Stack +4 on Previous (Recursive)");
-	TurnAction* increaseDrawBy4ThenStack = new TurnAction(playCardAsResponse, nextSequence, TurnActionEffect::IncreaseDrawCountBy4, "Increase N (drawCount) by 4");
+	TurnAction* moveToNextSkipDamagedPlayer = new TurnAction(nullptr, nextSequence, 
+        TurnActionEffect::MoveNextTurn, "Move to Next Turn");
+	TurnAction* drawNCards = new TurnAction(moveToNextSkipDamagedPlayer, nextSequence, 
+        TurnActionEffect::DrawNCards, "Draw N Number Cards");
+	TurnAction* increaseDrawBy4 = new TurnAction(drawNCards, nextSequence, 
+        TurnActionEffect::IncreaseDrawCountBy4, "Increase N (drawCount) by 4");
+	TurnAction* playCardAsResponse = new TurnAction(nullptr, nextSequence, 
+        TurnActionEffect::PlayCardAsActionFromData, "Stack +4 on Previous (Recursive)");
+	TurnAction* increaseDrawBy4ThenStack = new TurnAction(playCardAsResponse, nextSequence, 
+        TurnActionEffect::IncreaseDrawCountBy4, "Increase N (drawCount) by 4");
 	TurnDecisionAction* isChainingCard = new TurnDecisionAction(increaseDrawBy4, increaseDrawBy4ThenStack,
-		false, "isChaining", nextSequence, TurnActionEffect::Nothing, "No Action");
-	TurnAction* drawNCardsAndDoNothing = new TurnAction(nullptr, nextSequence, TurnActionEffect::DrawNCards, "Draw N Number Cards");
-	TurnAction* moveBackToNext = new TurnAction(drawNCardsAndDoNothing, nextSequence, TurnActionEffect::MoveNextTurn, "Move to Next Turn");
-	TurnAction* applyPenalty = new TurnAction(moveBackToNext, nextSequence, TurnActionEffect::Draw4ChallengeSuccess, "Apply penalty (+4) to Player");
-	TurnAction* moveToPreviousPlayer = new TurnAction(applyPenalty, nextSequence, TurnActionEffect::MovePrevious, "Move to Previous Player");
-	TurnAction* increaseDrawBy2 = new TurnAction(increaseDrawBy4, nextSequence, TurnActionEffect::IncreaseDrawCountBy2, "Increase N (drawCount) by 2");
+		false, "isChaining", nextSequence, 
+            TurnActionEffect::Nothing, "No Action");
+	TurnAction* drawNCardsAndDoNothing = new TurnAction(nullptr, nextSequence, 
+        TurnActionEffect::DrawNCards, "Draw N Number Cards");
+	TurnAction* moveBackToNext = new TurnAction(drawNCardsAndDoNothing, nextSequence, 
+        TurnActionEffect::MoveNextTurn, "Move to Next Turn");
+	TurnAction* applyPenalty = new TurnAction(moveBackToNext, nextSequence, 
+        TurnActionEffect::Draw4ChallengeSuccess, "Apply penalty (+4) to Player");
+	TurnAction* moveToPreviousPlayer = new TurnAction(applyPenalty, nextSequence, 
+        TurnActionEffect::MovePrevious, "Move to Previous Player");
+	TurnAction* increaseDrawBy2 = new TurnAction(increaseDrawBy4, nextSequence, 
+        TurnActionEffect::IncreaseDrawCountBy2, "Increase N (drawCount) by 2");
 	TurnDecisionAction* couldPreviousPlayCard = new TurnDecisionAction(increaseDrawBy2, moveToPreviousPlayer,
-		false, "couldPreviousPlayCard", nextSequence, TurnActionEffect::ShowChallengeResult, "Could the Previous Player Have played a Card? (No Action)");
+		false, "couldPreviousPlayCard", nextSequence, TurnActionEffect::ShowChallengeResult, 
+        "Could the Previous Player Have played a Card? (No Action)");
 	TurnDecisionAction* isChallenging = new TurnDecisionAction(isChainingCard, couldPreviousPlayCard, true,
-		"isChallenging", nextSequence, TurnActionEffect::BeginChoiceOverlay, "Ask if the player wants to Challenge, Stack, or Do Nothing");
+		"isChallenging", nextSequence, TurnActionEffect::BeginChoiceOverlay, 
+        "Ask if the player wants to Challenge, Stack, or Do Nothing");
 	TurnDecisionAction* canChallengeOrStack = new TurnDecisionAction(increaseDrawBy4, isChallenging, false,
-		"canChallenge", nextSequence, TurnActionEffect::CheckNoBluffingRule, "Check if a Challenge is allowed or if there is a card to Stack");
-	TurnAction* moveToNextTurn = new TurnAction(canChallengeOrStack, nextSequence, TurnActionEffect::MoveNextTurn, "Move to Next Turn");
-	TurnAction* setTopOfPileColour = new TurnAction(moveToNextTurn, nextSequence, TurnActionEffect::SetTopPileColour, "Change the Colour on Top of Pile");
+		"canChallenge", nextSequence, TurnActionEffect::CheckNoBluffingRule, 
+        "Check if a Challenge is allowed or if there is a card to Stack");
+	TurnAction* moveToNextTurn = new TurnAction(canChallengeOrStack, nextSequence, 
+        TurnActionEffect::MoveNextTurn, "Move to Next Turn");
+	TurnAction* setTopOfPileColour = new TurnAction(moveToNextTurn, nextSequence, 
+        TurnActionEffect::SetTopPileColour, "Change the Colour on Top of Pile");
 	TurnDecisionAction* chooseWildColour = new TurnDecisionAction(setTopOfPileColour, setTopOfPileColour,
-		true, "wildColour", nextSequence, TurnActionEffect::BeginChoiceOverlay, "Ask player for a Colour Choice");
-	return new TurnAction(chooseWildColour, nextSequence, TurnActionEffect::CheckCouldPlayCard, "Check if a Card Could have been Played");
+		true, "wildColour", nextSequence, TurnActionEffect::BeginChoiceOverlay, 
+        "Ask player for a Colour Choice");
+	return new TurnAction(chooseWildColour, nextSequence, 
+        TurnActionEffect::CheckCouldPlayCard, "Check if a Card Could have been Played");
 }
 ```
