@@ -4,6 +4,18 @@ Written by Peter Mitchell
 
 This content covers briefly a walkthrough to explain the process used for managing the sequence of play for turns in my Uno game. For the full code and comments to fully explain every part of the code see the links to the files for each code block.
 
+## Contents
+
+<p><ul>
+	<li><a href="#examples-of-turnaction-sequences">Examples of TurnAction Sequences</a></li>
+	<li><a href="#turn-actions">Turn Actions</a></li>
+	<li><a href="#turn-action-decisions">Turn Action Decisions</a></li>
+	<li><a href="#turn-action-sequence">Turn Action Sequence</a></li>
+	<li><a href="#turn-action-sequence-manager">Turn Action Sequence Manager</a></li>
+	<li><a href="#turn-action-factory">Turn Action Factory</a></li>
+	<li><a href="#how-the-ai-uses-the-turnactions">How the AI uses the TurnActions</a></li>
+</ul></p>
+
 ## Examples of TurnAction Sequences
 
 The following graphics show debug output examples of two cases for TurnAction Sequences. Each numbered item is a separate TurnAction. Where the number denotes the order in which statements would execute. Any statement preceeded by a "-" is a TurnAction, and any preceeded by a "?" is a TurnDecisionAction. Each TurnDecisionAction has up to 2 paths that are determined with a binary 0 or 1 stored in a map shared by each sequence.
