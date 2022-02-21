@@ -69,7 +69,12 @@ Effects include the below definitions, which emcompass all the different types o
 [Turn Action Effect Enum Direct Link](https://github.com/Squirrelbear/Uno-CPP/blob/38a99d8dcc85361f9bbbb771789b0cc10d519d21/Uno-CPP/Uno-CPP/TurnActionEffect.h#L12)
 ```c++
 enum TurnActionEffect { 
-    Nothing, DrawCard, PlaceCard, MoveNextTurn, IncreaseDrawCountBy2, IncreaseDrawCountBy4, 	DrawNCards, IsCardPlayable, BeginChoiceOverlay, CheckDrawTillCanPlayRule, 	HasPlus2AndResponseAllowed, ShowSkip, TogglePlayDirection, SetTopPileColour, CheckCouldPlayCard, Draw4ChallengeSuccess, MovePrevious, SwapHandWithOther, PassAllHands, ShowChallengeResult, CheckNoBluffingRule, CheckForcedPlayRule, PlayCardAsActionFromData, DrawCardAsActionFromData
+    Nothing, DrawCard, PlaceCard, MoveNextTurn, IncreaseDrawCountBy2, IncreaseDrawCountBy4, 	
+    DrawNCards, IsCardPlayable, BeginChoiceOverlay, CheckDrawTillCanPlayRule, 	
+    HasPlus2AndResponseAllowed, ShowSkip, TogglePlayDirection, SetTopPileColour, 
+    CheckCouldPlayCard, Draw4ChallengeSuccess, MovePrevious, SwapHandWithOther, PassAllHands, 
+    ShowChallengeResult, CheckNoBluffingRule, CheckForcedPlayRule, PlayCardAsActionFromData, 
+    DrawCardAsActionFromData
 };
 ```
 
