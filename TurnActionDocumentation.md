@@ -560,3 +560,173 @@ TurnAction * TurnActionFactory::playPlus4Action(TurnActionSequence<TurnAction>* 
     	TurnActionEffect::CheckCouldPlayCard, "Check if a Card Could have been Played");
 }
 ```
+
+## How the AI uses the TurnActions
+
+The AI uses the current game state information to evaluate actions it is allowed to perform with a weighted chance to select each type of action.
+
+[AI Player Implementation Direct Link](https://github.com/Squirrelbear/Uno-CPP/blob/main/Uno-CPP/Uno-CPP/AIPlayer.cpp)
+```c++
+PlayerUpdateResult AIPlayer::update(const float deltaTime, const Player* currentPlayer, TurnAction* currentTurnAction, const RecentCardPile* recentCards, const std::vector<Player*>& players, const RuleSet* rules)
+{
+	PlayerUpdateResult result = updateAntiUnoCheck(deltaTime, players);
+	if (result.resultState != PlayerUpdateResultState::PlayerDidNothing) {
+		return result;
+	}
+	result = updateJumpInCheck(deltaTime, rules, currentTurnAction, currentPlayer, recentCards);
+	if (result.resultState != PlayerUpdateResultState::PlayerDidNothing) {
+		return result;
+	}
+
+	// Do nothing more if this is not the current player.
+	if (currentPlayer != this) {
+		// Result will already contain PlayerDidNothing due to the checks above.
+		return result;
+	}
+
+	// Delay until
+	_delayTimer -= deltaTime;
+	if (_delayTimer <= 0) {
+		resetDelayTimer();
+	}
+	else {
+		return { PlayerUpdateResultState::PlayerDidNothing, nullptr, -1, nullptr };
+	}
+
+	// If there is no turn action to deal with it means that the player is performing their regular turn
+	if (currentTurnAction == nullptr) {
+		Card* topCard = recentCards->getTopCard();
+		auto action = performTurn(topCard);
+		// Handle special case where the player needs to call UNO simultaneously with playing their card.
+		PlayerUpdateResultState state = action.second.resultState == PlayerUpdateResultState::PlayerCalledUno ? PlayerUpdateResultState::PlayerStartedTurnActionWithUno : PlayerUpdateResultState::PlayerStartedTurnAction;
+		return {state, action.first, action.second.playerIDForResult, nullptr };
+	}
+	else {
+		// Handle the turn action if it is necessary
+		TurnDecisionAction* decisionAction = dynamic_cast<TurnDecisionAction*>(currentTurnAction);
+		if (decisionAction != nullptr) {
+			if (decisionAction->getTimeOut()) {
+				return handleTurnDecision(decisionAction, players, rules);
+			}
+		}
+	}
+	return { PlayerUpdateResultState::PlayerDidNothing, nullptr, -1, nullptr };
+}
+
+PlayerUpdateResult AIPlayer::handleTurnDecision(TurnDecisionAction * decisionAction, const std::vector<Player*>& players, const RuleSet* rules)
+{
+	if (decisionAction->getFlagName() == "wildColour") {
+		return chooseWildColour(decisionAction);
+	}
+	else if (decisionAction->getFlagName() == "keepOrPlay") {
+		return chooseKeepOrPlay(decisionAction);
+	}
+	else if (decisionAction->getFlagName() == "otherPlayer") {
+		return choosePlayerToSwapWith(decisionAction, players);
+	}
+	else if (decisionAction->getFlagName() == "isChallenging") {
+		return chooseChallengeOrDecline(decisionAction, rules);
+	}
+	else if (decisionAction->getFlagName() == "isStacking") {
+		return chooseStackPlus2(decisionAction, rules);
+	}
+
+	return { PlayerUpdateResultState::PlayerDidNothing, nullptr, -1, nullptr };
+}
+
+
+PlayerUpdateResult AIPlayer::chooseWildColour(TurnDecisionAction * decisionAction)
+{
+	std::vector<Card*> colouredHandCards;
+	for (auto card : getHand()) {
+		if (card->getColourID() != 4) {
+			colouredHandCards.emplace_back(card);
+		}
+	}
+
+	// No cards, or only wilds, or rare 10% chance: randomly choose colour
+	if (colouredHandCards.empty() || _randomEngine() % 100 > 90) {
+		decisionAction->injectProperty("colourID", _randomEngine() % 4);
+	}
+	else { // Use first coloured card
+		decisionAction->injectProperty("colourID", colouredHandCards.at(0)->getColourID());
+	}
+	decisionAction->injectFlagProperty(1);
+
+	return { PlayerUpdateResultState::PlayerDidNothing, nullptr, -1, nullptr };
+}
+
+PlayerUpdateResult AIPlayer::chooseKeepOrPlay(TurnDecisionAction * decisionAction)
+{
+	PlayerUpdateResult result = checkCallUNO();
+	decisionAction->injectFlagProperty(1);
+	return result;
+}
+
+PlayerUpdateResult AIPlayer::choosePlayerToSwapWith(TurnDecisionAction * decisionAction, const std::vector<Player*>& players)
+{
+	Player* chosenPlayer = this;
+	int cardCount = 9999;
+	for (auto player : players) {
+		if (player->getHand().size() < cardCount && player != this) {
+			chosenPlayer = player;
+			cardCount = chosenPlayer->getHand().size();
+		}
+	}
+	decisionAction->injectFlagProperty(chosenPlayer->getPlayerID());
+
+	return { PlayerUpdateResultState::PlayerDidNothing, nullptr, -1, nullptr };
+}
+
+PlayerUpdateResult AIPlayer::chooseChallengeOrDecline(TurnDecisionAction * decisionAction, const RuleSet* rules)
+{
+	// Always stack a card if it is allowed and available.
+	if (rules->canStackCards()) {
+		auto hand = getHand();
+		auto validCard = std::find_if(hand.begin(), hand.end(), [](Card* card) { return card->getFaceValueID() == 13; });
+		if (validCard != hand.end()) {
+			PlayerUpdateResult result = checkCallUNO();
+			decisionAction->injectProperty("faceValueID", (*validCard)->getFaceValueID());
+			decisionAction->injectProperty("colourID", (*validCard)->getColourID());
+			decisionAction->injectProperty("cardID", (*validCard)->getUniqueCardID());
+			decisionAction->injectProperty("isChaining", 1);
+			decisionAction->injectFlagProperty(0);
+			return result;
+		}
+	}
+	decisionAction->injectProperty("isChaining", 0);
+	// Randomly choose 50-50 whether to challenge or decline
+	// Don't need to check the no bluffing rule because this method is only called if a valid choice is available
+	// And the AI will ALWAYS choose to stack a card meaning this will never run the random chance of challenge in those cases.
+	decisionAction->injectFlagProperty(_randomEngine() % 2);
+
+	return { PlayerUpdateResultState::PlayerDidNothing, nullptr, -1, nullptr };
+}
+
+PlayerUpdateResult AIPlayer::chooseStackPlus2(TurnDecisionAction * decisionAction, const RuleSet* rules)
+{
+	if (rules->canStackCards()) {
+		auto hand = getHand();
+		auto validCard = std::find_if(hand.begin(), hand.end(), [](Card* card) { return card->getFaceValueID() == 10; });
+		if (validCard != hand.end()) {
+			PlayerUpdateResult result = checkCallUNO();
+			decisionAction->injectProperty("faceValueID", (*validCard)->getFaceValueID());
+			decisionAction->injectProperty("colourID", (*validCard)->getColourID());
+			decisionAction->injectProperty("cardID", (*validCard)->getUniqueCardID());
+			decisionAction->injectFlagProperty(1);
+			return result;
+		}
+	}
+	decisionAction->injectFlagProperty(0);
+}
+
+PlayerUpdateResult AIPlayer::checkCallUNO()
+{
+	if (getHand().size() != 2) return { PlayerUpdateResultState::PlayerDidNothing, nullptr, -1, nullptr };
+	if (_randomEngine() % 100 < 70) {
+		setUnoState(UNOState::Called);
+		return { PlayerUpdateResultState::PlayerCalledUno, nullptr, getPlayerID(), nullptr };
+	}
+	return { PlayerUpdateResultState::PlayerDidNothing, nullptr, -1, nullptr };
+}
+```
