@@ -742,3 +742,30 @@ PlayerUpdateResult AIPlayer::checkCallUNO()
 	return { PlayerUpdateResultState::PlayerDidNothing, nullptr, -1, nullptr };
 }
 ```
+
+## How the Player Makes Choices
+
+The player has a set of overlays that check for interaction with buttons or cards. For example, the StackChoiceOverlay handles the choice to either select a valid Draw 2 card or click the Decline button. This check is handled by the code seen below. Similar property injection occurs for each of the different interfaces that all consider rules where appropriate for what actions are available to the player.
+
+[Stack Choice Overlay Implementation Direct Link](https://github.com/Squirrelbear/Uno-CPP/blob/6607fb0e088dd7b2135fa0d711e565364e8e5704/Uno-CPP/Uno-CPP/StackChoiceOverlay.cpp#L22)
+```c++
+void StackChoiceOverlay::handleMousePress(const sf::Vector2i & mousePosition, bool isLeft)
+{
+	if (!isEnabled()) return;
+
+	if (_declineButton->isPositionInside(mousePosition)) {
+		_currentAction->injectFlagProperty(0);
+		setEnabled(false);
+		return;
+	}
+
+	auto clickedCard = _playerReference->chooseCardFromClick(mousePosition);
+	if (clickedCard != nullptr && clickedCard->getFaceValueID() == 10) {
+		_currentAction->injectProperty("faceValueID", clickedCard->getFaceValueID());
+		_currentAction->injectProperty("colourID", clickedCard->getColourID());
+		_currentAction->injectProperty("cardID", clickedCard->getUniqueCardID());
+		_currentAction->injectFlagProperty(1);
+		setEnabled(false);
+	}
+}
+```
