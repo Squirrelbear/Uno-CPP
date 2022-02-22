@@ -14,7 +14,7 @@ This content covers briefly a walkthrough to explain the process used for managi
 	<li><a href="#turn-action-sequence-manager">Turn Action Sequence Manager</a></li>
 	<li><a href="#turn-action-factory">Turn Action Factory</a></li>
 	<li><a href="#how-the-ai-uses-the-turnactions">How the AI uses the TurnActions</a></li>
-	<li><a href="#how-the-player-makes-choices">How the AI uses the TurnActions</a></li>
+	<li><a href="#how-the-player-makes-choices">How the Player Makes Choices</a></li>
 </ul></p>
 
 ## Examples of TurnAction Sequences
